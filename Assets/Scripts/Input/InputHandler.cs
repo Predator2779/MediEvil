@@ -21,6 +21,6 @@ namespace Input
             new(UnityEngine.Input.GetAxis("Horizontal"),
                 UnityEngine.Input.GetAxis("Vertical"));
 
-        private bool GetShiftBtn() => UnityEngine.Input.GetKeyDown(KeyCode.LeftShift);
+        private bool GetShiftBtn() => UnityEngine.Input.GetKey(KeyCode.LeftShift);
     }
 }

@@ -86,10 +86,6 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3391856200201347200, guid: 29944f284bd13c24c8c6fd9de6e954f8, type: 3}
-      propertyPath: <SpeedRun>k__BackingField
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3391856200201347200, guid: 29944f284bd13c24c8c6fd9de6e954f8, type: 3}
       propertyPath: <AnimSpeed>k__BackingField
       value: 2
       objectReference: {fileID: 0}

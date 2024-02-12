@@ -30,6 +30,6 @@ namespace Character
         }
 
         private float GetSpeed() => IsRun ? SpeedRun : SpeedMove;
-        private float GetAnimSpeed() => IsRun ? 3 : 1;
+        private float GetAnimSpeed() => IsRun ? 1.5f : 1;
     }
 }

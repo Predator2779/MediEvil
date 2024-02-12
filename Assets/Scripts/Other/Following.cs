@@ -6,16 +6,11 @@ public class Following : MonoBehaviour
     [SerializeField] private float _speed;
 
     private Vector3 _offset;
-    
-    private void Start() => _offset = transform.position;
+
+    private void Start() => _offset = transform.position - _followObject.transform.position;
     private void LateUpdate()
     {
-        Vector3 direction = GetDirection();
-        transform.position = new Vector3(direction.x, direction.y, transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, 
+            _followObject.position + _offset, Time.deltaTime * _speed);
     }
-    
-    private Vector3 GetDirection() => Vector3.MoveTowards(
-            transform.position,
-            _followObject.position  + _offset,
-            _speed * Time.deltaTime);
 }

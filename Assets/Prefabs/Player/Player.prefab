@@ -124,8 +124,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animStateChanger: {fileID: 775420821733330097}
+  <IsRun>k__BackingField: 0
   <SpeedMove>k__BackingField: 1
-  <CoefSpeedMove>k__BackingField: 0.5
+  <SpeedRun>k__BackingField: 6
 --- !u!114 &6345865575315494087
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -286,14 +286,14 @@ Transform:
   m_GameObject: {fileID: 414671766}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.25, z: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1122111533}
   - {fileID: 1798228607}
   - {fileID: 578052202}
-  m_Father: {fileID: 1653737031}
+  m_Father: {fileID: 1802740272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &424140458
 GameObject:
@@ -615,6 +615,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PLAYER (Prefab)
       objectReference: {fileID: 0}
+    - target: {fileID: 4354604841356903336, guid: b7b0ce44941d6d848a5665a129f16426, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.72
+      objectReference: {fileID: 0}
     - target: {fileID: 9027852435114519365, guid: b7b0ce44941d6d848a5665a129f16426, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -657,10 +661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 1977692801695056503, guid: b7b0ce44941d6d848a5665a129f16426, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 414671767}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7b0ce44941d6d848a5665a129f16426, type: 3}
 --- !u!1 &820693734
@@ -1150,11 +1151,6 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
---- !u!4 &1653737031 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1977692801695056503, guid: b7b0ce44941d6d848a5665a129f16426, type: 3}
-  m_PrefabInstance: {fileID: 745153079}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1664535420
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,6 +1538,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 414671767}
   - {fileID: 493927798}
   - {fileID: 180610082}
   m_Father: {fileID: 0}
