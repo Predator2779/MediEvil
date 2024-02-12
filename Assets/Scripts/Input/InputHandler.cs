@@ -13,7 +13,7 @@ namespace Input
 
         private void CheckInput()
         {
-            _person.IsRun = GetShiftBtn();
+            // _person.IsRun = GetShiftBtn();
             _person.Move(GetInputAxis());
         }
 
