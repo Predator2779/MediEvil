@@ -17,10 +17,7 @@ namespace Input
             _person.Move(GetInputAxis());
         }
 
-        private Vector2 GetInputAxis() =>
-            new(UnityEngine.Input.GetAxis("Horizontal"),
-                UnityEngine.Input.GetAxis("Vertical"));
-
+        private Vector2 GetInputAxis() => new Vector2(UnityEngine.Input.GetAxis("Horizontal"), UnityEngine.Input.GetAxis("Vertical"));
         private bool GetShiftBtn() => UnityEngine.Input.GetKey(KeyCode.LeftShift);
     }
 }
