@@ -13,14 +13,6 @@ namespace Input
 
         private void CheckInput()
         {
-<<<<<<< Updated upstream
-            // _person.IsRun = GetShiftBtn();
-            _person.Move(GetInputAxis());
-        }
-
-        private Vector2 GetInputAxis() => new Vector2(UnityEngine.Input.GetAxis("Horizontal"), UnityEngine.Input.GetAxis("Vertical"));
-        private bool GetShiftBtn() => UnityEngine.Input.GetKey(KeyCode.LeftShift);
-=======
             /*_person.IsRun = GetShiftBtn();
             _person.Move(GetInputAxis());*/
         }
@@ -30,6 +22,5 @@ namespace Input
                 UnityEngine.Input.GetAxis("Vertical"));
 
         public bool GetShiftBtn() => UnityEngine.Input.GetKey(KeyCode.LeftShift);
->>>>>>> Stashed changes
     }
 }
