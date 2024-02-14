@@ -1,4 +1,5 @@
-﻿using Character.Movement;
+﻿using Character.Classes;
+using Character.Movement;
 using UnityEngine;
 
 namespace Character
@@ -9,6 +10,14 @@ namespace Character
         [SerializeField] private AnimStateChanger _animStateChanger;
         private CharacterMovement _movement;
 
+<<<<<<< Updated upstream:Assets/Scripts/Character/Person.cs
+=======
+        // to movement
+        [field: SerializeField] public bool IsRun { get; set; }
+        [field: SerializeField, Range(0, 10)] private int SpeedMove { get; set; }
+        [field: SerializeField, Range(0, 10)] private int SpeedRun { get; set; }
+
+>>>>>>> Stashed changes:Assets/Scripts/Character/Classes/Person.cs
         private void Start() => _movement = GetComponent<CharacterMovement>();
 
         public CharacterMovement GetMovement() => _movement;
@@ -28,7 +37,14 @@ namespace Character
             //
             // _animStateChanger.AnimateWalk(direction, GetAnimSpeed());
         }
+<<<<<<< Updated upstream:Assets/Scripts/Character/Person.cs
         
         // private float GetAnimSpeed() => IsRun ? 1.5f : 1;
+=======
+
+        // to movement
+        private float GetSpeed() => IsRun ? SpeedRun : SpeedMove;
+        private float GetAnimSpeed() => IsRun ? 1.5f : 1;
+>>>>>>> Stashed changes:Assets/Scripts/Character/Classes/Person.cs
     }
 }

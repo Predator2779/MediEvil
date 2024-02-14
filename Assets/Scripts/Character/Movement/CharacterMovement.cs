@@ -15,6 +15,7 @@ namespace Character.Movement
         private Rigidbody2D _rbody;
 
         private void Start() => _rbody = GetComponent<Rigidbody2D>();
+<<<<<<< Updated upstream
 
         private void FixedUpdate()
         {
@@ -25,5 +26,12 @@ namespace Character.Movement
         private void Walk() => _rbody.velocity = 
             new Vector2(HorizontalDirection.x * GetSpeed() * GlobalConstants.CoefPersonSpeed, _rbody.velocity.y);
         private float GetSpeed() => IsRun ? SpeedRun : SpeedMove;
+=======
+        private void FixedUpdate() => Walk();
+        public void SetDirection(Vector2 direction) => _horizontalDirection = new Vector2(direction.x, 0);
+        public void SetSpeed(float speed) => _speed = speed * GlobalConstants.CoefPersonSpeed;
+        public void Jump() => print("Jumped!");
+        private void Walk() => _rbody.velocity = new Vector2(_horizontalDirection.x * _speed, _rbody.velocity.y);
+>>>>>>> Stashed changes
     }
 }
