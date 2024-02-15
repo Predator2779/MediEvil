@@ -3,19 +3,23 @@ using UnityEngine;
 
 namespace Character.Movement
 {
-    [RequireComponent(typeof(Rigidbody2D))]
-    public class CharacterMovement : MonoBehaviour
+    public class CharacterMovement
     {
-        [field: SerializeField] public bool IsWalk { get; set; }
-        [field: SerializeField] public bool IsRun { get; set; }
-        [field: SerializeField, Range(0, 10)] private int SpeedMove { get; set; }
-        [field: SerializeField, Range(0, 10)] private int SpeedRun { get; set; }
-        public Vector2 HorizontalDirection { get; set; }
-
         private Rigidbody2D _rbody;
+        private bool IsWalk { get; set; }
+        private bool IsRun { get; set; }
+        private Vector2 HorizontalDirection { get; set; }
+        private int SpeedMove { get; set; }
+        private int SpeedRun { get; set; }
 
-        private void Start() => _rbody = GetComponent<Rigidbody2D>();
 
-        public void Jump() => print("Jumped!");
+        public CharacterMovement(Rigidbody2D rbody, int speedMove, int speedRun)
+        {
+            _rbody = rbody;
+            SpeedMove = speedMove;
+            SpeedRun = speedRun;
+        }
+
+        public void Jump() => Debug.Log("Jumped!");
     }
 }
