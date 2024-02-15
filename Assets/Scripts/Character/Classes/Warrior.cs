@@ -1,4 +1,5 @@
 ﻿using Character.StateMachine;
+using Character.StateMachine.CharacterStates;
 
 namespace Character.Classes
 {

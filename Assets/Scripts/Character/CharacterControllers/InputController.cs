@@ -18,7 +18,7 @@ namespace Character.CharacterControllers
 
         private void CheckInput()
         {
-            if (InputHandler.GetShiftBtn()) Person.Jump();
+            // if (InputHandler.GetShiftBtn()) Person.Jump();
         }
     }
 }

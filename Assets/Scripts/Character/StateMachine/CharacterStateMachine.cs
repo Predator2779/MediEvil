@@ -1,4 +1,6 @@
-﻿namespace Character.StateMachine
+﻿using Character.StateMachine.CharacterStates;
+
+namespace Character.StateMachine
 {
     public class CharacterStateMachine
     {

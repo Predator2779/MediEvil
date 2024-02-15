@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.StateMachine.CharacterStates;
 
 namespace Character.CharacterControllers
 {
@@ -15,5 +16,14 @@ namespace Character.CharacterControllers
         {
             Person.StateMachine.ExecuteState();
         }
+
+        public virtual void AnalyseCondition()
+        {
+            if (Condition1) Person.StateMachine.ChangeState(Person.IdleState);
+            
+            /// ...
+        }
+
+        public bool Condition1 { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Character.Classes;
-using Input;
+using Character.StateMachine.CharacterStates;
 using UnityEngine;
 
-namespace Character.CharacterControllers
+namespace Character.CharacterControllers.AI
 {
     public class WarriorAI : Controller
     {

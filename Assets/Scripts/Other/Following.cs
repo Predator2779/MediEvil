@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class Following : MonoBehaviour
+namespace Other
 {
-    [SerializeField] private Transform _followObject;
-    [SerializeField] private float _speed;
-
-    private Vector3 _offset;
-
-    private void Start() => _offset = transform.position - _followObject.transform.position;
-    private void LateUpdate()
+    public class Following : MonoBehaviour
     {
-        transform.position = Vector3.Lerp(transform.position, 
-            _followObject.position + _offset, Time.deltaTime * _speed);
+        [SerializeField] private Transform _followObject;
+        [SerializeField] private float _speed;
+
+        private Vector3 _offset;
+
+        private void Start() => _offset = transform.position - _followObject.transform.position;
+        private void LateUpdate()
+        {
+            transform.position = Vector3.Lerp(transform.position, 
+                _followObject.position + _offset, Time.deltaTime * _speed);
+        }
     }
 }

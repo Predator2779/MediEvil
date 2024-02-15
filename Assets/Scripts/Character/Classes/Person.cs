@@ -1,8 +1,7 @@
-﻿using Character.Classes;
-using Character.Movement;
+﻿using Character.Movement;
 using UnityEngine;
 
-namespace Character
+namespace Character.Classes
 {
     [RequireComponent(typeof(CharacterMovement))]
     public class Person : MonoBehaviour
