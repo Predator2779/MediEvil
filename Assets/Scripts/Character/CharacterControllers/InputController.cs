@@ -5,11 +5,8 @@ namespace Character.CharacterControllers
 {
     public class InputController : Controller
     {
-        public InputHandler InputHandler { get; }
-
-        public InputController(Person2 person, InputHandler inputHandler) : base(person)
+        public InputController(Person2 person) : base(person)
         {
-            InputHandler = inputHandler;
         }
 
         public override void Execute()

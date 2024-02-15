@@ -14,18 +14,3 @@
         public void ExecuteState() => _currentState.Execute();
     }
 }
-
-// Base State
-
-// Состояния
-
-// Персонаж
-
-// Пример использования
-/*
-State initialState = new IdleState();
-Person warrior = new Person(initialState);
-
-warrior.HandleInput("idle"); // Персонаж переходит в режим покоя
-warrior.HandleInput("attack"); // Персонаж атакует
-*/
