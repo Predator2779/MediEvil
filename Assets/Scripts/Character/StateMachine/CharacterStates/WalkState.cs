@@ -15,7 +15,7 @@ namespace Character.StateMachine.CharacterStates
             _movement = movement;
         }
 
-        public WalkState(Person2 person, Animator animator) : base(animator)
+        public WalkState(Person person, Animator animator) : base(animator)
         {
             // person.Walk();
             person.Movement.Jump();

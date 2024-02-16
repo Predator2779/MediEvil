@@ -5,9 +5,9 @@ namespace Character.CharacterControllers
 {
     public abstract class Controller
     {
-        public Person2 Person { get; }
+        public Person Person { get; }
 
-        public Controller(Person2 person)
+        public Controller(Person person)
         {
             Person = person;
         }

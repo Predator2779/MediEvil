@@ -1,28 +1,63 @@
-﻿using Character.Movement;
+﻿using Character.CharacterControllers;
+using Character.Movement;
+using Character.StateMachine;
+using Character.StateMachine.CharacterStates;
 using UnityEngine;
 
 namespace Character.Classes
 {
+    [RequireComponent(typeof(Controller))]
+    [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(CharacterMovement))]
+    [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Animator))]
     public class Person : MonoBehaviour
     {
-        [SerializeField] private AnimStateChanger _animStateChanger;
-        private CharacterMovement _movement;
+        public IdleState IdleState { get; set; }
+        public WalkState WalkState { get; set; }
 
+        
+        [field: SerializeField] private bool IsPlayer { get; }
+        [field: SerializeField] private PersonData PersonData { get; }
+        [field: SerializeField] public Controller Controller { get; protected set; } // прокинуть Zenject-ом
+        [field: SerializeField] public CharacterStateMachine StateMachine { get; protected set; }
+        [field: SerializeField] public Rigidbody2D Rigidbody { get; protected set; }
+        [field: SerializeField] public CharacterMovement Movement { get; protected set; }
+        [field: SerializeField] public SpriteRenderer SpriteRenderer { get; protected set; }
+        [field: SerializeField] public Animator Animator { get; protected set; }
+        // [field: SerializeField] public IHealth Health { get; }
 
-        // to movement
-        [field: SerializeField] public bool IsRun { get; set; }
-        [field: SerializeField, Range(0, 10)] private int SpeedMove { get; set; }
-        [field: SerializeField, Range(0, 10)] private int SpeedRun { get; set; }
+        private void Start() => Initialize();
+        private void Update() => Controller.Execute();
 
-        private void Start() => _movement = GetComponent<CharacterMovement>();
+        protected virtual void Initialize()
+        {
+            StateMachine = new CharacterStateMachine();
+            Rigidbody = GetComponent<Rigidbody2D>();
+            Movement = new CharacterMovement(Rigidbody, PersonData.SpeedMove, PersonData.SpeedRun);
+            SpriteRenderer = GetComponent<SpriteRenderer>();
+            Animator = GetComponent<Animator>();
+            
+            IdleState = new IdleState(Animator);
+            WalkState = new WalkState(this, Animator);
+        }
 
-        public CharacterMovement GetMovement() => _movement;
-        public SpriteRenderer GetSpriteRenderer() => GetComponent<SpriteRenderer>();
-        public Animator GetAnimator() => GetComponent<Animator>();
+        /*public void Idle()
+        {
+            StateMachine.ChangeState();
+        }
+        public void Walk() => print("Walk");
+        public void Run() => print("Run");
+        public void Roll() => print("Roll");
+        public void Slide() => print("Slide");
+        public void Fall() => print("Fall");
+        public void Climb() => print("Climb");
 
-        // to movement
-        private float GetSpeed() => IsRun ? SpeedRun : SpeedMove;
-        private float GetAnimSpeed() => IsRun ? 1.5f : 1;
+        public void Jump()
+        {
+            Movement.Jump();
+            Animator.CrossFade("Jump", 0.1f);
+        }
+        */
     }
 }

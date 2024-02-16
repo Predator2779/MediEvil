@@ -1,11 +1,10 @@
 ﻿using Character.Classes;
-using Input;
 
 namespace Character.CharacterControllers
 {
     public class InputController : Controller
     {
-        public InputController(Person2 person) : base(person)
+        public InputController(Person person) : base(person)
         {
         }
 

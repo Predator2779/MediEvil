@@ -3,7 +3,7 @@ using Character.StateMachine.CharacterStates;
 
 namespace Character.Classes
 {
-    public class Warrior : Person2
+    public class Warrior : Person
     {
         // [field: SerializeField] public IDamageble Weapon { get; }
 
