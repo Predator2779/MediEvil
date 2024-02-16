@@ -1,5 +1,4 @@
 ﻿using Character.Classes;
-using Character.StateMachine.CharacterStates;
 using UnityEngine;
 
 namespace Character.CharacterControllers.AI

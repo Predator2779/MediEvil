@@ -38,8 +38,8 @@ namespace Character.Classes
             SpriteRenderer = GetComponent<SpriteRenderer>();
             Animator = GetComponent<Animator>();
             
-            IdleState = new IdleState(Animator);
-            WalkState = new WalkState(this, Animator);
+            IdleState = new IdleState(this);
+            WalkState = new WalkState(this);
         }
 
         /*public void Idle()

@@ -5,7 +5,7 @@ namespace Character.StateMachine.CharacterStates
 {
     public class AttackState : CharacterState
     {
-        public AttackState(Animator animator) : base(animator)
+        public AttackState(Animator person) : base(person)
         {
         }
 

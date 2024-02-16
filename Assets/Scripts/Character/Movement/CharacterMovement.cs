@@ -1,5 +1,4 @@
-﻿using Global;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Character.Movement
 {

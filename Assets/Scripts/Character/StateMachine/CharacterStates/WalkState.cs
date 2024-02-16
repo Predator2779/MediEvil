@@ -1,27 +1,20 @@
 ﻿using Character.Classes;
 using Character.Movement;
-using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class WalkState : CharacterState
     {
-        private readonly Animator _animator;
         private readonly CharacterMovement _movement;
 
-        public WalkState(Animator animator, CharacterMovement movement) : base(animator)
-        {
-            _animator = animator;
-            _movement = movement;
-        }
-
-        public WalkState(Person person, Animator animator) : base(animator)
+        public WalkState(Person person) : base(person)
         {
             // person.Walk();
             person.Movement.Jump();
             person.Animator.CrossFade("Jump", 0.1f);
-        }
 
+        }
+        
         public override void Enter()
         {
             throw new System.NotImplementedException();

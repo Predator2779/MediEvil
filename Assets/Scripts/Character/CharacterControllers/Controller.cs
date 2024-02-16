@@ -1,5 +1,4 @@
 ﻿using Character.Classes;
-using Character.StateMachine.CharacterStates;
 
 namespace Character.CharacterControllers
 {

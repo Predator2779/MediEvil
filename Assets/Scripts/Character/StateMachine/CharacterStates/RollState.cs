@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using Character.Classes;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class RollState : CharacterState
     {
-        public RollState(Animator animator) : base(animator)
+        public RollState(Person person) : base(person)
         {
         }
 

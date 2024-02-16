@@ -1,11 +1,11 @@
 ﻿using System;
-using UnityEngine;
+using Character.Classes;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class IdleState : CharacterState
     {
-        public IdleState(Animator animator) : base(animator)
+        public IdleState(Person person) : base(person)
         {
         }
 
