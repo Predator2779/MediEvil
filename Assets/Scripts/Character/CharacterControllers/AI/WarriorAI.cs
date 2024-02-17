@@ -6,18 +6,11 @@ namespace Character.CharacterControllers.AI
 {
     public class WarriorAI : Controller
     {
-        public WarriorAI(CharacterStateMachine stateMachine) : base(stateMachine)
+        public WarriorAI(Person person, CharacterStateMachine stateMachine) : base(person, stateMachine)
         {
         }
 
-        public override void Execute()
-        {
-            base.Execute();
-
-            AnalyseCondition();
-        }
-
-        private void AnalyseCondition()
+        protected override void CheckConditions()
         {
             if (Condition1())
             {

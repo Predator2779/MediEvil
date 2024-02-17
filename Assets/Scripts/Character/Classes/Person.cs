@@ -30,9 +30,13 @@ namespace Character.Classes
         protected virtual void Initialize()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
-            Movement = new CharacterMovement(Rigidbody, CharacterData.SpeedMove, CharacterData.SpeedRun);
             SpriteRenderer = GetComponent<SpriteRenderer>();
             Animator = GetComponent<Animator>();
+            Movement = new CharacterMovement(
+                Rigidbody,
+                CharacterData.SpeedMove,
+                CharacterData.SpeedRun,
+                CharacterData.JumpForce);
             
             StateMachine = new CharacterStateMachine(this, StateMachine.IdleState);
         }

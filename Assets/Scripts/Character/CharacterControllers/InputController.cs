@@ -1,4 +1,5 @@
-﻿using Character.StateMachine;
+﻿using Character.Classes;
+using Character.StateMachine;
 using Character.StateMachine.CharacterStates;
 using Input;
 using UnityEngine;
@@ -9,24 +10,34 @@ namespace Character.CharacterControllers
     {
         private readonly InputHandler _inputHandler;
 
-        public InputController(InputHandler inputHandler, CharacterStateMachine stateMachine) : base(stateMachine)
+        public InputController(Person person, CharacterStateMachine stateMachine) : base(person, stateMachine)
         {
-            _inputHandler = inputHandler;
+            _inputHandler = new InputHandler();
+        }
+        
+        protected override void CheckConditions()
+        {
+            if (CheckJump()) return;
+            if (CheckWalking()) return;
+            
+            StateMachine.ExitState();
         }
 
-        public override void Execute()
+        private bool CheckWalking()
         {
-            base.Execute();
-            CheckInput();
+            if (_inputHandler.GetHorizontalAxis() == 0) return false;
+
+            Movement.Direction = GetDirection();
+            StateMachine.ChangeState(_inputHandler.GetShiftBtn() ? StateMachine.RunState : StateMachine.WalkState);
+            return true;
         }
 
-        private void CheckInput()
+        private bool CheckJump()
         {
-            CheckWalking();
-        }
-
-        private void CheckWalking()
-        {
+            if (_inputHandler.GetVerticalAxis() == 0) return false;
+            
+            StateMachine.ChangeState(StateMachine.JumpState);
+            return false;
         }
 
         private Vector2 GetDirection() => new Vector2(

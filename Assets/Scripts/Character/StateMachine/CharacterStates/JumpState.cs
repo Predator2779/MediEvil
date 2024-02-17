@@ -10,8 +10,9 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Enter()
         {
-            Animation = "Jump";
+            Animation = "jump";
             base.Enter();
+            Person.Movement.Jump();
         }
     }
 }

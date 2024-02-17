@@ -1,4 +1,5 @@
-﻿using Character.Classes;
+﻿﻿using Character.Classes;
+using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
@@ -15,7 +16,7 @@ namespace Character.StateMachine.CharacterStates
         public virtual void Enter()
         {
             Person.Animator.StopPlayback();
-            Person.Animator.CrossFade(Animation, 0.1f);
+            Person.Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
         }
 
         public virtual void Execute()

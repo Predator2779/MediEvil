@@ -9,6 +9,7 @@ namespace Character.StateMachine
         public IdleState IdleState { get; set; }
         public WalkState WalkState { get; set; }
         public RunState RunState { get; set; }
+        public JumpState JumpState { get; set; }
 
         private readonly Person _person;
         private readonly CharacterState _defaultState;

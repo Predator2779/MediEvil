@@ -11,7 +11,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Enter()
         {
-            Animation = "Idle";
+            Animation = "idle";
             base.Enter();
         }
     }
