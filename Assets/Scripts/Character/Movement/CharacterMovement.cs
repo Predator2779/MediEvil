@@ -4,21 +4,27 @@ namespace Character.Movement
 {
     public class CharacterMovement
     {
+        public Vector2 Direction { get; set; }
         private Rigidbody2D _rbody;
-        private bool IsWalk { get; set; }
-        private bool IsRun { get; set; }
-        private Vector2 HorizontalDirection { get; set; }
         private int SpeedMove { get; set; }
         private int SpeedRun { get; set; }
+        private int JumpForce { get; set; }
 
-
-        public CharacterMovement(Rigidbody2D rbody, int speedMove, int speedRun)
+        public CharacterMovement(
+            Rigidbody2D rbody,
+            int speedMove,
+            int speedRun,
+            int jumpForce)
         {
             _rbody = rbody;
             SpeedMove = speedMove;
             SpeedRun = speedRun;
+            JumpForce = jumpForce;
         }
 
-        public void Jump() => Debug.Log("Jumped!");
+        public void Walk() => _rbody.velocity = Direction * SpeedMove;
+        public void Run() => _rbody.velocity = Direction * SpeedRun;
+        public void Jump() => _rbody.AddForce(GetJumpVector() * JumpForce, ForceMode2D.Impulse);
+        private Vector2 GetJumpVector() => new Vector2(_rbody.velocity.normalized.x, 1);
     }
 }

@@ -1,24 +1,24 @@
-﻿using Character.Classes;
+﻿using Character.StateMachine;
 
 namespace Character.CharacterControllers
 {
     public abstract class Controller
     {
-        public Person Person { get; }
+        public CharacterStateMachine StateMachine { get; }
 
-        public Controller(Person person)
+        public Controller(CharacterStateMachine stateMachine)
         {
-            Person = person;
+            StateMachine = stateMachine;
         }
 
         public virtual void Execute()
         {
-            Person.StateMachine.ExecuteState();
+            StateMachine.ExecuteState();
         }
 
         public virtual void AnalyseCondition()
         {
-            if (Condition1) Person.StateMachine.ChangeState(Person.IdleState);
+            if (Condition1) StateMachine.ChangeState(StateMachine.IdleState);
             
             /// ...
         }

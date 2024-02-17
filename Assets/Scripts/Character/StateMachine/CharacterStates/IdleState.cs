@@ -11,17 +11,8 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Enter()
         {
-            Console.WriteLine("Entering Idle State");
-        }
-
-        public override void Execute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Exit()
-        {
-            Console.WriteLine("Exiting Idle State");
+            Animation = "Idle";
+            base.Enter();
         }
     }
 }

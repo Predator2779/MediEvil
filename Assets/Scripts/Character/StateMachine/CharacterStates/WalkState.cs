@@ -1,33 +1,32 @@
 ﻿using Character.Classes;
 using Character.Movement;
+using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class WalkState : CharacterState
     {
         private readonly CharacterMovement _movement;
-
         public WalkState(Person person) : base(person)
         {
-            // person.Walk();
-            person.Movement.Jump();
-            person.Animator.CrossFade("Jump", 0.1f);
-
         }
         
         public override void Enter()
         {
-            throw new System.NotImplementedException();
+            Animation = "walk";
+            base.Enter();
         }
 
         public override void Execute()
         {
-            // _movement.Walk();
+            base.Execute();
+            Walk();
         }
 
-        public override void Exit()
+        protected virtual void Walk()
         {
-            throw new System.NotImplementedException();
+            Person.SpriteRenderer.flipX = Person.Movement.Direction.x < 0;
+            Person.Movement.Walk();
         }
     }
 }

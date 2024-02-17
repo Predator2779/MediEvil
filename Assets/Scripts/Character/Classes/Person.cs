@@ -1,7 +1,6 @@
 ﻿using Character.CharacterControllers;
 using Character.Movement;
 using Character.StateMachine;
-using Character.StateMachine.CharacterStates;
 using UnityEngine;
 
 namespace Character.Classes
@@ -13,51 +12,29 @@ namespace Character.Classes
     [RequireComponent(typeof(Animator))]
     public class Person : MonoBehaviour
     {
-        public IdleState IdleState { get; set; }
-        public WalkState WalkState { get; set; }
-
-        
         [field: SerializeField] private bool IsPlayer { get; }
-        [field: SerializeField] private PersonData PersonData { get; }
-        [field: SerializeField] public Controller Controller { get; protected set; } // прокинуть Zenject-ом
+        [field: SerializeField] private CharacterData CharacterData { get; }
+        [field: SerializeField] protected Controller Controller { get; set; } // прокинуть Zenject-ом
+        [field: SerializeField] protected Rigidbody2D Rigidbody { set; get; }
         [field: SerializeField] public CharacterStateMachine StateMachine { get; protected set; }
-        [field: SerializeField] public Rigidbody2D Rigidbody { get; protected set; }
         [field: SerializeField] public CharacterMovement Movement { get; protected set; }
         [field: SerializeField] public SpriteRenderer SpriteRenderer { get; protected set; }
         [field: SerializeField] public Animator Animator { get; protected set; }
         // [field: SerializeField] public IHealth Health { get; }
+
+        private Vector2 HorizontalDirection { get; set; }
 
         private void Start() => Initialize();
         private void Update() => Controller.Execute();
 
         protected virtual void Initialize()
         {
-            StateMachine = new CharacterStateMachine();
             Rigidbody = GetComponent<Rigidbody2D>();
-            Movement = new CharacterMovement(Rigidbody, PersonData.SpeedMove, PersonData.SpeedRun);
+            Movement = new CharacterMovement(Rigidbody, CharacterData.SpeedMove, CharacterData.SpeedRun);
             SpriteRenderer = GetComponent<SpriteRenderer>();
             Animator = GetComponent<Animator>();
             
-            IdleState = new IdleState(this);
-            WalkState = new WalkState(this);
+            StateMachine = new CharacterStateMachine(this, StateMachine.IdleState);
         }
-
-        /*public void Idle()
-        {
-            StateMachine.ChangeState();
-        }
-        public void Walk() => print("Walk");
-        public void Run() => print("Run");
-        public void Roll() => print("Roll");
-        public void Slide() => print("Slide");
-        public void Fall() => print("Fall");
-        public void Climb() => print("Climb");
-
-        public void Jump()
-        {
-            Movement.Jump();
-            Animator.CrossFade("Jump", 0.1f);
-        }
-        */
     }
 }

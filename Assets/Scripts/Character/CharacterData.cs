@@ -2,7 +2,7 @@
 
 namespace Character
 {
-    public class PersonData : ScriptableObject
+    public class CharacterData : ScriptableObject
     {
         [field: SerializeField] public string Name { get; }
         [field: SerializeField] public int SpeedMove { get; }
