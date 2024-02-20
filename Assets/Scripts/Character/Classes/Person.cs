@@ -40,5 +40,10 @@ namespace Character.Classes
             
             StateMachine = new CharacterStateMachine(this, StateMachine.IdleState);
         }
+
+        public void Die()
+        {
+            
+        }
     }
 }

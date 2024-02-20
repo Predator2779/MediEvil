@@ -10,6 +10,8 @@ namespace Character.StateMachine
         public WalkState WalkState { get; set; }
         public RunState RunState { get; set; }
         public JumpState JumpState { get; set; }
+        public FallState FallState { get; set; }
+        public RollState RollState { get; set; }
 
         private readonly Person _person;
         private readonly CharacterState _defaultState;
@@ -20,16 +22,17 @@ namespace Character.StateMachine
             
             IdleState = new IdleState(_person);
             WalkState = new WalkState(_person);
+            JumpState = new JumpState(_person);
 
             _defaultState = defaultState;
         }
 
-        public void ChangeState(CharacterState newCharacterState)
+        public void ChangeState(CharacterState newState)
         {
-            if (CurrentState == newCharacterState) return;
+            if (CurrentState == newState) return;
             
             CurrentState?.Exit();
-            CurrentState = newCharacterState;
+            CurrentState = newState;
             CurrentState.Enter();
         }
 

@@ -18,6 +18,7 @@ namespace Character.CharacterControllers
         protected override void CheckConditions()
         {
             if (CheckJump()) return;
+            if (CheckRoll()) return;
             if (CheckWalking()) return;
             
             StateMachine.ExitState();
@@ -34,10 +35,18 @@ namespace Character.CharacterControllers
 
         private bool CheckJump()
         {
-            if (_inputHandler.GetVerticalAxis() == 0) return false;
+            if (_inputHandler.GetVerticalAxis() <= 0) return false;
             
             StateMachine.ChangeState(StateMachine.JumpState);
-            return false;
+            return true;
+        }
+
+        private bool CheckRoll()
+        {
+            if (!_inputHandler.GetShiftBtn()) return false;
+            
+            StateMachine.ChangeState(StateMachine.RollState);
+            return true;
         }
 
         private Vector2 GetDirection() => new Vector2(
