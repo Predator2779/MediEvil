@@ -43,7 +43,7 @@ namespace Character.Classes
 
         public void Die()
         {
-            
+            print("You Died");
         }
     }
 }
