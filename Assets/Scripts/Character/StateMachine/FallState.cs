@@ -1,6 +1,7 @@
 ﻿using Character.Classes;
 using Character.Movement;
 using Character.StateMachine.CharacterStates;
+using UnityEngine;
 
 namespace Character.StateMachine
 {
@@ -8,7 +9,7 @@ namespace Character.StateMachine
     {
         private CharacterMovement Movement { get; set; }
 
-        public FallState(Person person) : base(person)
+        public FallState(Person person, Animator animator, CharacterStateMachine stateMachine) : base(person, animator, stateMachine)
         {
             Movement = person.Movement;
         }

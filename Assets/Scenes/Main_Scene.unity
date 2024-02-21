@@ -11868,6 +11868,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6448326951419871253, guid: e5e6a3df6f5e36e48a3507ef92c8cd74, type: 3}
+      propertyPath: <IsPlayer>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448326951419871253, guid: e5e6a3df6f5e36e48a3507ef92c8cd74, type: 3}
+      propertyPath: <Rigidbody>k__BackingField
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448326951419871253, guid: e5e6a3df6f5e36e48a3507ef92c8cd74, type: 3}
+      propertyPath: <CharacterData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 0273e2e790b6d2146a283184f3e968a4, type: 2}
     - target: {fileID: 8040730062842423988, guid: e5e6a3df6f5e36e48a3507ef92c8cd74, type: 3}
       propertyPath: m_Name
       value: PLAYER (Prefab)_2
@@ -11912,7 +11924,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1916958286029129414, guid: e5e6a3df6f5e36e48a3507ef92c8cd74, type: 3}
+    - {fileID: 1392853613559887190, guid: e5e6a3df6f5e36e48a3507ef92c8cd74, type: 3}
+    - {fileID: 7822995409821520248, guid: e5e6a3df6f5e36e48a3507ef92c8cd74, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

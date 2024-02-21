@@ -1,12 +1,13 @@
 ﻿using Character.Classes;
 using Character.Movement;
+using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class RollState : CharacterState
     {
         private CharacterMovement Movement { get; } 
-        public RollState(Person person) : base(person)
+        public RollState(Person person, Animator animator, CharacterStateMachine stateMachine) : base(person, animator, stateMachine)
         {
             Movement = person.Movement;
         }

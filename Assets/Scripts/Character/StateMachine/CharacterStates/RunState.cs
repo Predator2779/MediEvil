@@ -9,7 +9,7 @@ namespace Character.StateMachine.CharacterStates
     {
         private readonly CharacterMovement _movement;
 
-        public RunState(Person person) : base(person)
+        public RunState(Person person, Animator animator, CharacterStateMachine stateMachine) : base(person, animator, stateMachine)
         {
         }
         

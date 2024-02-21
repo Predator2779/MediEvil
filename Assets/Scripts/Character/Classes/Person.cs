@@ -7,13 +7,12 @@ namespace Character.Classes
 {
     [RequireComponent(typeof(Controller))]
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(CharacterMovement))]
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(Animator))]
     public class Person : MonoBehaviour
     {
-        [field: SerializeField] private bool IsPlayer { get; }
-        [field: SerializeField] private CharacterData CharacterData { get; }
+        [field: SerializeField] private bool IsPlayer { get; set; }
+        [field: SerializeField] private CharacterData CharacterData { get; set; }
         [field: SerializeField] protected Controller Controller { get; set; } // прокинуть Zenject-ом
         [field: SerializeField] protected Rigidbody2D Rigidbody { set; get; }
         [field: SerializeField] public CharacterStateMachine StateMachine { get; protected set; }
@@ -25,7 +24,11 @@ namespace Character.Classes
         private Vector2 HorizontalDirection { get; set; }
 
         private void Start() => Initialize();
-        private void Update() => Controller.Execute();
+        private void Update() 
+        {
+            print('d');
+            Controller.Execute();
+        }
 
         protected virtual void Initialize()
         {
@@ -38,7 +41,8 @@ namespace Character.Classes
                 CharacterData.SpeedRun,
                 CharacterData.JumpForce);
             
-            StateMachine = new CharacterStateMachine(this, StateMachine.IdleState);
+            StateMachine = new CharacterStateMachine(this);
+            Controller = new InputController(this, StateMachine);///
         }
 
         public void Die()

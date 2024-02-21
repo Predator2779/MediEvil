@@ -2,14 +2,15 @@
 
 namespace Character
 {
+    [CreateAssetMenu(menuName = "CharacterData", fileName = "New CharacterData", order = 0)]
     public class CharacterData : ScriptableObject
     {
-        [field: SerializeField] public string Name { get; }
-        [field: SerializeField] public int SpeedMove { get; }
-        [field: SerializeField] public int SpeedRun { get; }
-        [field: SerializeField] public int JumpForce { get; }
-        [field: SerializeField] public float MaxHealth { get; }
-        [field: SerializeField] public float CurrentHealth { get; }
-        [field: SerializeField] public float Damage { get; }
+        public string Name;
+        public int SpeedMove;
+        public int SpeedRun;
+        public int JumpForce;
+        public float MaxHealth;
+        public float CurrentHealth;
+        public float Damage;
     }
 }

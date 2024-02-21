@@ -1,5 +1,6 @@
 ﻿using Character.Classes;
 using Character.StateMachine.CharacterStates;
+using UnityEngine;
 
 namespace Character.StateMachine
 {
@@ -16,21 +17,22 @@ namespace Character.StateMachine
         private readonly Person _person;
         private readonly CharacterState _defaultState;
 
-        public CharacterStateMachine(Person person, CharacterState defaultState)
+        public CharacterStateMachine(Person person)
         {
             _person = person;
             
-            IdleState = new IdleState(_person);
-            WalkState = new WalkState(_person);
-            JumpState = new JumpState(_person);
+            IdleState = new IdleState(_person, _person.Animator, this);
+            WalkState = new WalkState(_person, _person.Animator, this);
+            JumpState = new JumpState(_person, _person.Animator, this);
 
-            _defaultState = defaultState;
+            _defaultState = IdleState;
+            CurrentState = _defaultState;
         }
 
         public void ChangeState(CharacterState newState)
         {
             if (CurrentState == newState) return;
-            
+
             CurrentState?.Exit();
             CurrentState = newState;
             CurrentState.Enter();

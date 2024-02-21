@@ -1,4 +1,5 @@
-﻿using Character.Classes;
+﻿using System;
+using Character.Classes;
 using Global;
 using UnityEngine;
 
@@ -8,11 +9,10 @@ namespace Character.StateMachine.CharacterStates
     {
         protected Person Person { get; }
         protected Animator Animator { get; set; }
-        protected CharacterStateMachine StateMachine { get; }
+        protected CharacterStateMachine StateMachine { get; set; }
         protected string Animation { get; set; }
 
-
-        protected CharacterState(Person person)
+        protected CharacterState(Person person, Animator animator, CharacterStateMachine stateMachine)
         {
             Person = person;
             Animator = person.Animator;
@@ -27,6 +27,7 @@ namespace Character.StateMachine.CharacterStates
 
         public virtual void Execute()
         {
+            Debug.Log($"State {GetType()}; Person {Person}; SM {StateMachine}; Anim {Animator}");
             var stateInfo = Animator.GetCurrentAnimatorStateInfo(0);
             if (!stateInfo.IsName(Animation)) Exit();
         }

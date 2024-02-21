@@ -6,9 +6,11 @@ namespace Character.StateMachine.CharacterStates
 {
     public class WalkState : CharacterState
     {
-        private readonly CharacterMovement _movement;
-        public WalkState(Person person) : base(person)
+        private CharacterMovement Movement { get; }
+
+        public WalkState(Person person, Animator animator, CharacterStateMachine stateMachine) : base(person, animator, stateMachine)
         {
+            Movement = person.Movement;
         }
         
         public override void Enter()
