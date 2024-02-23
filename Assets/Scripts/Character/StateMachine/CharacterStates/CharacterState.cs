@@ -16,12 +16,13 @@ namespace Character.StateMachine.CharacterStates
 
         public bool IsCompleted = true;
         
-        protected CharacterState(Person person)
+        protected CharacterState(Person person, string animName)
         {
             Person = person;
             Animator = person.Animator;
             Movement = person.Movement;
             StateMachine = person.StateMachine;
+            Animation = animName;
         }
 
         public virtual void Enter()

@@ -7,16 +7,15 @@ namespace Character.StateMachine.CharacterStates
     {
         private SpriteRenderer SpriteRenderer { get; }
 
-        public RollState(Person person) : base(person)
+        public RollState(Person person, string animName) : base(person, animName)
         {
             SpriteRenderer = person.SpriteRenderer;
         }
 
         public override void Enter()
         {
-            if (!Movement.IsGrounded()) return;
+            if (!Movement.IsGrounded) return;
             
-            Animation = "roll";
             base.Enter();
         }
 
@@ -28,7 +27,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void FixedExecute()
         {
-            Movement.Roll();
+            if (Movement.IsGrounded) Movement.Roll();
         }
     }
 }

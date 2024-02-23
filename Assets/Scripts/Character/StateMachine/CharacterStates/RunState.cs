@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
-    public class RunState : CharacterState
+    public class RunState : WalkState
     {
         private SpriteRenderer SpriteRenderer { get; }
-        public RunState(Person person) : base(person)
+        public RunState(Person person, string animName) : base(person, animName)
         {
             SpriteRenderer = person.SpriteRenderer;
         }
 
         public override void Enter()
         {
-            Animation = "run";
+            if (!Movement.IsGrounded) return;
             base.Enter();
         }
 
@@ -24,7 +24,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void FixedExecute()
         {
-            if (Movement.IsGrounded()) Movement.Run();
+            if (Movement.IsGrounded) Movement.Run();
         }
     }
 }

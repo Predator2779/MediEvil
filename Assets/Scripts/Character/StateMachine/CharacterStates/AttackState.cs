@@ -4,14 +4,8 @@ namespace Character.StateMachine.CharacterStates
 {
     public class AttackState : CharacterState
     {
-        public AttackState(Person person) : base(person)
+        public AttackState(Person person, string animName) : base(person, animName)
         {
-        }
-
-        public override void Enter()
-        {
-            Animation = "attack";
-            base.Enter();
         }
     }
 }

@@ -7,14 +7,14 @@ namespace Character.StateMachine.CharacterStates
     {
         private SpriteRenderer SpriteRenderer { get; }
 
-        public WalkState(Person person) : base(person)
+        public WalkState(Person person, string animName) : base(person, animName)
         {
             SpriteRenderer = person.SpriteRenderer;
         }
 
         public override void Enter()
         {
-            Animation = "walk";
+            if (!Movement.IsGrounded) return;
             base.Enter();
         }
 
@@ -25,7 +25,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void FixedExecute()
         {
-            if (Movement.IsGrounded()) Movement.Walk();
+            if (Movement.IsGrounded) Movement.Walk();
         }
     }
 }

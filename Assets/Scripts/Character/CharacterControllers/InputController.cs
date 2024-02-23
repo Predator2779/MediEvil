@@ -13,13 +13,14 @@ namespace Character.CharacterControllers
         {
             _inputHandler = new InputHandler();
         }
-        
+
         protected override void CheckConditions()
         {
+            if (CheckFall()) return;
             if (CheckJump()) return;
             if (CheckRoll()) return;
             if (CheckWalking()) return;
-            
+
             StateMachine.ExitState();
         }
 
@@ -28,26 +29,36 @@ namespace Character.CharacterControllers
             if (_inputHandler.GetHorizontalAxis() == 0) return false;
 
             Movement.Direction = GetDirection();
-            StateMachine.ChangeState(_inputHandler.GetShiftBtn() ? (CharacterState) StateMachine.RunState : StateMachine.WalkState);
+            StateMachine.ChangeState(_inputHandler.GetShiftBtn()
+                ? (CharacterState) StateMachine.RunState
+                : StateMachine.WalkState);
             return true;
         }
 
         private bool CheckJump()
         {
-            if (_inputHandler.GetVerticalAxis() <= 0) return false;
-            
+            if (!Movement.IsGrounded || _inputHandler.GetVerticalAxis() <= 0) return false;
+
             StateMachine.ChangeState(StateMachine.JumpState);
+            return true;
+        }
+
+        private bool CheckFall()
+        {
+            if (Movement.IsGrounded) return false;
+
+            StateMachine.ChangeState(StateMachine.FallState);
             return true;
         }
 
         private bool CheckRoll()
         {
             if (!_inputHandler.GetSpaceBtn()) return false;
-            
+
             StateMachine.ChangeState(StateMachine.RollState);
             return true;
         }
-        
+
         private Vector2 GetDirection() => new Vector2(
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());

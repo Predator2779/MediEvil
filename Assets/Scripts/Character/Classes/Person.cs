@@ -12,17 +12,18 @@ namespace Character.Classes
     {
         [field: SerializeField] private bool IsPlayer { get; set; }
         [field: SerializeField] private CharacterData CharacterData { get; set; }
-        protected Controller Controller { get; set; } // прокинуть Zenject-ом
+        protected Controller Controller { get; set; } // // //
         protected Rigidbody2D Rigidbody { set; get; }
         public CharacterStateMachine StateMachine { get; protected set; }
         public CharacterMovement Movement { get; protected set; }
         public SpriteRenderer SpriteRenderer { get; protected set; }
         public Animator Animator { get; protected set; }
-        // [field: SerializeField] public IHealth Health { get; }
         
         private void Start() => Initialize();
         private void Update() => Controller.Execute();
         private void FixedUpdate() => Controller.FixedExecute();
+        private void OnCollisionEnter2D(Collision2D other) => Movement.IsGrounded = true;
+        private void OnCollisionExit2D(Collision2D other) => Movement.IsGrounded = false;
 
         protected virtual void Initialize()
         {

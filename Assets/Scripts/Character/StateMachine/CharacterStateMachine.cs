@@ -20,11 +20,12 @@ namespace Character.StateMachine
         {
             _person = person;
             
-            IdleState = new IdleState(_person);
-            WalkState = new WalkState(_person);
-            RunState = new RunState(_person);
-            JumpState = new JumpState(_person);
-            RollState = new RollState(_person);
+            IdleState = new IdleState(_person, "idle");
+            WalkState = new WalkState(_person, "walk");
+            RunState = new RunState(_person, "run");
+            JumpState = new JumpState(_person, "jump");
+            RollState = new RollState(_person, "roll");
+            FallState = new FallState(_person, "fall");
 
             _defaultState = IdleState;
             CurrentState = _defaultState;

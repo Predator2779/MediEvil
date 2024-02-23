@@ -203,7 +203,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: knight-fall
+  m_Name: fall
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -616,16 +616,16 @@ AnimatorStateMachine:
     m_Position: {x: 430, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7015009249922465812}
-    m_Position: {x: 460, y: 400, z: 0}
+    m_Position: {x: 30, y: 330, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3613678265302386451}
-    m_Position: {x: 500, y: 470, z: 0}
+    m_Position: {x: 30, y: 430, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1786513090180885222}
     m_Position: {x: 530, y: 530, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 65864612014729522}
-    m_Position: {x: 30, y: 330, z: 0}
+    m_Position: {x: 30, y: 380, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8203767751639706314}
     m_Position: {x: 30, y: 280, z: 0}
@@ -666,7 +666,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: knight-jump
+  m_Name: jump
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

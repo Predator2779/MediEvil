@@ -1,20 +1,16 @@
 ﻿using Character.Classes;
-using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class IdleState : CharacterState
     {
-        public IdleState(Person person) : base(person)
+        public IdleState(Person person, string animName) : base(person, animName)
         {
         }
 
         public override void Enter()
         {
-            if (!Movement.IsGrounded()) return;
-            
-            Debug.Log("Idle...");
-            Animation = "idle";
+            if (!Movement.IsGrounded) return;
             base.Enter();
         }
     }

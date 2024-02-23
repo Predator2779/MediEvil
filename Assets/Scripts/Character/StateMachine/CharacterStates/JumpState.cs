@@ -4,21 +4,23 @@ namespace Character.StateMachine.CharacterStates
 {
     public class JumpState : CharacterState
     {
-        public JumpState(Person person) : base(person)
+        private bool _canJump = true;
+        public JumpState(Person person, string animName) : base(person, animName)
         {
         }
 
-        public override void Enter()
+        public override void FixedExecute()
         {
-            Animation = "jump";
-            base.Enter();
+            if (!_canJump || !Movement.IsGrounded) return;
+            
+            _canJump = false;
             Movement.Jump();
         }
 
-        public override void Execute()
+        public override void Exit()
         {
-            if (Movement.IsGrounded()) Exit();
-            else StateMachine.ChangeState(StateMachine.FallState);
+            _canJump = true;
+            base.Exit();
         }
     }
 }
