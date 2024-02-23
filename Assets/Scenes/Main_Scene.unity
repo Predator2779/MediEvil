@@ -11878,7 +11878,7 @@ Animator:
   m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
+  m_AllowConstantClipSamplingOptimization: 0
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &394759317369840916
@@ -12039,9 +12039,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <IsPlayer>k__BackingField: 1
   <CharacterData>k__BackingField: {fileID: 11400000, guid: 0273e2e790b6d2146a283184f3e968a4, type: 2}
-  <Rigidbody>k__BackingField: {fileID: 0}
-  <SpriteRenderer>k__BackingField: {fileID: 0}
-  <Animator>k__BackingField: {fileID: 0}
 --- !u!81 &5581614429587873540
 AudioListener:
   m_ObjectHideFlags: 0

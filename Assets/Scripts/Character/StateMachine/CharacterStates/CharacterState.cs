@@ -7,8 +7,8 @@ namespace Character.StateMachine.CharacterStates
 {
     public abstract class CharacterState
     {
-        private Person Person { get; }
-        private Animator Animator { get; }
+        protected Person Person { get; }
+        protected Animator Animator { get; }
         protected CharacterMovement Movement { get; }
         protected CharacterStateMachine StateMachine { get; }
         
@@ -31,10 +31,15 @@ namespace Character.StateMachine.CharacterStates
 
         public virtual void Execute()
         {
-            Debug.Log("IsCompleted: " + IsCompleted);
         }
 
-        protected void SafetyCompleting() => IsCompleted = !Animator.GetCurrentAnimatorStateInfo(0).IsName(Animation);
+        protected void SafetyCompleting() => IsCompleted = AnimationCompleted();
+
+        public bool AnimationCompleted()
+        {
+            var animInfo = Animator.GetCurrentAnimatorStateInfo(0);
+            return animInfo.normalizedTime >= animInfo.length + GlobalConstants.AnimDelay;
+        }
 
         public virtual void Exit()
         {

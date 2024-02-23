@@ -12,16 +12,14 @@ namespace Character.Classes
     {
         [field: SerializeField] private bool IsPlayer { get; set; }
         [field: SerializeField] private CharacterData CharacterData { get; set; }
-        [field: SerializeField] protected Controller Controller { get; set; } // прокинуть Zenject-ом
-        [field: SerializeField] protected Rigidbody2D Rigidbody { set; get; }
-        [field: SerializeField] public CharacterStateMachine StateMachine { get; protected set; }
-        [field: SerializeField] public CharacterMovement Movement { get; protected set; }
-        [field: SerializeField] public SpriteRenderer SpriteRenderer { get; protected set; }
-        [field: SerializeField] public Animator Animator { get; protected set; }
+        protected Controller Controller { get; set; } // прокинуть Zenject-ом
+        protected Rigidbody2D Rigidbody { set; get; }
+        public CharacterStateMachine StateMachine { get; protected set; }
+        public CharacterMovement Movement { get; protected set; }
+        public SpriteRenderer SpriteRenderer { get; protected set; }
+        public Animator Animator { get; protected set; }
         // [field: SerializeField] public IHealth Health { get; }
-
-        private Vector2 HorizontalDirection { get; set; }
-
+        
         private void Start() => Initialize();
         private void Update() => Controller.Execute();
 
@@ -37,7 +35,7 @@ namespace Character.Classes
                 CharacterData.JumpForce);
 
             StateMachine = new CharacterStateMachine(this);
-            Controller = new InputController(this, StateMachine); ///
+            Controller = new InputController(this); ///
         }
 
         public void Die()

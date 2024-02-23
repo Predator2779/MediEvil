@@ -1,5 +1,4 @@
 ﻿using Character.Classes;
-using Character.Movement;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates

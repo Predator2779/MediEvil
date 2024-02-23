@@ -1,12 +1,11 @@
 ﻿using Character.Classes;
-using Character.StateMachine;
 using UnityEngine;
 
 namespace Character.CharacterControllers.AI
 {
     public class WarriorAI : Controller
     {
-        public WarriorAI(Person person, CharacterStateMachine stateMachine) : base(person, stateMachine)
+        public WarriorAI(Person person) : base(person)
         {
         }
 

@@ -1,5 +1,4 @@
 ﻿using Character.Classes;
-using Character.Movement;
 
 namespace Character.StateMachine.CharacterStates
 {

@@ -6,14 +6,14 @@ namespace Character.CharacterControllers
 {
     public abstract class Controller
     {
-        public Person Person { get; set; }
+        public Person Person { get; }
         public CharacterStateMachine StateMachine { get; }
-        public CharacterMovement Movement { get; set; }
+        public CharacterMovement Movement { get; }
 
-        public Controller(Person person, CharacterStateMachine stateMachine)
+        public Controller(Person person)
         {
             Person = person;
-            StateMachine = stateMachine;
+            StateMachine = person.StateMachine;
             Movement = person.Movement;
         }
 

@@ -1,5 +1,5 @@
 ﻿using Character.Classes;
-using Character.Movement;
+using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
@@ -20,6 +20,8 @@ namespace Character.StateMachine.CharacterStates
         public override void Execute()
         {
             SafetyCompleting();
+
+            Debug.Log("Rollin...");
             Movement.Roll();
             base.Execute();
         }

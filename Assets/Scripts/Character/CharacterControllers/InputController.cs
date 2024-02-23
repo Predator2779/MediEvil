@@ -1,5 +1,4 @@
 ﻿using Character.Classes;
-using Character.StateMachine;
 using Character.StateMachine.CharacterStates;
 using Input;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace Character.CharacterControllers
     {
         private readonly InputHandler _inputHandler;
 
-        public InputController(Person person, CharacterStateMachine stateMachine) : base(person, stateMachine)
+        public InputController(Person person) : base(person)
         {
             _inputHandler = new InputHandler();
         }
