@@ -1,16 +1,12 @@
 ﻿using Character.Classes;
 using Character.Movement;
-using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class JumpState : CharacterState
     {
-        public CharacterMovement Movement { get; set; }
-
-        public JumpState(Person person, Animator animator, CharacterStateMachine stateMachine) : base(person, animator, stateMachine)
+        public JumpState(Person person) : base(person)
         {
-            Movement = person.Movement;
         }
 
         public override void Enter()

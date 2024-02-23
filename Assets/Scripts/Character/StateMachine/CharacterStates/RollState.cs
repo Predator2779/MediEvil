@@ -1,15 +1,12 @@
 ﻿using Character.Classes;
 using Character.Movement;
-using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class RollState : CharacterState
     {
-        private CharacterMovement Movement { get; } 
-        public RollState(Person person, Animator animator, CharacterStateMachine stateMachine) : base(person, animator, stateMachine)
+        public RollState(Person person) : base(person)
         {
-            Movement = person.Movement;
         }
 
         public override void Enter()
@@ -22,6 +19,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Execute()
         {
+            SafetyCompleting();
             Movement.Roll();
             base.Execute();
         }

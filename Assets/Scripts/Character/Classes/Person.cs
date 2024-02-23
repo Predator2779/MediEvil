@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Character.Classes
 {
-    [RequireComponent(typeof(Controller))]
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(Animator))]
@@ -24,11 +23,7 @@ namespace Character.Classes
         private Vector2 HorizontalDirection { get; set; }
 
         private void Start() => Initialize();
-        private void Update() 
-        {
-            print('d');
-            Controller.Execute();
-        }
+        private void Update() => Controller.Execute();
 
         protected virtual void Initialize()
         {
@@ -40,9 +35,9 @@ namespace Character.Classes
                 CharacterData.SpeedMove,
                 CharacterData.SpeedRun,
                 CharacterData.JumpForce);
-            
+
             StateMachine = new CharacterStateMachine(this);
-            Controller = new InputController(this, StateMachine);///
+            Controller = new InputController(this, StateMachine); ///
         }
 
         public void Die()

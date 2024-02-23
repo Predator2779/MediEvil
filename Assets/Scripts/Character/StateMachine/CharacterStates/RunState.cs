@@ -1,28 +1,36 @@
 ﻿using Character.Classes;
 using Character.Movement;
-using Input;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
-    public class RunState : WalkState
+    public class RunState : CharacterState
     {
-        private readonly CharacterMovement _movement;
-
-        public RunState(Person person, Animator animator, CharacterStateMachine stateMachine) : base(person, animator, stateMachine)
+        private SpriteRenderer SpriteRenderer { get; }
+        public RunState(Person person) : base(person)
         {
+            SpriteRenderer = person.SpriteRenderer;
         }
-        
+
         public override void Enter()
         {
             Animation = "run";
             base.Enter();
         }
-        
-        protected override void Walk()
+
+        public override void Execute()
         {
-            base.Walk();
-            Person.Movement.Run();
+            if (!Movement.IsGrounded()) return;
+            
+            base.Execute();
+            Run();
+        }
+
+        private void Run()
+        {
+            Debug.Log("Running...");
+            SpriteRenderer.flipX = Movement.Direction.x < 0;
+            Movement.Run();
         }
     }
 }

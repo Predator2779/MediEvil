@@ -6,13 +6,13 @@ namespace Character.StateMachine.CharacterStates
 {
     public class WalkState : CharacterState
     {
-        private CharacterMovement Movement { get; }
+        private SpriteRenderer SpriteRenderer { get; }
 
-        public WalkState(Person person, Animator animator, CharacterStateMachine stateMachine) : base(person, animator, stateMachine)
+        public WalkState(Person person) : base(person)
         {
-            Movement = person.Movement;
+            SpriteRenderer = person.SpriteRenderer;
         }
-        
+
         public override void Enter()
         {
             Animation = "walk";
@@ -21,14 +21,17 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Execute()
         {
+            if (!Movement.IsGrounded()) return;
+            
             base.Execute();
             Walk();
         }
 
-        protected virtual void Walk()
+        private void Walk()
         {
-            Person.SpriteRenderer.flipX = Person.Movement.Direction.x < 0;
-            Person.Movement.Walk();
+            Debug.Log("Walking...");
+            SpriteRenderer.flipX = Movement.Direction.x < 0;
+            Movement.Walk();
         }
     }
 }

@@ -6,10 +6,10 @@ namespace Character.Movement
     {
         public Vector2 Direction { get; set; }
         private Rigidbody2D _rbody;
-        private int SpeedMove { get; set; }
-        private int SpeedRun { get; set; }
-        private int JumpForce { get; set; }
-        private int RollDistance { get; set; }
+        private int SpeedMove { get; }
+        private int SpeedRun { get; }
+        private int JumpForce { get; }
+        private int RollDistance { get; }
 
         public CharacterMovement(
             Rigidbody2D rbody,

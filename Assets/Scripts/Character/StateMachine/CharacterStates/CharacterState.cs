@@ -1,5 +1,5 @@
-﻿using System;
-using Character.Classes;
+﻿using Character.Classes;
+using Character.Movement;
 using Global;
 using UnityEngine;
 
@@ -7,35 +7,38 @@ namespace Character.StateMachine.CharacterStates
 {
     public abstract class CharacterState
     {
-        protected Person Person { get; }
-        protected Animator Animator { get; set; }
-        protected CharacterStateMachine StateMachine { get; set; }
+        private Person Person { get; }
+        private Animator Animator { get; }
+        protected CharacterMovement Movement { get; }
+        protected CharacterStateMachine StateMachine { get; }
+        
         protected string Animation { get; set; }
 
-        protected CharacterState(Person person, Animator animator, CharacterStateMachine stateMachine)
+        public bool IsCompleted = true;
+        
+        protected CharacterState(Person person)
         {
             Person = person;
             Animator = person.Animator;
+            Movement = person.Movement;
             StateMachine = person.StateMachine;
         }
 
         public virtual void Enter()
         {
-            Animator.StopPlayback();
             Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
         }
 
         public virtual void Execute()
         {
-            Debug.Log($"State {GetType()}; Person {Person}; SM {StateMachine}; Anim {Animator}");
-            var stateInfo = Animator.GetCurrentAnimatorStateInfo(0);
-            if (!stateInfo.IsName(Animation)) Exit();
+            Debug.Log("IsCompleted: " + IsCompleted);
         }
+
+        protected void SafetyCompleting() => IsCompleted = !Animator.GetCurrentAnimatorStateInfo(0).IsName(Animation);
 
         public virtual void Exit()
         {
             Animator.StopPlayback();
-            StateMachine.ExitState();
         }
     }
 }

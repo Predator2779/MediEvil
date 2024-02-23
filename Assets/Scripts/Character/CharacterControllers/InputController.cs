@@ -29,7 +29,7 @@ namespace Character.CharacterControllers
             if (_inputHandler.GetHorizontalAxis() == 0) return false;
 
             Movement.Direction = GetDirection();
-            StateMachine.ChangeState(_inputHandler.GetShiftBtn() ? StateMachine.RunState : StateMachine.WalkState);
+            StateMachine.ChangeState(_inputHandler.GetShiftBtn() ? (CharacterState) StateMachine.RunState : StateMachine.WalkState);
             return true;
         }
 
@@ -43,12 +43,12 @@ namespace Character.CharacterControllers
 
         private bool CheckRoll()
         {
-            if (!_inputHandler.GetShiftBtn()) return false;
+            if (!_inputHandler.GetSpaceBtn()) return false;
             
             StateMachine.ChangeState(StateMachine.RollState);
             return true;
         }
-
+        
         private Vector2 GetDirection() => new Vector2(
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());

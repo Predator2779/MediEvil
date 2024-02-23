@@ -1,18 +1,17 @@
 ﻿using Character.Classes;
 using Character.StateMachine.CharacterStates;
-using UnityEngine;
 
 namespace Character.StateMachine
 {
     public class CharacterStateMachine
     {
         public CharacterState CurrentState { get; private set; }
-        public IdleState IdleState { get; set; }
-        public WalkState WalkState { get; set; }
-        public RunState RunState { get; set; }
-        public JumpState JumpState { get; set; }
-        public FallState FallState { get; set; }
-        public RollState RollState { get; set; }
+        public IdleState IdleState { get; }
+        public WalkState WalkState { get; }
+        public RunState RunState { get; }
+        public JumpState JumpState { get; }
+        public FallState FallState { get; }
+        public RollState RollState { get; }
 
         private readonly Person _person;
         private readonly CharacterState _defaultState;
@@ -21,9 +20,11 @@ namespace Character.StateMachine
         {
             _person = person;
             
-            IdleState = new IdleState(_person, _person.Animator, this);
-            WalkState = new WalkState(_person, _person.Animator, this);
-            JumpState = new JumpState(_person, _person.Animator, this);
+            IdleState = new IdleState(_person);
+            WalkState = new WalkState(_person);
+            RunState = new RunState(_person);
+            JumpState = new JumpState(_person);
+            RollState = new RollState(_person);
 
             _defaultState = IdleState;
             CurrentState = _defaultState;
@@ -31,7 +32,7 @@ namespace Character.StateMachine
 
         public void ChangeState(CharacterState newState)
         {
-            if (CurrentState == newState) return;
+            if (CurrentState == newState || !CurrentState.IsCompleted) return;
 
             CurrentState?.Exit();
             CurrentState = newState;

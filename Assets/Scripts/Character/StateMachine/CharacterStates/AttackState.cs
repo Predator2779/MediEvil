@@ -1,18 +1,16 @@
-﻿using System;
-using Character.Classes;
-using UnityEngine;
+﻿using Character.Classes;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class AttackState : CharacterState
     {
-        public AttackState(Person person, Animator animator, CharacterStateMachine stateMachine) : base(person, animator, stateMachine)
+        public AttackState(Person person) : base(person)
         {
         }
 
         public override void Enter()
         {
-            Animation = "Attack";
+            Animation = "attack";
             base.Enter();
         }
     }
