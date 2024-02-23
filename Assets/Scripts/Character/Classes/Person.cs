@@ -18,7 +18,7 @@ namespace Character.Classes
         public CharacterMovement Movement { get; protected set; }
         public SpriteRenderer SpriteRenderer { get; protected set; }
         public Animator Animator { get; protected set; }
-        
+
         private void Start() => Initialize();
         private void Update() => Controller.Execute();
         private void FixedUpdate() => Controller.FixedExecute();
