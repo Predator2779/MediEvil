@@ -19,17 +19,12 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Execute()
         {
-            if (!Movement.IsGrounded()) return;
-            
-            base.Execute();
-            Run();
+            SpriteRenderer.flipX = Movement.Direction.x < 0;
         }
 
-        private void Run()
+        public override void FixedExecute()
         {
-            Debug.Log("Running...");
-            SpriteRenderer.flipX = Movement.Direction.x < 0;
-            Movement.Run();
+            if (Movement.IsGrounded()) Movement.Run();
         }
     }
 }

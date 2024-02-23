@@ -33,6 +33,10 @@ namespace Character.StateMachine.CharacterStates
         {
         }
 
+        public virtual void FixedExecute()
+        {
+        }
+
         protected void SafetyCompleting() => IsCompleted = AnimationCompleted();
 
         public bool AnimationCompleted()

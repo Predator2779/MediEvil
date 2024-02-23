@@ -5,8 +5,11 @@ namespace Character.StateMachine.CharacterStates
 {
     public class RollState : CharacterState
     {
+        private SpriteRenderer SpriteRenderer { get; }
+
         public RollState(Person person) : base(person)
         {
+            SpriteRenderer = person.SpriteRenderer;
         }
 
         public override void Enter()
@@ -20,10 +23,12 @@ namespace Character.StateMachine.CharacterStates
         public override void Execute()
         {
             SafetyCompleting();
+            SpriteRenderer.flipX = Movement.Direction.x < 0;
+        }
 
-            Debug.Log("Rollin...");
+        public override void FixedExecute()
+        {
             Movement.Roll();
-            base.Execute();
         }
     }
 }

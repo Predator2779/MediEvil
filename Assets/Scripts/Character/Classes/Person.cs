@@ -22,6 +22,7 @@ namespace Character.Classes
         
         private void Start() => Initialize();
         private void Update() => Controller.Execute();
+        private void FixedUpdate() => Controller.FixedExecute();
 
         protected virtual void Initialize()
         {
@@ -32,7 +33,8 @@ namespace Character.Classes
                 Rigidbody,
                 CharacterData.SpeedMove,
                 CharacterData.SpeedRun,
-                CharacterData.JumpForce);
+                CharacterData.JumpForce,
+                CharacterData.RollDistance);
 
             StateMachine = new CharacterStateMachine(this);
             Controller = new InputController(this); ///

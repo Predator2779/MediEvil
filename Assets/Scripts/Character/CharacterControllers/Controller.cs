@@ -19,8 +19,13 @@ namespace Character.CharacterControllers
 
         public virtual void Execute()
         {
-            StateMachine.ExecuteState();
             CheckConditions();
+            StateMachine.ExecuteState();
+        }
+
+        public virtual void FixedExecute()
+        {
+            StateMachine.FixedExecute();
         }
 
         protected virtual void CheckConditions()

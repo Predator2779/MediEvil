@@ -9,6 +9,7 @@ namespace Character
         public int SpeedMove;
         public int SpeedRun;
         public int JumpForce;
+        public int RollDistance;
         public float MaxHealth;
         public float CurrentHealth;
         public float Damage;

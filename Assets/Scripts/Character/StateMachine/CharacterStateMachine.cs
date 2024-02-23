@@ -40,6 +40,9 @@ namespace Character.StateMachine
         }
 
         public void ExecuteState() => CurrentState.Execute();
+
+        public void FixedExecute() => CurrentState.FixedExecute();
+
         public void ExitState() => ChangeState(_defaultState);
     }
 }
