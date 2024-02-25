@@ -27,7 +27,8 @@ namespace Character.CharacterControllers
         private bool CheckWalking()
         {
             if (!Movement.IsGrounded() || _inputHandler.GetHorizontalAxis() == 0) return false;
-
+            
+            SetTempDirection();
             Movement.Direction = GetDirection();
             StateMachine.ChangeState(_inputHandler.GetShiftBtn()
                 ? (CharacterState) StateMachine.RunState
@@ -62,5 +63,11 @@ namespace Character.CharacterControllers
         private Vector2 GetDirection() => new Vector2(
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());
+
+        private void SetTempDirection()
+        {
+            if (_inputHandler.GetHorizontalAxis() != 0)
+                Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
+        }
     }
 }

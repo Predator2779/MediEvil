@@ -10,15 +10,13 @@ namespace Character.StateMachine.CharacterStates
         {
         }
 
-        public override void Execute()
+        public override void Enter()
         {
-            SafetyCompleting();
             base.Enter();
-        }
-
-        public override void FixedExecute()
-        {
             if (Movement.IsGrounded()) Movement.Roll();
         }
+
+        public override void Execute() => SafetyCompleting();
+        public override void FixedExecute() {}
     }
 }
