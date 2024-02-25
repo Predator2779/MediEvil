@@ -6,20 +6,8 @@ namespace Character.StateMachine.CharacterStates
     public class RunState : WalkState
     {
         private SpriteRenderer SpriteRenderer { get; }
-        public RunState(Person person, string animName) : base(person, animName)
+        public RunState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName) : base(person, spriteRenderer, animator, animName)
         {
-            SpriteRenderer = person.SpriteRenderer;
-        }
-
-        public override void Enter()
-        {
-            if (!Movement.IsGrounded) return;
-            base.Enter();
-        }
-
-        public override void Execute()
-        {
-            SpriteRenderer.flipX = Movement.Direction.x < 0;
         }
 
         public override void FixedExecute()

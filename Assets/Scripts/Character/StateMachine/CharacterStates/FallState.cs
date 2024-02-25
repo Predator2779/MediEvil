@@ -1,10 +1,11 @@
 ﻿using Character.Classes;
+using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class FallState : CharacterState
     {
-        public FallState(Person person, string animName) : base(person, animName)
+        public FallState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName) : base(person, spriteRenderer, animator, animName)
         {
         }
 

@@ -5,11 +5,8 @@ namespace Character.StateMachine.CharacterStates
 {
     public class WalkState : CharacterState
     {
-        private SpriteRenderer SpriteRenderer { get; }
-
-        public WalkState(Person person, string animName) : base(person, animName)
+        public WalkState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName) : base(person, spriteRenderer, animator, animName)
         {
-            SpriteRenderer = person.SpriteRenderer;
         }
 
         public override void Enter()

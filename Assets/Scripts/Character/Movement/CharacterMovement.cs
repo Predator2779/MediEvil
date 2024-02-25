@@ -1,4 +1,5 @@
-﻿using Global;
+﻿using Character.Classes;
+using Global;
 using UnityEngine;
 
 namespace Character.Movement
@@ -8,29 +9,18 @@ namespace Character.Movement
         public Vector2 Direction { get; set; }
         public bool IsGrounded { get; set; } = true;
         private Rigidbody2D _rbody;
-        private int SpeedMove { get; }
-        private int SpeedRun { get; }
-        private int JumpForce { get; }
-        private int RollDistance { get; }
+        private CharacterData _data;
 
-        public CharacterMovement(
-            Rigidbody2D rbody,
-            int speedMove,
-            int speedRun,
-            int jumpForce,
-            int rollDistance)
+        public CharacterMovement(Rigidbody2D rbody, CharacterData data)
         {
             _rbody = rbody;
-            SpeedMove = speedMove;
-            SpeedRun = speedRun;
-            JumpForce = jumpForce;
-            RollDistance = rollDistance;
+            _data = data;
         }
 
-        public void Walk() => _rbody.velocity = Direction * SpeedMove * GlobalConstants.CoefPersonSpeed;
-        public void Run() => _rbody.velocity = Direction * SpeedRun * GlobalConstants.CoefPersonSpeed;
-        public void Jump() => _rbody.AddForce(GetJumpVector() * JumpForce * _rbody.mass, ForceMode2D.Impulse);
-        public void Roll() => _rbody.velocity = Direction.normalized * RollDistance;
+        public void Walk() => _rbody.velocity = Direction * _data.SpeedMove * GlobalConstants.CoefPersonSpeed;
+        public void Run() => _rbody.velocity = Direction * _data.SpeedRun * GlobalConstants.CoefPersonSpeed;
+        public void Jump() => _rbody.AddForce(GetJumpVector() * _data.JumpForce * _rbody.mass, ForceMode2D.Impulse);
+        public void Roll() => _rbody.velocity = Direction.normalized * _data.RollDistance;
         private Vector2 GetJumpVector() => new Vector2(Direction.x, 1);
     }
 }

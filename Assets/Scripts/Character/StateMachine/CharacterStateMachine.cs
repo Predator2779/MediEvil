@@ -1,5 +1,6 @@
 ﻿using Character.Classes;
 using Character.StateMachine.CharacterStates;
+using UnityEngine;
 
 namespace Character.StateMachine
 {
@@ -15,17 +16,21 @@ namespace Character.StateMachine
 
         private readonly Person _person;
         private readonly CharacterState _defaultState;
+        private readonly SpriteRenderer _spriteRenderer;
+        private readonly Animator _animator;
 
-        public CharacterStateMachine(Person person)
+        public CharacterStateMachine(Person person, SpriteRenderer spriteRenderer, Animator animator)
         {
             _person = person;
+            _spriteRenderer = spriteRenderer;
+            _animator = animator;
             
-            IdleState = new IdleState(_person, "idle");
-            WalkState = new WalkState(_person, "walk");
-            RunState = new RunState(_person, "run");
-            JumpState = new JumpState(_person, "jump");
-            RollState = new RollState(_person, "roll");
-            FallState = new FallState(_person, "fall");
+            IdleState = new IdleState(_person, _spriteRenderer, _animator, "idle");
+            WalkState = new WalkState(_person, _spriteRenderer, _animator, "walk");
+            RunState = new RunState(_person, _spriteRenderer, _animator, "run");
+            JumpState = new JumpState(_person, _spriteRenderer, _animator, "jump");
+            RollState = new RollState(_person, _spriteRenderer, _animator, "roll");
+            FallState = new FallState(_person, _spriteRenderer, _animator, "fall");
 
             _defaultState = IdleState;
             CurrentState = _defaultState;

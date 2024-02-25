@@ -1,11 +1,12 @@
 ﻿using Character.Classes;
+using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class JumpState : CharacterState
     {
         private bool _canJump = true;
-        public JumpState(Person person, string animName) : base(person, animName)
+        public JumpState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName) : base(person, spriteRenderer, animator, animName)
         {
         }
 

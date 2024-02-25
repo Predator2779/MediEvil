@@ -3,26 +3,17 @@ using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
-    public class RollState : CharacterState
+    public class RollState : WalkState
     {
-        private SpriteRenderer SpriteRenderer { get; }
-
-        public RollState(Person person, string animName) : base(person, animName)
+        public RollState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName) : base(
+            person, spriteRenderer, animator, animName)
         {
-            SpriteRenderer = person.SpriteRenderer;
-        }
-
-        public override void Enter()
-        {
-            if (!Movement.IsGrounded) return;
-            
-            base.Enter();
         }
 
         public override void Execute()
         {
             SafetyCompleting();
-            SpriteRenderer.flipX = Movement.Direction.x < 0;
+            base.Enter();
         }
 
         public override void FixedExecute()

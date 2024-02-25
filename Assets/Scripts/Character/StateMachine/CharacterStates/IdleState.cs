@@ -1,10 +1,11 @@
 ﻿using Character.Classes;
+using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class IdleState : CharacterState
     {
-        public IdleState(Person person, string animName) : base(person, animName)
+        public IdleState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName) : base(person, spriteRenderer, animator, animName)
         {
         }
 

@@ -6,18 +6,16 @@ using UnityEngine;
 namespace Character.Classes
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(SpriteRenderer))]
-    [RequireComponent(typeof(Animator))]
     public class Person : MonoBehaviour
     {
         [field: SerializeField] private bool IsPlayer { get; set; }
         [field: SerializeField] private CharacterData CharacterData { get; set; }
+        [field: SerializeField] private SpriteRenderer SpriteRenderer { get; set; }
+        [field: SerializeField] private Animator Animator { get; set; }
         protected Controller Controller { get; set; } // // //
         protected Rigidbody2D Rigidbody { set; get; }
         public CharacterStateMachine StateMachine { get; protected set; }
         public CharacterMovement Movement { get; protected set; }
-        public SpriteRenderer SpriteRenderer { get; protected set; }
-        public Animator Animator { get; protected set; }
 
         private void Start() => Initialize();
         private void Update() => Controller.Execute();
@@ -28,16 +26,11 @@ namespace Character.Classes
         protected virtual void Initialize()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
-            SpriteRenderer = GetComponent<SpriteRenderer>();
-            Animator = GetComponent<Animator>();
-            Movement = new CharacterMovement(
-                Rigidbody,
-                CharacterData.SpeedMove,
-                CharacterData.SpeedRun,
-                CharacterData.JumpForce,
-                CharacterData.RollDistance);
+            /*SpriteRenderer = GetComponent<SpriteRenderer>();
+            Animator = GetComponent<Animator>();*/
+            Movement = new CharacterMovement(Rigidbody, CharacterData);
 
-            StateMachine = new CharacterStateMachine(this);
+            StateMachine = new CharacterStateMachine(this, SpriteRenderer, Animator);
             Controller = new InputController(this); ///
         }
 
