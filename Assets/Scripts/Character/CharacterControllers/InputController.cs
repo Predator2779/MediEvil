@@ -26,7 +26,7 @@ namespace Character.CharacterControllers
 
         private bool CheckWalking()
         {
-            if (_inputHandler.GetHorizontalAxis() == 0) return false;
+            if (!Movement.IsGrounded() || _inputHandler.GetHorizontalAxis() == 0) return false;
 
             Movement.Direction = GetDirection();
             StateMachine.ChangeState(_inputHandler.GetShiftBtn()
@@ -37,7 +37,7 @@ namespace Character.CharacterControllers
 
         private bool CheckJump()
         {
-            if (!Movement.IsGrounded || _inputHandler.GetVerticalAxis() <= 0) return false;
+            if (!Movement.IsGrounded() || _inputHandler.GetVerticalAxis() <= 0) return false;
 
             StateMachine.ChangeState(StateMachine.JumpState);
             return true;
@@ -45,7 +45,7 @@ namespace Character.CharacterControllers
 
         private bool CheckFall()
         {
-            if (Movement.IsGrounded) return false;
+            if (Movement.IsGrounded()) return false;
 
             StateMachine.ChangeState(StateMachine.FallState);
             return true;
@@ -53,7 +53,7 @@ namespace Character.CharacterControllers
 
         private bool CheckRoll()
         {
-            if (!_inputHandler.GetSpaceBtn()) return false;
+            if (!Movement.IsGrounded() || !_inputHandler.GetSpaceBtn()) return false;
 
             StateMachine.ChangeState(StateMachine.RollState);
             return true;

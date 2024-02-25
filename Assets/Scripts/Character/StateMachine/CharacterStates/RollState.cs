@@ -18,7 +18,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void FixedExecute()
         {
-            if (Movement.IsGrounded) Movement.Roll();
+            if (Movement.IsGrounded()) Movement.Roll();
         }
     }
 }

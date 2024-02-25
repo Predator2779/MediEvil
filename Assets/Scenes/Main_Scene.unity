@@ -11868,6 +11868,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 433625054600976931, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
+      propertyPath: m_Name
+      value: Animation
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528108783186286734, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.716
+      objectReference: {fileID: 0}
     - target: {fileID: 5906106786512987773, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
       propertyPath: m_UpdateMode
       value: 0

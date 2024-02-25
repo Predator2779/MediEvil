@@ -12,11 +12,10 @@ namespace Character.StateMachine.CharacterStates
         protected Animator Animator { get; }
         protected CharacterMovement Movement { get; }
         protected CharacterStateMachine StateMachine { get; }
-        
-        protected string Animation { get; set; }
+        protected string Animation { get; }
 
         public bool IsCompleted = true;
-        
+
         protected CharacterState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName)
         {
             Person = person;
@@ -27,30 +26,16 @@ namespace Character.StateMachine.CharacterStates
             Animation = animName;
         }
 
-        public virtual void Enter()
-        {
-            Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
-        }
-
-        public virtual void Execute()
-        {
-        }
-
-        public virtual void FixedExecute()
-        {
-        }
-
+        public virtual void Enter() => Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
+        public virtual void Execute() {}
+        public virtual void FixedExecute() {}
         protected void SafetyCompleting() => IsCompleted = AnimationCompleted();
+        public virtual void Exit() => Animator.StopPlayback();
 
         public bool AnimationCompleted()
         {
             var animInfo = Animator.GetCurrentAnimatorStateInfo(0);
             return animInfo.normalizedTime >= animInfo.length + GlobalConstants.AnimDelay;
-        }
-
-        public virtual void Exit()
-        {
-            Animator.StopPlayback();
         }
     }
 }

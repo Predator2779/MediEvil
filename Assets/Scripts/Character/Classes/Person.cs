@@ -20,14 +20,11 @@ namespace Character.Classes
         private void Start() => Initialize();
         private void Update() => Controller.Execute();
         private void FixedUpdate() => Controller.FixedExecute();
-        private void OnCollisionEnter2D(Collision2D other) => Movement.IsGrounded = true;
-        private void OnCollisionExit2D(Collision2D other) => Movement.IsGrounded = false;
+        private void OnCollisionStay2D(Collision2D other) => Movement.ContactPoint = other.contacts[0].point;
 
         protected virtual void Initialize()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
-            /*SpriteRenderer = GetComponent<SpriteRenderer>();
-            Animator = GetComponent<Animator>();*/
             Movement = new CharacterMovement(Rigidbody, CharacterData);
 
             StateMachine = new CharacterStateMachine(this, SpriteRenderer, Animator);

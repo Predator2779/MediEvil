@@ -11,15 +11,15 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Enter()
         {
-            if (Movement.IsGrounded) return;
+            if (Movement.IsGrounded()) return;
             IsCompleted = false;
             
             base.Enter();
         }
 
-        public override void FixedExecute()
+        public override void Execute()
         {
-            if (!Movement.IsGrounded) return;
+            if (!Movement.IsGrounded()) return;
             IsCompleted = true;
         }
     }

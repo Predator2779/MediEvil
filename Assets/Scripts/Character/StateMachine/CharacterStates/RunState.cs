@@ -12,7 +12,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void FixedExecute()
         {
-            if (Movement.IsGrounded) Movement.Run();
+            if (Movement.IsGrounded()) Movement.Run();
         }
     }
 }

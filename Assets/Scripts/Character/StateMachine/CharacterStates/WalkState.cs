@@ -11,7 +11,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Enter()
         {
-            if (!Movement.IsGrounded) return;
+            if (!Movement.IsGrounded()) return;
             base.Enter();
         }
 
@@ -22,7 +22,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void FixedExecute()
         {
-            if (Movement.IsGrounded) Movement.Walk();
+            if (Movement.IsGrounded()) Movement.Walk();
         }
     }
 }

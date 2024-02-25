@@ -7,7 +7,7 @@ namespace Character.Movement
     public class CharacterMovement
     {
         public Vector2 Direction { get; set; }
-        public bool IsGrounded { get; set; } = true;
+        public Vector2 ContactPoint { get; set; }
         private Rigidbody2D _rbody;
         private CharacterData _data;
 
@@ -20,7 +20,9 @@ namespace Character.Movement
         public void Walk() => _rbody.velocity = Direction * _data.SpeedMove * GlobalConstants.CoefPersonSpeed;
         public void Run() => _rbody.velocity = Direction * _data.SpeedRun * GlobalConstants.CoefPersonSpeed;
         public void Jump() => _rbody.AddForce(GetJumpVector() * _data.JumpForce * _rbody.mass, ForceMode2D.Impulse);
+        // public void Jump() => _rbody.AddForce(GetJumpVector() * _data.JumpForce * _rbody.mass, ForceMode2D.Impulse);
         public void Roll() => _rbody.velocity = Direction.normalized * _data.RollDistance;
-        private Vector2 GetJumpVector() => new Vector2(Direction.x, 1);
+        public bool IsGrounded() => Mathf.Abs(_rbody.position.y - ContactPoint.y) <= GlobalConstants.MaxWalkHeight;
+        private Vector2 GetJumpVector() => new Vector2(Direction.x / 2, 1);
     }
 }
