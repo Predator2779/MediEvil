@@ -8,22 +8,21 @@ namespace Character.StateMachine.CharacterStates
     public abstract class CharacterState
     {
         protected Person Person { get; }
+        protected CharacterStateMachine StateMachine { get; }
         protected SpriteRenderer SpriteRenderer { get; }
         protected Animator Animator { get; }
         protected CharacterMovement Movement { get; }
-        protected CharacterStateMachine StateMachine { get; }
-        protected string Animation { get; }
+        protected string Animation { get; set; }
 
         public bool IsCompleted = true;
 
-        protected CharacterState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName)
+        protected CharacterState(Person person, CharacterStateMachine stateMachine, SpriteRenderer spriteRenderer, Animator animator, CharacterMovement movement)
         {
             Person = person;
+            StateMachine = stateMachine;
             SpriteRenderer = spriteRenderer;
             Animator = animator;
-            Movement = person.Movement;
-            StateMachine = person.StateMachine;
-            Animation = animName;
+            Movement = movement;
         }
 
         public virtual void Enter() => Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
@@ -32,7 +31,7 @@ namespace Character.StateMachine.CharacterStates
         protected void SafetyCompleting() => IsCompleted = AnimationCompleted();
         public virtual void Exit() => Animator.StopPlayback();
 
-        public bool AnimationCompleted()
+        protected bool AnimationCompleted()
         {
             var animInfo = Animator.GetCurrentAnimatorStateInfo(0);
             return animInfo.normalizedTime >= animInfo.length + GlobalConstants.AnimDelay;

@@ -27,13 +27,14 @@ namespace Character.Classes
             Rigidbody = GetComponent<Rigidbody2D>();
             Movement = new CharacterMovement(Rigidbody, CharacterData);
 
-            StateMachine = new CharacterStateMachine(this, SpriteRenderer, Animator);
+            StateMachine = new CharacterStateMachine(this, SpriteRenderer, Animator, Movement);
             Controller = new InputController(this); ///
         }
 
         public void Die()
         {
-            print("You Died");
+            if (!IsPlayer) gameObject.SetActive(false);
+            else Debug.Log("Respawn...");
         }
     }
 }

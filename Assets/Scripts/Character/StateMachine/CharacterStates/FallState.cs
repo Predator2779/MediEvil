@@ -1,19 +1,23 @@
 ﻿using Character.Classes;
+using Character.Movement;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class FallState : CharacterState
     {
-        public FallState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName) : base(person, spriteRenderer, animator, animName)
+        public FallState(Person person, CharacterStateMachine stateMachine, SpriteRenderer spriteRenderer,
+            Animator animator, CharacterMovement movement) : base(person, stateMachine, spriteRenderer, animator,
+            movement)
         {
+            Animation = "fall";
         }
 
         public override void Enter()
         {
             if (Movement.IsGrounded()) return;
             IsCompleted = false;
-            
+
             base.Enter();
         }
 

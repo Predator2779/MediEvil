@@ -1,13 +1,16 @@
 ﻿using Character.Classes;
+using Character.Movement;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class RunState : WalkState
     {
-        private SpriteRenderer SpriteRenderer { get; }
-        public RunState(Person person, SpriteRenderer spriteRenderer, Animator animator, string animName) : base(person, spriteRenderer, animator, animName)
+        public RunState(Person person, CharacterStateMachine stateMachine, SpriteRenderer spriteRenderer,
+            Animator animator, CharacterMovement movement) : base(person, stateMachine, spriteRenderer, animator,
+            movement)
         {
+            Animation = "run";
         }
 
         public override void FixedExecute()

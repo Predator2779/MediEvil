@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.Movement;
 using Character.StateMachine.CharacterStates;
 using UnityEngine;
 
@@ -18,19 +19,21 @@ namespace Character.StateMachine
         private readonly CharacterState _defaultState;
         private readonly SpriteRenderer _spriteRenderer;
         private readonly Animator _animator;
+        private readonly CharacterMovement _movement;
 
-        public CharacterStateMachine(Person person, SpriteRenderer spriteRenderer, Animator animator)
+        public CharacterStateMachine(Person person, SpriteRenderer spriteRenderer, Animator animator, CharacterMovement movement)
         {
             _person = person;
             _spriteRenderer = spriteRenderer;
             _animator = animator;
-            
-            IdleState = new IdleState(_person, _spriteRenderer, _animator, "idle");
-            WalkState = new WalkState(_person, _spriteRenderer, _animator, "walk");
-            RunState = new RunState(_person, _spriteRenderer, _animator, "run");
-            JumpState = new JumpState(_person, _spriteRenderer, _animator, "jump");
-            RollState = new RollState(_person, _spriteRenderer, _animator, "roll");
-            FallState = new FallState(_person, _spriteRenderer, _animator, "fall");
+            _movement = movement;
+
+            IdleState = new IdleState(_person, this, _spriteRenderer, _animator, _movement);
+            WalkState = new WalkState(_person, this, _spriteRenderer, _animator, _movement);
+            RunState = new RunState(_person, this, _spriteRenderer, _animator, _movement);
+            JumpState = new JumpState(_person, this, _spriteRenderer, _animator, _movement);
+            RollState = new RollState(_person, this, _spriteRenderer, _animator, _movement);
+            FallState = new FallState(_person, this, _spriteRenderer, _animator, _movement);
 
             _defaultState = IdleState;
             CurrentState = _defaultState;
