@@ -1,12 +1,10 @@
 ﻿using Character.Classes;
-using Character.Movement;
-using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class RollState : WalkState
     {
-        public RollState(Person person, CharacterStateMachine stateMachine, SpriteRenderer spriteRenderer, Animator animator, CharacterMovement movement) : base(person, stateMachine, spriteRenderer, animator, movement)
+        public RollState(Person person) : base(person)
         {
             Animation = "roll";
         }
@@ -14,7 +12,7 @@ namespace Character.StateMachine.CharacterStates
         public override void Enter()
         {
             base.Enter();
-            if (Movement.IsGrounded()) Movement.Roll();
+            if (Person.Movement.IsGrounded()) Person.Movement.Roll();
         }
 
         public override void Execute() => SafetyCompleting();

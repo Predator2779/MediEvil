@@ -1,14 +1,11 @@
 ﻿using Character.Classes;
-using Character.Movement;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class DeathState : CharacterState
     {
-        public DeathState(Person person, CharacterStateMachine stateMachine, SpriteRenderer spriteRenderer,
-            Animator animator, CharacterMovement movement) : base(person, stateMachine, spriteRenderer,
-            animator, movement)
+        public DeathState(Person person) : base(person)
         {
             Animation = "death";
         }
@@ -23,9 +20,14 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Exit()
         {
+            if (AnimationCompleted()) Die();
             base.Exit();
+        }
 
-            if (AnimationCompleted()) Person.Die();
+        private void Die()
+        {
+            if (!Person.IsPlayer) Person.gameObject.SetActive(false);
+            else Debug.Log("Respawn...");
         }
     }
 }

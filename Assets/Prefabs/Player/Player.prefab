@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7651224126770126167}
   - component: {fileID: 6813508664459594007}
   - component: {fileID: 9063228544352015901}
+  - component: {fileID: 1835442689066980825}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -113,6 +114,18 @@ MonoBehaviour:
   <CharacterData>k__BackingField: {fileID: 11400000, guid: 0273e2e790b6d2146a283184f3e968a4, type: 2}
   <SpriteRenderer>k__BackingField: {fileID: 3065968226293437915}
   <Animator>k__BackingField: {fileID: 9176338725814044845}
+--- !u!114 &1835442689066980825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469971179110142143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbbb490dbc240d8829acf053f06ba49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8644748040019189349
 GameObject:
   m_ObjectHideFlags: 0

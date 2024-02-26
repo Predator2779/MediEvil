@@ -1,62 +1,61 @@
-﻿using Character.Classes;
-using Character.StateMachine.CharacterStates;
-using Input;
+﻿using Input;
 using UnityEngine;
 
 namespace Character.CharacterControllers
 {
     public class InputController : Controller
     {
-        private readonly InputHandler _inputHandler;
-
-        public InputController(Person person) : base(person)
-        {
-            _inputHandler = new InputHandler();
-        }
+        private InputHandler _inputHandler;
 
         protected override void CheckConditions()
         {
+            SetDirection();
+            
             if (CheckFall()) return;
             if (CheckJump()) return;
             if (CheckRoll()) return;
             if (CheckWalking()) return;
 
-            StateMachine.ExitState();
+            Person.Idle();
         }
 
-        private bool CheckWalking()
+        protected override void Initialize()
         {
-            if (!Movement.IsGrounded() || _inputHandler.GetHorizontalAxis() == 0) return false;
-            
-            SetTempDirection();
-            Movement.Direction = GetDirection();
-            StateMachine.ChangeState(_inputHandler.GetShiftBtn()
-                ? (CharacterState) StateMachine.RunState
-                : StateMachine.WalkState);
+            base.Initialize();
+            _inputHandler = new InputHandler();
+        }
+
+        private bool CheckFall()
+        {
+            if (!Person.Movement.IsFall()) return false;
+
+            Person.Fall();
             return true;
         }
 
         private bool CheckJump()
         {
-            if (!Movement.IsGrounded() || _inputHandler.GetVerticalAxis() <= 0) return false;
+            if (!Person.Movement.IsGrounded() || _inputHandler.GetVerticalAxis() <= 0) return false;
 
-            StateMachine.ChangeState(StateMachine.JumpState);
-            return true;
-        }
-
-        private bool CheckFall()
-        {
-            if (Movement.IsGrounded()) return false;
-
-            StateMachine.ChangeState(StateMachine.FallState);
+            Person.Jump();
             return true;
         }
 
         private bool CheckRoll()
         {
-            if (!Movement.IsGrounded() || !_inputHandler.GetSpaceBtn()) return false;
+            if (!Person.Movement.IsGrounded() || !_inputHandler.GetSpaceBtn()) return false;
 
-            StateMachine.ChangeState(StateMachine.RollState);
+            Person.Roll();
+            return true;
+        }
+
+        private bool CheckWalking()
+        {
+            if (!Person.Movement.IsGrounded() || _inputHandler.GetHorizontalAxis() == 0) return false;
+
+            if (_inputHandler.GetShiftBtn()) Person.Run();
+            else Person.Walk();
+
             return true;
         }
 
@@ -64,10 +63,12 @@ namespace Character.CharacterControllers
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());
 
-        private void SetTempDirection()
+        private void SetDirection()
         {
+            Person.Movement.Direction = GetDirection();
+            
             if (_inputHandler.GetHorizontalAxis() != 0)
-                Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
+                Person.Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
         }
     }
 }

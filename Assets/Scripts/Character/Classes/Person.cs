@@ -8,33 +8,33 @@ namespace Character.Classes
     [RequireComponent(typeof(Rigidbody2D))]
     public class Person : MonoBehaviour
     {
-        [field: SerializeField] private bool IsPlayer { get; set; }
-        [field: SerializeField] private CharacterData CharacterData { get; set; }
-        [field: SerializeField] private SpriteRenderer SpriteRenderer { get; set; }
-        [field: SerializeField] private Animator Animator { get; set; }
+        [field: SerializeField] public bool IsPlayer { get; set; }
+        [field: SerializeField] public CharacterData CharacterData { get; set; }
+        [field: SerializeField] public SpriteRenderer SpriteRenderer { get; set; }
+        [field: SerializeField] public Animator Animator { get; set; }
         protected Controller Controller { get; set; } // // //
-        protected Rigidbody2D Rigidbody { set; get; }
-        public CharacterStateMachine StateMachine { get; protected set; }
-        public CharacterMovement Movement { get; protected set; }
-
-        private void Start() => Initialize();
-        private void Update() => Controller.Execute();
-        private void FixedUpdate() => Controller.FixedExecute();
+        private Rigidbody2D Rigidbody { set; get; }
+        public CharacterMovement Movement { get; private set; }
+        private CharacterStateMachine StateMachine { get; set; }
+        
+        public void Execute() => StateMachine.ExecuteState();
+        public void FixedExecute() => StateMachine.FixedExecute();
         private void OnCollisionStay2D(Collision2D other) => Movement.ContactPoint = other.contacts[0].point;
 
-        protected virtual void Initialize()
+        public virtual void Initialize()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
             Movement = new CharacterMovement(Rigidbody, CharacterData);
 
-            StateMachine = new CharacterStateMachine(this, SpriteRenderer, Animator, Movement);
-            Controller = new InputController(this); ///
+            StateMachine = new CharacterStateMachine(this);
         }
 
-        public void Die()
-        {
-            if (!IsPlayer) gameObject.SetActive(false);
-            else Debug.Log("Respawn...");
-        }
+        public void Idle() => StateMachine.ChangeState(StateMachine.IdleState);
+        public void Walk() => StateMachine.ChangeState(StateMachine.WalkState);
+        public void Run() => StateMachine.ChangeState(StateMachine.RunState);
+        public void Jump() => StateMachine.ChangeState(StateMachine.JumpState);
+        public void Roll() => StateMachine.ChangeState(StateMachine.RollState);
+        public void Fall() => StateMachine.ChangeState(StateMachine.FallState);
+        public void Die() => StateMachine.ChangeState(StateMachine.DeathState);
     }
 }

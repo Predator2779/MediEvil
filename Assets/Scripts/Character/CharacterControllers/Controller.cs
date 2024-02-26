@@ -1,36 +1,34 @@
 ﻿using Character.Classes;
-using Character.Movement;
-using Character.StateMachine;
+using UnityEngine;
 
 namespace Character.CharacterControllers
 {
-    public abstract class Controller
+    [RequireComponent(typeof(Person))]
+    public abstract class Controller : MonoBehaviour
     {
-        public Person Person { get; }
-        public CharacterStateMachine StateMachine { get; }
-        public CharacterMovement Movement { get; }
+        protected Person Person { get; set; }
 
-        public Controller(Person person)
+        private void Start() => Initialize();
+        private void Update() => Execute();
+        private void FixedUpdate() => FixedExecute();
+
+        protected virtual void Initialize()
         {
-            Person = person;
-            StateMachine = person.StateMachine;
-            Movement = person.Movement;
+            Person = GetComponent<Person>();
+            Person.Initialize();
         }
 
-        public virtual void Execute()
+        protected virtual void Execute()
         {
             CheckConditions();
-            StateMachine.ExecuteState();
+            Person.Execute();
         }
 
-        public virtual void FixedExecute()
-        {
-            StateMachine.FixedExecute();
-        }
+        protected virtual void FixedExecute() => Person.FixedExecute();
 
         protected virtual void CheckConditions()
         {
-            if (Condition1) StateMachine.ChangeState(StateMachine.IdleState);
+            if (Condition1) Person.Idle();
 
             /// ...
         }

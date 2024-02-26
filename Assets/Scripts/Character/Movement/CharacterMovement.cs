@@ -1,5 +1,4 @@
-﻿using Character.Classes;
-using Global;
+﻿using Global;
 using UnityEngine;
 
 namespace Character.Movement
@@ -18,16 +17,18 @@ namespace Character.Movement
             _data = data;
         }
 
-        public void Walk() => _rbody.velocity = Direction * _data.SpeedMove * GlobalConstants.CoefPersonSpeed;
-        public void Run() => _rbody.velocity = Direction * _data.SpeedRun * GlobalConstants.CoefPersonSpeed;
+        public void Walk() => _rbody.velocity = GetHorizontalDirection() * _data.SpeedMove * GlobalConstants.CoefPersonSpeed;
+        public void Run() => _rbody.velocity = GetHorizontalDirection() * _data.SpeedRun * GlobalConstants.CoefPersonSpeed;
         public void Roll() => _rbody.velocity = TempDirection.normalized * _data.RollDistance;
         public bool IsGrounded() => Mathf.Abs(_rbody.position.y - ContactPoint.y) <= GlobalConstants.MaxWalkHeight;
+        public bool IsFall() => _rbody.velocity.y < 0;
         private Vector2 GetJumpVector() => new Vector2(Direction.x, 1);
+        private Vector2 GetHorizontalDirection() => new Vector2(Direction.x, 0);
 
         public void Jump()
         {
             _rbody.velocity = Vector2.zero;
-            _rbody.AddForce(Direction.normalized * _data.JumpForce * _rbody.mass, ForceMode2D.Impulse);
+            _rbody.AddForce(GetJumpVector() * _data.JumpForce * _rbody.mass, ForceMode2D.Impulse);
         }
     }
 }

@@ -1,31 +1,28 @@
 ﻿using Character.Classes;
-using Character.Movement;
-using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class JumpState : CharacterState
     {
-        public JumpState(Person person, CharacterStateMachine stateMachine, SpriteRenderer spriteRenderer,
-            Animator animator, CharacterMovement movement) : base(person, stateMachine, spriteRenderer, animator,
-            movement)
+        public JumpState(Person person) : base(person)
         {
             Animation = "jump";
         }
 
         public override void Enter()
         {
-            if (!Movement.IsGrounded()) return;
-
+            if (!Person.Movement.IsGrounded()) return;
+            
             base.Enter();
-            Movement.Jump();
+            Person.Movement.Jump();
         }
 
         public override void Execute()
         {
-            if (Movement.IsGrounded())
-                Person.StateMachine.ExitState();
-            else StateMachine.ChangeState(StateMachine.FallState);
+
+            
+            /*if (Person.Movement.IsGrounded()) Person.Idle();
+            else Person.Fall();*/
         }
     }
 }
