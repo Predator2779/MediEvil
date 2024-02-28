@@ -16,8 +16,12 @@ namespace Character.StateMachine.CharacterStates
         }
 
         public virtual void Enter() => Person.Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
-        public virtual void Execute() {}
-        public virtual void FixedExecute() {}
+        public virtual void Execute()
+        {
+        }
+
+        public virtual void FixedExecute() => ChangingIndicators();
+
         protected void SafetyCompleting() => IsCompleted = AnimationCompleted();
         public virtual void Exit() => Person.Animator.StopPlayback();
 
@@ -25,6 +29,11 @@ namespace Character.StateMachine.CharacterStates
         {
             var animInfo = Person.Animator.GetCurrentAnimatorStateInfo(0);
             return animInfo.normalizedTime >= animInfo.length + GlobalConstants.AnimDelay;
+        }
+
+        protected virtual void ChangingIndicators()
+        {
+            if (Person.Stamina.CanRestore()) Person.Stamina.Increase(Person.Data.StaminaRecovery);
         }
     }
 }

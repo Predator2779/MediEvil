@@ -18,6 +18,10 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Execute() => SafetyCompleting();
 
+        public override void FixedExecute()
+        {
+        }
+
         public override void Exit()
         {
             if (AnimationCompleted()) Die();

@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
@@ -11,18 +12,11 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Enter()
         {
-            if (!Person.Movement.IsGrounded()) return;
+            if (!Person.Movement.IsGrounded() || !Person.Stamina.CanUse()) return;
             
             base.Enter();
             Person.Movement.Jump();
-        }
-
-        public override void Execute()
-        {
-
-            
-            /*if (Person.Movement.IsGrounded()) Person.Idle();
-            else Person.Fall();*/
+            Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
         }
     }
 }

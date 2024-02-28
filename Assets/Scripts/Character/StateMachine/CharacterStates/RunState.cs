@@ -8,10 +8,14 @@ namespace Character.StateMachine.CharacterStates
         {
             Animation = "run";
         }
-
+        
         public override void FixedExecute()
         {
-            if (Person.Movement.IsGrounded()) Person.Movement.Run();
+            if (!Person.Stamina.CanUse()) Person.Idle();
+            Person.Movement.Run();
+            ChangingIndicators();
         }
+
+        protected override void ChangingIndicators() => Person.Stamina.Decrease(Person.Data.StaminaUsage);
     }
 }

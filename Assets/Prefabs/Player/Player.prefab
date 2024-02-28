@@ -111,9 +111,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsPlayer>k__BackingField: 1
-  <CharacterData>k__BackingField: {fileID: 11400000, guid: 0273e2e790b6d2146a283184f3e968a4, type: 2}
+  <Data>k__BackingField: {fileID: 11400000, guid: 0273e2e790b6d2146a283184f3e968a4, type: 2}
   <SpriteRenderer>k__BackingField: {fileID: 3065968226293437915}
   <Animator>k__BackingField: {fileID: 9176338725814044845}
+  <HealthBar>k__BackingField: {fileID: 0}
+  <StaminaBar>k__BackingField: {fileID: 0}
+  <ManaBar>k__BackingField: {fileID: 0}
 --- !u!114 &1835442689066980825
 MonoBehaviour:
   m_ObjectHideFlags: 0

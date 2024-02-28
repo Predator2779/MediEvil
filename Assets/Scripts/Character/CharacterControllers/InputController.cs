@@ -9,7 +9,7 @@ namespace Character.CharacterControllers
 
         protected override void CheckConditions()
         {
-            SetDirection();
+            SetTempDirection();
             
             if (CheckFall()) return;
             if (CheckJump()) return;
@@ -27,7 +27,7 @@ namespace Character.CharacterControllers
 
         private bool CheckFall()
         {
-            if (!Person.Movement.IsFall()) return false;
+            if (Person.Movement.IsGrounded()) return false;
 
             Person.Fall();
             return true;
@@ -53,7 +53,7 @@ namespace Character.CharacterControllers
         {
             if (!Person.Movement.IsGrounded() || _inputHandler.GetHorizontalAxis() == 0) return false;
 
-            if (_inputHandler.GetShiftBtn()) Person.Run();
+            if (_inputHandler.GetShiftBtn() && Person.Stamina.CanUse()) Person.Run();
             else Person.Walk();
 
             return true;
@@ -63,7 +63,7 @@ namespace Character.CharacterControllers
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());
 
-        private void SetDirection()
+        private void SetTempDirection()
         {
             Person.Movement.Direction = GetDirection();
             

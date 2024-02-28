@@ -13,7 +13,6 @@ namespace Character.StateMachine.CharacterStates
         {
             if (Person.Movement.IsGrounded()) return;
             IsCompleted = false;
-
             base.Enter();
         }
 
