@@ -1,4 +1,5 @@
 ﻿using Character.ValueStorages.Bars;
+using System.Threading.Tasks;
 
 namespace Character.ValueStorages
 {
@@ -14,7 +15,7 @@ namespace Character.ValueStorages
             MaxValue = maxValue;
             Bar = bar;
         }
-
+        
         protected ValueBar Bar { get; }
         public float MinValue { get; } = 0;
         public float CurrentValue { get; private set; }
@@ -35,7 +36,7 @@ namespace Character.ValueStorages
         }
 
         public void SetValue(float value) => CurrentValue = value;
-        
+
         private void ChangeBar()
         {
             if (Bar != null) Bar.SetCurrentValue(GetPercentageRation());

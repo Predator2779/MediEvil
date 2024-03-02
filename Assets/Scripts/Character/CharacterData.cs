@@ -21,6 +21,8 @@ namespace Character
         public int CurrentStamina;
         public float StaminaRecovery;
         public float StaminaUsage;
+        [Tooltip("Millisecond")]
+        public int StaminaRestoreDelay;
         [Header("Mana")]
         public int MaxMana;
         public int CurrentMana;

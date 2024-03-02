@@ -11,7 +11,6 @@ namespace Character.StateMachine.CharacterStates
         
         public override void FixedExecute()
         {
-            if (!Person.Stamina.CanUse()) Person.Idle();
             Person.Movement.Run();
             ChangingIndicators();
         }

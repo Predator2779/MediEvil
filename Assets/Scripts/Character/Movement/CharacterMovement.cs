@@ -21,7 +21,7 @@ namespace Character.Movement
         public void Run() => _rbody.velocity = GetHorizontalDirection() * _data.SpeedRun * GlobalConstants.CoefPersonSpeed;
         public void Roll() => _rbody.velocity = TempDirection.normalized * _data.RollDistance;
         public bool IsGrounded() => Mathf.Abs(_rbody.position.y - ContactPoint.y) <= GlobalConstants.MaxGroundOffset;
-        public bool IsFall() => _rbody.velocity.y < -GlobalConstants.MaxGroundOffset;
+        // public bool IsFall() => _rbody.velocity.y < -GlobalConstants.MaxGroundOffset;
         private Vector2 GetJumpVector() => new Vector2(Direction.x, 1);
         private Vector2 GetHorizontalDirection() => new Vector2(Direction.x, 0);
 

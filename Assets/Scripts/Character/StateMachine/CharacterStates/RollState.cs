@@ -12,11 +12,9 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Enter()
         {
-            if (!Person.Movement.IsGrounded() || !Person.Stamina.CanUse()) return;
-            
             base.Enter();
             Person.Movement.Roll();
-            Person.Stamina.Decrease((int)(Person.Data.StaminaUsage * GlobalConstants.RollStaminaUsageCoef));
+            Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.RollStaminaUsageCoef);
         }
 
         public override void Execute() => SafetyCompleting();

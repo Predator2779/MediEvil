@@ -13,7 +13,9 @@ namespace Other
         private void LateUpdate()
         {
             transform.position = Vector3.Lerp(transform.position, 
-                _followObject.position + _offset, Time.deltaTime * _speed);
+                _followObject.position + _offset, _speed
+                // * Time.deltaTime
+                );
         }
     }
 }
