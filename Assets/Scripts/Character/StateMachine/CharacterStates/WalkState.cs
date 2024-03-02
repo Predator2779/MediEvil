@@ -22,7 +22,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void FixedExecute()
         {
-           base.FixedExecute();
+            base.FixedExecute();
             if (Person.Movement.IsGrounded()) Person.Movement.Walk();
         }
     }

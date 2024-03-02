@@ -18,7 +18,12 @@ namespace Character.StateMachine.CharacterStates
             Person.Movement.Jump();
             Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
         }
-        
+
+        public override void Execute()
+        {
+            if (Person.Movement.IsFall()) Person.Fall();
+        }
+
         public override void FixedExecute()
         {
         }
