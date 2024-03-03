@@ -35,7 +35,7 @@ namespace Character.CharacterControllers
 
         private bool CheckJump()
         {
-            if (!Person.Movement.IsGrounded() || _inputHandler.GetVerticalAxis() <= 0 || !Person.Stamina.CanUse()) return false;
+            if (!Person.Stamina.CanUse() || Person.Movement.IsFall() || _inputHandler.GetVerticalAxis() <= 0) return false;
 
             Person.Jump();
             return true;
@@ -43,7 +43,7 @@ namespace Character.CharacterControllers
 
         private bool CheckRoll()
         {
-            if (!Person.Movement.IsGrounded() || !_inputHandler.GetSpaceBtn() || !Person.Stamina.CanUse()) return false;
+            if (!Person.Stamina.CanUse() || !Person.Movement.IsGrounded() || !_inputHandler.GetSpaceBtn()) return false;
 
             Person.Roll();
             return true;

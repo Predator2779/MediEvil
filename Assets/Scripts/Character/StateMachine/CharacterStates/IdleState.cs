@@ -8,11 +8,5 @@ namespace Character.StateMachine.CharacterStates
         {
             Animation = "idle";
         }
-
-        public override void Enter()
-        {
-            if (!Person.Movement.IsGrounded()) return;
-            base.Enter();
-        }
     }
 }

@@ -11,8 +11,8 @@ namespace Character.StateMachine.CharacterStates
         
         public override void FixedExecute()
         {
-            Person.Movement.Run();
             ChangingIndicators();
+            Person.Movement.Run();
         }
 
         protected override void ChangingIndicators() => Person.Stamina.Decrease(Person.Data.StaminaUsage);

@@ -17,11 +17,12 @@ namespace Character.Classes
         [field: SerializeField] public ValueBar StaminaBar { get; set; }
         [field: SerializeField] public ValueBar ManaBar { get; set; }
         public CharacterMovement Movement { get; private set; }
+        private Rigidbody2D Rigidbody { set; get; }
+        public CharacterStateMachine StateMachine { get; set; }
+        // Прокинуть Zenject-ом
         public Health Health { get; private set; }
         public Stamina Stamina { get; private set; }
         public Mana Mana { get; private set; }
-        private Rigidbody2D Rigidbody { set; get; }
-        public CharacterStateMachine StateMachine { get; set; }
 
         public void Execute() => StateMachine.ExecuteState();
         public void FixedExecute() => StateMachine.FixedExecute();
@@ -29,15 +30,26 @@ namespace Character.Classes
 
         public virtual void Initialize()
         {
+            SetComponents();
+            SetValues();
+        }
+
+        private void SetComponents()
+        {
             Rigidbody = GetComponent<Rigidbody2D>();
             Movement = new CharacterMovement(Rigidbody, Data);
             StateMachine = new CharacterStateMachine(this);
+        }
 
+        private void SetValues()
+        {
             Health = new Health(this, Data.MaxHealth, HealthBar);
-            Health.SetValue(Health.MaxValue);
             Stamina = new Stamina(this, Data.MaxStamina, StaminaBar);
-            Stamina.SetValue(Stamina.MaxValue);
             Mana = new Mana(this, Data.MaxMana, ManaBar);
+            
+            // Set current values
+            Health.SetValue(Health.MaxValue);
+            Stamina.SetValue(Stamina.MaxValue);
             Mana.SetValue(Mana.MaxValue);
         }
 

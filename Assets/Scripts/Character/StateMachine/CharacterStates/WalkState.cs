@@ -8,13 +8,7 @@ namespace Character.StateMachine.CharacterStates
         {
             Animation = "walk";
         }
-
-        public override void Enter()
-        {
-            if (!Person.Movement.IsGrounded()) return;
-            base.Enter();
-        }
-
+        
         public override void Execute()
         {
             Person.SpriteRenderer.flipX = Person.Movement.Direction.x < 0;

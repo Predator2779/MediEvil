@@ -11,7 +11,6 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Enter()
         {
-            if (Person.Movement.IsGrounded()) return;
             IsCompleted = false;
             base.Enter();
         }

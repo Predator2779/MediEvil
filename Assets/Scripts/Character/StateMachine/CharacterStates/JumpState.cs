@@ -12,20 +12,11 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Enter()
         {
-            if (!Person.Movement.IsGrounded() || !Person.Stamina.CanUse()) return;
-            
             base.Enter();
             Person.Movement.Jump();
             Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
         }
-
-        public override void Execute()
-        {
-            if (Person.Movement.IsFall()) Person.Fall();
-        }
-
-        public override void FixedExecute()
-        {
-        }
+        
+        public override void Execute() => SafetyCompleting();
     }
 }
