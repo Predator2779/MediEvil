@@ -13223,10 +13223,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 433625054600976931, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
-      propertyPath: m_Name
-      value: Animation
-      objectReference: {fileID: 0}
     - target: {fileID: 881532817876587099, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
       propertyPath: <ManaBar>k__BackingField
       value: 
@@ -13239,29 +13235,9 @@ PrefabInstance:
       propertyPath: <StaminaBar>k__BackingField
       value: 
       objectReference: {fileID: 8914844492926989520}
-    - target: {fileID: 3184349744404497142, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5528108783186286734, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.716
-      objectReference: {fileID: 0}
-    - target: {fileID: 5906106786512987773, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
-      propertyPath: m_UpdateMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5906106786512987773, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5999311918675499692, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
       propertyPath: m_Name
       value: PLAYER (Prefab)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5999311918675499692, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7275331004135697177, guid: c291443d9e0eb3346ad122f45490afd9, type: 3}
       propertyPath: m_LocalPosition.x
