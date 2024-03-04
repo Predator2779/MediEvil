@@ -10,7 +10,8 @@ namespace Character.CharacterControllers
         protected override void CheckConditions()
         {
             SetTempDirection();
-            
+
+            // if (CheckSlide()) return;
             if (CheckFall()) return;
             if (CheckJump()) return;
             if (CheckRoll()) return;
@@ -25,9 +26,20 @@ namespace Character.CharacterControllers
             _inputHandler = new InputHandler();
         }
 
+        private bool CheckSlide()
+        {
+            /*if (Person.Movement.IsGrounded() && Person.Movement.IsSlide())
+            {
+                Person.Slide();
+                return true;
+            }*/
+            
+            return false;
+        }   
+        
         private bool CheckFall()
         {
-            if (!Person.Movement.IsFall()) return false;
+            if (Person.Movement.IsGrounded() || !Person.Movement.IsFall()) return false;
 
             Person.Fall();
             return true;

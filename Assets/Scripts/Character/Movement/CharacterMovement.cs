@@ -8,6 +8,8 @@ namespace Character.Movement
         public Vector2 Direction { get; set; }
         public Vector2 TempDirection { get; set; } = new Vector2(1, 0);
         public Vector2 ContactPoint { get; set; }
+        public Vector2 ContactNormal { get; set; }
+
         private Rigidbody2D _rbody;
         private CharacterData _data;
 
@@ -17,14 +19,17 @@ namespace Character.Movement
             _data = data;
         }
 
-        public void Walk() => _rbody.velocity = GetHorizontalDirection() * _data.SpeedMove * GlobalConstants.CoefPersonSpeed;
-        public void Run() => _rbody.velocity = GetHorizontalDirection() * _data.SpeedRun * GlobalConstants.CoefPersonSpeed;
+        public void Walk() => _rbody.velocity = GetHorizontalDirection(_data.SpeedMove * GlobalConstants.CoefPersonSpeed);
+        public void Run() => _rbody.velocity = GetHorizontalDirection(_data.SpeedRun * GlobalConstants.CoefPersonSpeed);
         public void Roll() => _rbody.velocity = GetRollVector() * _data.RollDistance;
         public bool IsGrounded() => Mathf.Abs(_rbody.position.y - ContactPoint.y) <= GlobalConstants.MaxGroundOffset;
         public bool IsFall() => _rbody.velocity.y < -GlobalConstants.FallSpeed;
+
+        // public bool IsSlide() => Mathf.Abs(_rbody.velocity.x) > GlobalConstants.SlideSpeed && _rbody.velocity.y < -GlobalConstants.SlideSpeed;
+        private Vector2 GetHorizontalDirection(float speed) => new Vector2(Direction.x * speed, _rbody.velocity.y);
         private Vector2 GetRollVector() => new Vector2(TempDirection.normalized.x, GlobalConstants.RollVerticalForce);
         private Vector2 GetJumpVector() => new Vector2(Direction.x, 1);
-        private Vector2 GetHorizontalDirection() => new Vector2(Direction.x, 0);
+        public float GetHorizontalVelocity() => _rbody.velocity.x;
 
         public void Jump()
         {

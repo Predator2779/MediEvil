@@ -26,7 +26,12 @@ namespace Character.Classes
 
         public void Execute() => StateMachine.ExecuteState();
         public void FixedExecute() => StateMachine.FixedExecute();
-        private void OnCollisionStay2D(Collision2D other) => Movement.ContactPoint = other.contacts[0].point;
+
+        private void OnCollisionStay2D(Collision2D other)
+        {
+            Movement.ContactPoint = other.contacts[0].point;
+            Movement.ContactNormal = other.contacts[0].normal;
+        }
 
         public virtual void Initialize()
         {
@@ -60,5 +65,6 @@ namespace Character.Classes
         public void Roll() => StateMachine.ChangeState(StateMachine.RollState);
         public void Fall() => StateMachine.ChangeState(StateMachine.FallState);
         public void Die() => StateMachine.ChangeState(StateMachine.DeathState);
+        public void Slide() => StateMachine.ChangeState(StateMachine.SlideState);
     }
 }

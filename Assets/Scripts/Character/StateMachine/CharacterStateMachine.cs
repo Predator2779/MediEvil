@@ -12,7 +12,8 @@ namespace Character.StateMachine
         public JumpState JumpState { get; }
         public FallState FallState { get; }
         public RollState RollState { get; }
-        public CharacterState DeathState { get; set; }
+        public SlideState SlideState { get; }
+        public DeathState DeathState { get; }
 
         private readonly Person _person;
         private readonly CharacterState _defaultState;
@@ -27,6 +28,7 @@ namespace Character.StateMachine
             JumpState = new JumpState(_person);
             RollState = new RollState(_person);
             FallState = new FallState(_person);
+            SlideState = new SlideState(_person);
             DeathState = new DeathState(_person);
 
             _defaultState = IdleState;

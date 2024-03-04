@@ -8,11 +8,6 @@ namespace Character.StateMachine.CharacterStates
         {
             Animation = "walk";
         }
-        
-        public override void Execute()
-        {
-            Person.SpriteRenderer.flipX = Person.Movement.Direction.x < 0;
-        }
 
         public override void FixedExecute()
         {
