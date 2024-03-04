@@ -27,7 +27,7 @@ namespace Character.CharacterControllers
 
         private bool CheckFall()
         {
-            if (Person.Movement.IsGrounded() || !Person.Movement.IsFall()) return false;
+            if (!Person.Movement.IsFall()) return false;
 
             Person.Fall();
             return true;

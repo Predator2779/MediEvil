@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
@@ -15,6 +16,6 @@ namespace Character.StateMachine.CharacterStates
             Person.Movement.Run();
         }
 
-        protected override void ChangingIndicators() => Person.Stamina.Decrease(Person.Data.StaminaUsage);
+        protected override void ChangingIndicators() => Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.RunStaminaUsageCoef);
     }
 }
