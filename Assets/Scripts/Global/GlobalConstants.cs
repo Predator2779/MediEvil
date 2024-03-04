@@ -7,6 +7,6 @@
         public const float AnimDelay = 0.45f;
         public const float MaxGroundOffset = 0.02f;
         public const float JumpStaminaUsageCoef = 40;
-        public const float RollStaminaUsageCoef = 25;
+        public const float RollStaminaUsageCoef = 1;
     }
 }
