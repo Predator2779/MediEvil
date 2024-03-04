@@ -14,9 +14,13 @@ namespace Character.StateMachine.CharacterStates
         {
             base.Enter();
             Person.Movement.Jump();
-            Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
         }
         
         public override void Execute() => SafetyCompleting();
+
+        public override void FixedExecute()
+        {
+            Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
+        }
     }
 }

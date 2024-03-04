@@ -19,10 +19,11 @@ namespace Character.Movement
 
         public void Walk() => _rbody.velocity = GetHorizontalDirection() * _data.SpeedMove * GlobalConstants.CoefPersonSpeed;
         public void Run() => _rbody.velocity = GetHorizontalDirection() * _data.SpeedRun * GlobalConstants.CoefPersonSpeed;
-        public void Roll() => _rbody.velocity = TempDirection.normalized * _data.RollDistance;
+        public void Roll() => _rbody.velocity = GetRollVector() * _data.RollDistance;
         public bool IsGrounded() => Mathf.Abs(_rbody.position.y - ContactPoint.y) <= GlobalConstants.MaxGroundOffset;
         public bool IsFall() => _rbody.velocity.y < -GlobalConstants.MaxGroundOffset;
         private Vector2 GetJumpVector() => new Vector2(Direction.x, 1);
+        private Vector2 GetRollVector() => new Vector2(TempDirection.normalized.x, 0.4f);
         private Vector2 GetHorizontalDirection() => new Vector2(Direction.x, 0);
 
         public void Jump()
