@@ -1,4 +1,5 @@
-﻿using Input;
+﻿using Global;
+using Input;
 using UnityEngine;
 
 namespace Character.CharacterControllers
@@ -11,9 +12,9 @@ namespace Character.CharacterControllers
         {
             SetTempDirection();
 
-            // if (CheckSlide()) return;
             if (CheckFall()) return;
             if (CheckJump()) return;
+            if (CheckSlide()) return;
             if (CheckRoll()) return;
             if (CheckWalking()) return;
 
@@ -26,17 +27,6 @@ namespace Character.CharacterControllers
             _inputHandler = new InputHandler();
         }
 
-        private bool CheckSlide()
-        {
-            /*if (Person.Movement.IsGrounded() && Person.Movement.IsSlide())
-            {
-                Person.Slide();
-                return true;
-            }*/
-            
-            return false;
-        }   
-        
         private bool CheckFall()
         {
             if (Person.Movement.IsGrounded() || !Person.Movement.IsFall()) return false;
@@ -50,6 +40,15 @@ namespace Character.CharacterControllers
             if (!Person.Stamina.CanUse() || Person.Movement.IsFall() || _inputHandler.GetVerticalAxis() <= 0) return false;
 
             Person.Jump();
+            return true;
+        }
+
+        private bool CheckSlide()
+        {
+            // bool для разового использования
+            if (!Person.Movement.IsGrounded() || !Person.Movement.CanSlide() || _inputHandler.GetVerticalAxis() >= 0) return false;
+
+            Person.Slide();
             return true;
         }
 

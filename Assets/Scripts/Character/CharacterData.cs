@@ -11,7 +11,9 @@ namespace Character
         public int SpeedMove;
         public int SpeedRun;
         public int JumpForce;
-        public int RollDistance;
+        public int RollForce;
+        public float SlideForce;
+        public float SlideLimitVelocity;
         [Space][Header("Parameters")]
         [Header("Health")]
         public int MaxHealth;
