@@ -1,4 +1,6 @@
-﻿using Character.Classes;
+﻿using System.Threading.Tasks;
+using Character.Classes;
+using Global;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
@@ -7,6 +9,7 @@ namespace Character.StateMachine.CharacterStates
     {
         private Transform _transform;
         private Vector2 _normal;
+
         public SlideState(Person person) : base(person)
         {
             Animation = "slide";
@@ -25,7 +28,6 @@ namespace Character.StateMachine.CharacterStates
             if (!Person.Movement.CanSlide()) Exit();
             base.Execute();
             RotateByNormal();
-            Person.Movement.Slide();
         }
 
         private void RotateByNormal()
@@ -33,11 +35,14 @@ namespace Character.StateMachine.CharacterStates
             float angle = Mathf.Atan2(_normal.x, _normal.y) * Mathf.Rad2Deg;
             _transform.rotation = Quaternion.Euler(0, 0, -angle);
         }
-        
+
         public override void Exit()
         {
             _transform.rotation = Quaternion.Euler(0, 0, 0);
             IsCompleted = true;
+            IsCooldown = true;
+            
+            Task.Delay(GlobalConstants.SlideCooldown).ContinueWith(_ => IsCooldown = false);
             base.Exit();
         }
     }

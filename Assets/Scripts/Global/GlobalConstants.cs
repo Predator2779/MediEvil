@@ -11,5 +11,6 @@
         public const float JumpStaminaUsageCoef = 3;
         public const float RollStaminaUsageCoef = 1;
         public const float RollVerticalForce = 0.4f;
+        public const int SlideCooldown = 1000;
     }
 }

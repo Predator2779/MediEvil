@@ -8,6 +8,7 @@ namespace Character.StateMachine.CharacterStates
         protected Person Person { get; }
         protected string Animation { get; set; }
 
+        public bool IsCooldown = false;
         public bool IsCompleted = true;
 
         protected CharacterState(Person person)

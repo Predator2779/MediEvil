@@ -5,7 +5,7 @@ namespace Character.StateMachine
 {
     public class CharacterStateMachine
     {
-        public CharacterState CurrentState { get; private set; }
+        private CharacterState CurrentState { get; set; }
         public IdleState IdleState { get; }
         public WalkState WalkState { get; }
         public RunState RunState { get; }
@@ -37,7 +37,7 @@ namespace Character.StateMachine
 
         public void ChangeState(CharacterState newState)
         {
-            if (CurrentState == newState || !CurrentState.IsCompleted) return;
+            if (CurrentState == newState || !CurrentState.IsCompleted || newState.IsCooldown) return;
 
             CurrentState?.Exit();
             CurrentState = newState;
