@@ -19,6 +19,7 @@ namespace Character.Classes
         public CharacterMovement Movement { get; private set; }
         private Rigidbody2D Rigidbody { set; get; }
         public CharacterStateMachine StateMachine { get; set; }
+        
         // Прокинуть Zenject-ом
         public Health Health { get; private set; }
         public Stamina Stamina { get; private set; }

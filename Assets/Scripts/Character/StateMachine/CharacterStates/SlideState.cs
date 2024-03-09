@@ -26,8 +26,14 @@ namespace Character.StateMachine.CharacterStates
         public override void Execute()
         {
             if (!Person.Movement.CanSlide()) Exit();
+
             base.Execute();
             RotateByNormal();
+
+            if (Person.Movement.Direction.y <= 0) return;
+            
+            Exit();
+            Person.Jump();
         }
 
         private void RotateByNormal()

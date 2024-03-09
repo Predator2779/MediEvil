@@ -12,9 +12,9 @@ namespace Character.CharacterControllers
         {
             SetTempDirection();
 
-            if (CheckSlide()) return;
             if (CheckFall()) return;
             if (CheckJump()) return;
+            if (CheckSlide()) return;
             if (CheckRoll()) return;
             if (CheckWalking()) return;
 

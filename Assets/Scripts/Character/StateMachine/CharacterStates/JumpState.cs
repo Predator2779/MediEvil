@@ -20,6 +20,7 @@ namespace Character.StateMachine.CharacterStates
 
         public override void FixedExecute()
         {
+            Person.Movement.Walk();
             Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
         }
     }
