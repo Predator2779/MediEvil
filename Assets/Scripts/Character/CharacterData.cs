@@ -13,6 +13,7 @@ namespace Character
         public float JumpForce;
         public float RollForce;
         public float SlideLimitVelocity;
+        public float SlideSpeed;
 
         [Space] [Header("Parameters")] [Header("Health")]
         public int MaxHealth;

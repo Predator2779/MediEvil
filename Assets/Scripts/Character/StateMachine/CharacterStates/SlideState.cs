@@ -19,6 +19,7 @@ namespace Character.StateMachine.CharacterStates
         public override void Enter()
         {
             _normal = Person.Movement.ContactNormal;
+            Person.Movement.Slide();
             IsCompleted = false;
             base.Enter();
         }
