@@ -1,5 +1,4 @@
-﻿using Global;
-using Input;
+﻿using Input;
 using UnityEngine;
 
 namespace Character.CharacterControllers

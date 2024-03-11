@@ -16,7 +16,6 @@ namespace Character.StateMachine
         public DeathState DeathState { get; }
 
         private readonly Person _person;
-        private readonly CharacterState _defaultState;
 
         public CharacterStateMachine(Person person)
         {
@@ -31,8 +30,7 @@ namespace Character.StateMachine
             SlideState = new SlideState(_person);
             DeathState = new DeathState(_person);
 
-            _defaultState = IdleState;
-            CurrentState = _defaultState;
+            CurrentState = IdleState;
         }
 
         public void ChangeState(CharacterState newState)
@@ -46,6 +44,5 @@ namespace Character.StateMachine
 
         public void ExecuteState() => CurrentState.Execute();
         public void FixedExecute() => CurrentState.FixedExecute();
-        public void ExitState() => ChangeState(_defaultState);
     }
 }
