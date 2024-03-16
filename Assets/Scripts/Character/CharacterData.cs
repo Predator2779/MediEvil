@@ -5,7 +5,7 @@ namespace Character
     [CreateAssetMenu(menuName = "CharacterData", fileName = "New CharacterData", order = 0)]
     public class CharacterData : ScriptableObject
     {
-        [Header("About")] 
+        [Header("About")] [Space]
         public string Name;
         [Space] [Header("Speed")] 
         public float SpeedMove;
@@ -28,5 +28,7 @@ namespace Character
         public int CurrentMana;
         public float ManaUsage;
         [Header("Damage")] public float Damage;
+        [Header("Death")] public Vector2 SpawnPoint;
+        [Tooltip("Millisecond")] public int TimeToRespawn;
     }
 }

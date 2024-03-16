@@ -50,7 +50,6 @@ namespace Character.StateMachine.CharacterStates
             IsCooldown = true;
             
             Task.Delay(GlobalConstants.SlideCooldown).ContinueWith(_ => IsCooldown = false);
-            base.Exit();
         }
     }
 }

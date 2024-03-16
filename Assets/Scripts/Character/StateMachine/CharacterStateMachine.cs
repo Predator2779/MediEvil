@@ -42,6 +42,15 @@ namespace Character.StateMachine
             CurrentState.Enter();
         }
 
+        public void ForcedChangeState(CharacterState newState)
+        {
+            if (CurrentState == newState) return;
+
+            CurrentState?.Exit();
+            CurrentState = newState;
+            CurrentState.Enter();
+        }
+        
         public void ExecuteState() => CurrentState.Execute();
         public void FixedExecute() => CurrentState.FixedExecute();
     }

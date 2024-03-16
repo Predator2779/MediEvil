@@ -14,9 +14,10 @@ namespace Character.ValueStorages
             Person = person;
         }
         
-        private Person Person { get; set; }
-        
-        public override void Decrease(float value)
+        private Person Person { get; }
+
+        public void TakeHeal(float value) => Increase(value);
+        public void TakeDamage(float value)
         {
             base.Decrease(value);
             if (CurrentValue <= MinValue) Person.Die();

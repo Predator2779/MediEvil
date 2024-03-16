@@ -18,8 +18,7 @@ namespace Character.StateMachine.CharacterStates
         public override void Execute()
         {
             base.Execute();
-            if (!Person.Movement.IsGrounded()) return;
-            IsCompleted = true;
+            if (Person.Movement.IsGrounded()) IsCompleted = true;
         }
 
         public override void FixedExecute()

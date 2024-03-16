@@ -1,5 +1,4 @@
-﻿using System;
-using Character.Movement;
+﻿using Character.Movement;
 using Character.StateMachine;
 using Character.ValueStorages;
 using Character.ValueStorages.Bars;
@@ -15,9 +14,9 @@ namespace Character.Classes
         [field: SerializeField] public CharacterData Data { get; set; }
         [field: SerializeField] public SpriteRenderer SpriteRenderer { get; set; }
         [field: SerializeField] public Animator Animator { get; set; }
-        [field: SerializeField] public ValueBar HealthBar { get; set; }
-        [field: SerializeField] public ValueBar StaminaBar { get; set; }
-        [field: SerializeField] public ValueBar ManaBar { get; set; }
+        [field: SerializeField] private ValueBar HealthBar { get; set; }
+        [field: SerializeField] private ValueBar StaminaBar { get; set; }
+        [field: SerializeField] private ValueBar ManaBar { get; set; }
         public CharacterMovement Movement { get; private set; }
         private Rigidbody2D Rigidbody { set; get; }
         public CharacterStateMachine StateMachine { get; set; }
@@ -95,7 +94,7 @@ namespace Character.Classes
         public void Jump() => StateMachine.ChangeState(StateMachine.JumpState);
         public void Roll() => StateMachine.ChangeState(StateMachine.RollState);
         public void Fall() => StateMachine.ChangeState(StateMachine.FallState);
-        public void Die() => StateMachine.ChangeState(StateMachine.DeathState);
         public void Slide() => StateMachine.ChangeState(StateMachine.SlideState);
+        public void Die() => StateMachine.ForcedChangeState(StateMachine.DeathState);
     }
 }
