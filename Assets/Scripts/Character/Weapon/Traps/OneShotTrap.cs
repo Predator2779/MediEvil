@@ -11,9 +11,9 @@ namespace Character.Weapon.Traps
 
         private void Start() => _collider = GetComponent<Collider2D>();
 
-        protected override void EnableTrap(Collision2D collision)
+        protected override void EnableTrap(Collider2D collider)
         {
-            if (collision.gameObject.TryGetComponent(out Person person)) DoDamage(person.Health, GetDamageValue());
+            if (collider.gameObject.TryGetComponent(out Person person)) DoDamage(person.Health, GetDamageValue());
             if (_disableCollider && _collider != null) Destroy(_collider);
             Destroy(this);
         }

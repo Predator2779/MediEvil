@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Character.Classes;
-using Global;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates

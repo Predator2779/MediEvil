@@ -1,6 +1,7 @@
 ﻿using Character.Classes;
 using Character.ValueStorages;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Character.Weapon.Traps
 {
@@ -8,13 +9,16 @@ namespace Character.Weapon.Traps
     {
         [SerializeField] private float _damageMin, _damageMax;
 
-        private void OnCollisionEnter2D(Collision2D collision) => EnableTrap(collision);
+        private void OnTriggerEnter2D(Collider2D other) => EnableTrap(other);
+
         public void DoDamage(Health health, float damage) => health.TakeDamage(damage);
         protected float GetDamageValue() => Random.Range(_damageMin, _damageMax);
-        protected virtual void EnableTrap(Collision2D collision)
+
+        protected virtual void EnableTrap(Collider2D collider)
         {
-            if (!collision.gameObject.TryGetComponent(out Person person)) return;
+            if (!collider.gameObject.TryGetComponent(out Person person)) return;
             DoDamage(person.Health, GetDamageValue());
+            person.FallDown();
         }
     }
 }

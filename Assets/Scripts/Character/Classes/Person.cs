@@ -95,6 +95,7 @@ namespace Character.Classes
         public void Roll() => StateMachine.ChangeState(StateMachine.RollState);
         public void Fall() => StateMachine.ChangeState(StateMachine.FallState);
         public void Slide() => StateMachine.ChangeState(StateMachine.SlideState);
+        public void FallDown() => StateMachine.ChangeState(StateMachine.FallDownState);
         public void Die() => StateMachine.ForcedChangeState(StateMachine.DeathState);
     }
 }
