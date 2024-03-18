@@ -28,7 +28,7 @@ namespace Character
         public int CurrentMana;
         public float ManaUsage;
         [Header("Damage")] public float Damage;
-        [Header("Death")] public Vector2 SpawnPoint;
+        [Header("Death")] public Transform SpawnPoint;
         [Tooltip("Millisecond")] public int TimeToRespawn;
     }
 }

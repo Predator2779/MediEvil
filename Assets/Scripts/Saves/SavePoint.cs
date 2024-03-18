@@ -14,7 +14,7 @@ namespace Saves
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.TryGetComponent(out Person person) || !person.IsPlayer) return;
-            person.Data.SpawnPoint = transform.position;
+            person.Data.SpawnPoint = transform;
             _changer.ChangeSprite();
         }
     }

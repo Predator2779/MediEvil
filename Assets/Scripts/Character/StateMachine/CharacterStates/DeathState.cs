@@ -47,7 +47,7 @@ namespace Character.StateMachine.CharacterStates
             IsCompleted = true;
             _isDeath = false;
             _isRespawned = false;
-            Person.transform.position = Person.Data.SpawnPoint;
+            Person.transform.position = Person.Data.SpawnPoint.position;
             Person.Health.TakeFullHeal();
             Person.Idle();
         }

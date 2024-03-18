@@ -25,7 +25,7 @@ namespace Weapon.Traps
             if (_isDelay) yield break;
             
             _isDelay = true;
-            _rbody.AddForce(Vector2.down * _force * _rbody.mass, ForceMode2D.Impulse);
+            _rbody.AddForce(transform.up * _force * _rbody.mass, ForceMode2D.Impulse);
 
             var delay = Random.Range(_delayMin, _delayMax);
             
