@@ -1,6 +1,6 @@
 using System;
 
-namespace Cainos.LucidEditor
+namespace Sprites.Packs.Cainos.Third_Party.Lucid_Editor.Runtime.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class ButtonAttribute : Attribute

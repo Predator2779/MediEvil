@@ -2,6 +2,7 @@
 {
     public static class GlobalConstants
     {
+        public const float KnockdownDamage = 12; // пока что.
         public const float CoefPersonSpeed = 1;
         public const float HorizontalJumpCoef = 1.5f;
         public const float SpeedCrossfadeAnim = 0;

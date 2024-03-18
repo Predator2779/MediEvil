@@ -1,4 +1,4 @@
-namespace Cainos.LucidEditor
+namespace Sprites.Packs.Cainos.Third_Party.Lucid_Editor.Runtime
 {
     public enum InspectorButtonSize
     { 

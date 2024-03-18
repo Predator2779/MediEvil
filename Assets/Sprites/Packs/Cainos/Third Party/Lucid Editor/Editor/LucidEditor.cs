@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using Cainos.LucidEditor;
+using Sprites.Packs.Cainos.Third_Party.Lucid_Editor.Runtime.Attributes;
 
 namespace Cainos.LucidEditor
 {

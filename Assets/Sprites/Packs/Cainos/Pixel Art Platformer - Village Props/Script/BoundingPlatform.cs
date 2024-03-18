@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using Sprites.Packs.Cainos.Common.Script.Utils;
 using UnityEngine;
-using Cainos.Common;
 
-namespace Cainos.PixelArtPlatformer_VillageProps
+namespace Sprites.Packs.Cainos.Script
 {
     public class BoundingPlatform : MonoBehaviour
     {
