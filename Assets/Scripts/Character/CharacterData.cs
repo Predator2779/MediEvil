@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -28,7 +30,7 @@ namespace Character
         public int CurrentMana;
         public float ManaUsage;
         [Header("Damage")] public float Damage;
-        [Header("Death")] public Transform SpawnPoint;
+        [Header("Death")] public List<Transform> SavePoints;
         [Tooltip("Millisecond")] public int TimeToRespawn;
     }
 }

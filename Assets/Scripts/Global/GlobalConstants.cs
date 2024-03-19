@@ -13,7 +13,7 @@
         public const float RunStaminaUsageCoef = 0.8f;
         public const float JumpStaminaUsageCoef = 3;
         public const float RollStaminaUsageCoef = 1;
-        public const float RollVerticalForce = 0.4f;
+        public const float RollVerticalForce = 0.5f;
         public const int SlideCooldown = 1000;
         public const int FallDownDelay = 1500;
     }

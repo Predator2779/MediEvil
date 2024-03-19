@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Character.Classes;
 using UnityEngine;
 
@@ -47,9 +48,27 @@ namespace Character.StateMachine.CharacterStates
             IsCompleted = true;
             _isDeath = false;
             _isRespawned = false;
-            Person.transform.position = Person.Data.SpawnPoint.position;
+            Person.transform.position = GetNearestPoint(Person.Data.SavePoints);
             Person.Health.TakeFullHeal();
             Person.Idle();
+        }
+
+        private Vector2 GetNearestPoint(List<Transform> points) // пока что.
+        {
+            var length = points.Count;
+            var position = Person.transform.position;
+            var point = points[0].position;
+            var value = Vector2.Distance(position, points[0].position);
+
+            for (int i = 1; i < length; i++)
+            {
+                var newValue = Vector2.Distance(position, points[i].position);
+                if (!(newValue < value)) continue;
+                point = points[i].position;
+                value = newValue;
+            }
+
+            return point;
         }
     }
 }
