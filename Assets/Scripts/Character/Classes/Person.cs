@@ -25,39 +25,77 @@ namespace Character.Classes
         public Health Health { get; private set; }
         public Stamina Stamina { get; private set; }
         public Mana Mana { get; private set; }
-        public float _radius;
         public void Execute() => StateMachine.ExecuteState();
         public void FixedExecute() => StateMachine.FixedExecute();
-
+        
+        public float _radius;
+        public float _line;
+        public float _angle1;
         private CapsuleCollider2D _capsule;
         private ContactPoint2D _contact;
-
+        private float _angle;
+        
         private void OnCollisionStay2D(Collision2D other)
         {
             _contact = other.contacts[0];
 
-            if (_contact.point.y > _capsule.transform.position.y + GlobalConstants.CollisionOffset + _capsule.offset.y - _capsule.size.y / 2) return;    
-            
+            if (_contact.point.y > RequireOffset()) return;
+
             // if (пред точка близко к новой) return;
+
+            print(_angle);
             
             Movement.ContactPoint = other.contacts[0].point;
             Movement.ContactNormal = other.contacts[0].normal;
         }
 
+        /*private ContactPoint2D GetNearestPoint(ContactPoint2D[] contacts) // пока что.
+        {
+            var length = contacts.Length;
+            var position = _capsule.transform.position;
+            var contact = contacts[0];
+            var value = contacts[0].point.y;
+
+            for (int i = 1; i < length; i++)
+            {
+                var newValue = Vector2.Distance(position, contacts[i].point);
+                if (newValue >= value) continue;
+                contact = contacts[i];
+                value = newValue;
+            }
+
+            return contact;
+        }*/
+        
+        private float RequireOffset() =>
+            _capsule.transform.position.y +
+            _capsule.offset.y - _capsule.size.y / 2 +
+            GlobalConstants.CollisionOffset;
+        
+        private bool CorrectAngle()
+        {
+            var angle = Vector2.Angle(_contact.normal, Vector2.up);
+            _angle = angle;
+            return angle >= -_angle1 && angle <= _angle1;
+        }
+        
         private void OnDrawGizmos()
         {
             if (_capsule == null) return;;
 
-            var pos = new Vector2(_capsule.transform.position.x, _capsule.transform.position.y + GlobalConstants.CollisionOffset + _capsule.offset.y - _capsule.size.y / 2);
+            var pos = new Vector2(_capsule.transform.position.x, _capsule.transform.position.y + GlobalConstants.CollisionOffset);
 
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(pos, _radius);   
             
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.green;
             Gizmos.DrawSphere(_contact.point, _radius); 
             
-            Gizmos.color = Color.green;
+            Gizmos.color = Color.blue;
             Gizmos.DrawSphere(Movement.ContactPoint, _radius);
+            
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(Movement.ContactPoint, Movement.ContactNormal * _line);
         }
 
         public virtual void Initialize()
