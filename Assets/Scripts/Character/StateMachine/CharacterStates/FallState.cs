@@ -24,7 +24,7 @@ namespace Character.StateMachine.CharacterStates
         public override void FixedExecute()
         {
             base.FixedExecute();
-            Person.Movement.Walk();
+            // Person.Movement.FallMove();
         }
     }
 }

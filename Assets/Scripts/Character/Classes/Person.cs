@@ -25,43 +25,40 @@ namespace Character.Classes
         public Health Health { get; private set; }
         public Stamina Stamina { get; private set; }
         public Mana Mana { get; private set; }
-        /*public float _radius;
-        public float _myOffset;*/
+        public float _radius;
         public void Execute() => StateMachine.ExecuteState();
         public void FixedExecute() => StateMachine.FixedExecute();
 
         private CapsuleCollider2D _capsule;
         private ContactPoint2D _contact;
-        
+
         private void OnCollisionStay2D(Collision2D other)
         {
             _contact = other.contacts[0];
-            _capsule = GetComponent<CapsuleCollider2D>();
 
-            if (_contact.point.y > 
-                _capsule.transform.position.y + 
-                GlobalConstants.CollisionOffset + 
-                _capsule.offset.y - _capsule.size.y / 2) return;    
+            if (_contact.point.y > _capsule.transform.position.y + GlobalConstants.CollisionOffset + _capsule.offset.y - _capsule.size.y / 2) return;    
+            
+            // if (пред точка близко к новой) return;
             
             Movement.ContactPoint = other.contacts[0].point;
             Movement.ContactNormal = other.contacts[0].normal;
         }
 
-        /*private void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
-            if (capsule == null) return;;
-            
-            var pos = new Vector2(capsule.transform.position.x, capsule.transform.position.y + capsule.offset.y - capsule.size.y / 2);
-            
+            if (_capsule == null) return;;
+
+            var pos = new Vector2(_capsule.transform.position.x, _capsule.transform.position.y + GlobalConstants.CollisionOffset + _capsule.offset.y - _capsule.size.y / 2);
+
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(pos, _radius);   
             
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(contact.point, _radius); 
+            Gizmos.DrawSphere(_contact.point, _radius); 
             
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(Movement.ContactPoint, _radius);
-        }*/
+        }
 
         public virtual void Initialize()
         {
@@ -71,6 +68,7 @@ namespace Character.Classes
 
         private void SetComponents()
         {
+            _capsule = GetComponent<CapsuleCollider2D>();
             Rigidbody = GetComponent<Rigidbody2D>();
             Movement = new CharacterMovement(Rigidbody, Data);
             StateMachine = new CharacterStateMachine(this);
