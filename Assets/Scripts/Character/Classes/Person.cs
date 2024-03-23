@@ -1,9 +1,11 @@
-﻿using Character.Movement;
+﻿using System.Collections.Generic;
+using Character.Movement;
 using Character.StateMachine;
 using Character.ValueStorages;
 using Character.ValueStorages.Bars;
 using Global;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character.Classes
 {
@@ -30,67 +32,70 @@ namespace Character.Classes
         
         public float _radius;
         public float _line;
-        public float _angle1;
+        public float _requireAngle;
         private CapsuleCollider2D _capsule;
         private ContactPoint2D _contact;
+        private ContactPoint2D[] _contacts;
         private float _angle;
         
         private void OnCollisionStay2D(Collision2D other)
         {
-            _contact = other.contacts[0];
+            _contacts = other.contacts;
+            _contact = GetNearestPoint(_contacts);
 
-            if (_contact.point.y > RequireOffset()) return;
-
+            if (!CorrectAngle(_contact.normal)) return;
+            
             // if (пред точка близко к новой) return;
 
-            print(_angle);
-            
-            Movement.ContactPoint = other.contacts[0].point;
-            Movement.ContactNormal = other.contacts[0].normal;
+            Movement.ContactPoint = _contact.point;
+            Movement.ContactNormal = _contact.normal;
         }
 
-        /*private ContactPoint2D GetNearestPoint(ContactPoint2D[] contacts) // пока что.
+        private ContactPoint2D GetNearestPoint(ContactPoint2D[] contacts) // пока что.
         {
             var length = contacts.Length;
             var position = _capsule.transform.position;
             var contact = contacts[0];
-            var value = contacts[0].point.y;
+            var value = Vector2.Distance(position, contacts[0].point);
 
-            for (int i = 1; i < length; i++)
+            for (int i = 0; i < length; i++)
             {
                 var newValue = Vector2.Distance(position, contacts[i].point);
+
                 if (newValue >= value) continue;
+                
                 contact = contacts[i];
                 value = newValue;
             }
 
             return contact;
-        }*/
+        }
         
         private float RequireOffset() =>
             _capsule.transform.position.y +
             _capsule.offset.y - _capsule.size.y / 2 +
             GlobalConstants.CollisionOffset;
         
-        private bool CorrectAngle()
-        {
-            var angle = Vector2.Angle(_contact.normal, Vector2.up);
-            _angle = angle;
-            return angle >= -_angle1 && angle <= _angle1;
-        }
+        private bool CorrectAngle(Vector2 normal) => Vector2.Angle(normal, Vector2.up) <= _requireAngle;
         
         private void OnDrawGizmos()
         {
             if (_capsule == null) return;;
 
-            var pos = new Vector2(_capsule.transform.position.x, _capsule.transform.position.y + GlobalConstants.CollisionOffset);
+            var pos = new Vector2(_capsule.transform.position.x, RequireOffset());
 
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(pos, _radius);   
+            Gizmos.DrawSphere(pos, _radius);
+            
+            foreach (var contact in _contacts)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawSphere(contact.point, _radius);
+            }
             
             Gizmos.color = Color.green;
-            Gizmos.DrawSphere(_contact.point, _radius); 
-            
+            Gizmos.DrawSphere(_contact.point, _radius);
+
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(Movement.ContactPoint, _radius);
             

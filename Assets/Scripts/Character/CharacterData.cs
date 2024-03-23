@@ -13,6 +13,7 @@ namespace Character
         public float SpeedMove;
         public float SpeedRun;
         public float JumpForce;
+        public float FallSpeed;
         public float RollForce;
         public float SlideLimitVelocity;
         public float SlideSpeed;
