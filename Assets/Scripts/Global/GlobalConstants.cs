@@ -10,6 +10,7 @@
         public const float AnimDelay = 0.45f;
         public const float MaxGroundOffset = 0.2f;
         public const float CollisionOffset = 0.05f;
+        public const float PointOffset = 0.05f;
         public const float FallSpeed = 0.2f;
         public const float RunStaminaUsageCoef = 0.8f;
         public const float JumpStaminaUsageCoef = 3;

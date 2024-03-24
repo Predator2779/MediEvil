@@ -1,6 +1,7 @@
 ﻿using Character.Classes;
 using Global;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character.Movement
 {
@@ -14,16 +15,15 @@ namespace Character.Movement
         public Vector2 ContactPoint { get; set; }
         public Vector2 ContactNormal { get; set; }
 
+        [SerializeField] private float _requireAngle;
+        [SerializeField] private float _drawRadius;
+        [SerializeField] private float _drawLine;
+        
         private Rigidbody2D _rbody;
         private CharacterData _data;
-
-        public float _radius;
-        public float _line;
-        public float _requireAngle;
         private CapsuleCollider2D _capsule;
         private ContactPoint2D _contact;
         private ContactPoint2D[] _contacts;
-        private float _angle;
 
         private void Start()
         {
@@ -37,15 +37,13 @@ namespace Character.Movement
             _contacts = other.contacts;
             _contact = GetNearestPoint(_contacts);
 
-            if (Vector2.Distance(_contact.point, ContactPoint) <= 0.02f && !CorrectAngle(_contact.normal)) return;
-            
-            // if (пред точка близко к новой) return;
+            if (Vector2.Distance(_contact.point, ContactPoint) <= GlobalConstants.PointOffset || !CorrectAngle(_contact.normal)) return;
 
             ContactPoint = _contact.point;
             ContactNormal = _contact.normal;
         }
 
-        private ContactPoint2D GetNearestPoint(ContactPoint2D[] contacts) // пока что.
+        private ContactPoint2D GetNearestPoint(ContactPoint2D[] contacts)
         {
             var length = contacts.Length;
             var position = _capsule.transform.position;
@@ -69,7 +67,7 @@ namespace Character.Movement
             _capsule.transform.position.y +
             _capsule.offset.y - _capsule.size.y / 2 +
             GlobalConstants.CollisionOffset;
-        
+
         private bool CorrectAngle(Vector2 normal) => Vector2.Angle(normal, Vector2.up) <= _requireAngle;
         
         private void OnDrawGizmos()
@@ -79,25 +77,25 @@ namespace Character.Movement
             var pos = new Vector2(_capsule.transform.position.x, RequireOffset());
 
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(pos, _radius);
+            Gizmos.DrawSphere(pos, _drawRadius);
 
             if (_contacts != null)
             {
                 foreach (var contact in _contacts)
                 {
                     Gizmos.color = Color.yellow;
-                    Gizmos.DrawSphere(contact.point, _radius);
+                    Gizmos.DrawSphere(contact.point, _drawRadius);
                 }
             }
             
             Gizmos.color = Color.green;
-            Gizmos.DrawSphere(_contact.point, _radius);
+            Gizmos.DrawSphere(_contact.point, _drawRadius);
 
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(ContactPoint, _radius);
+            Gizmos.DrawSphere(ContactPoint, _drawRadius);
             
             Gizmos.color = Color.blue;
-            Gizmos.DrawRay(ContactPoint, ContactNormal * _line);
+            Gizmos.DrawRay(ContactPoint, ContactNormal * _drawLine);
         }
         
         public void Walk() => _rbody.velocity = GetHorizontalDirection(_data.SpeedMove * GlobalConstants.CoefPersonSpeed);
@@ -109,7 +107,6 @@ namespace Character.Movement
         public void SetBodyType(RigidbodyType2D type) => _rbody.bodyType = type;
         public bool IsGrounded() => ContactPoint.y <= _rbody.position.y + GlobalConstants.CollisionOffset &&
                                     _rbody.position.y - ContactPoint.y <= GlobalConstants.MaxGroundOffset;
-        // public bool IsGrounded() => Mathf.Abs(_rbody.position.y - ContactPoint.y) <= GlobalConstants.MaxGroundOffset;
         public bool IsFall() => _rbody.velocity.y < -GlobalConstants.FallSpeed;
         public bool CanSlide() => Mathf.Abs(GetHorizontalVelocity()) >= _data.SlideLimitVelocity;
         private Vector2 GetHorizontalDirection(float speed) => new Vector2(Direction.x * speed, _rbody.velocity.y);

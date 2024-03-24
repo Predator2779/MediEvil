@@ -14,7 +14,7 @@ namespace Other
         {
             transform.position = Vector3.Lerp(transform.position, 
                 _followObject.position + _offset, _speed
-                // * Time.deltaTime
+                * Time.deltaTime
                 );
         }
     }
