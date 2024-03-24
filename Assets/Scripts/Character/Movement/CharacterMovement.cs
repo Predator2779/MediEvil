@@ -1,9 +1,13 @@
-﻿using Global;
+﻿using Character.Classes;
+using Global;
 using UnityEngine;
 
 namespace Character.Movement
 {
-    public class CharacterMovement
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Person))]
+    [RequireComponent(typeof(CapsuleCollider2D))]
+    public class CharacterMovement : MonoBehaviour
     {
         public Vector2 Direction { get; set; }
         public Vector2 TempDirection { get; set; } = new Vector2(1, 0);
@@ -13,12 +17,89 @@ namespace Character.Movement
         private Rigidbody2D _rbody;
         private CharacterData _data;
 
-        public CharacterMovement(Rigidbody2D rbody, CharacterData data)
+        public float _radius;
+        public float _line;
+        public float _requireAngle;
+        private CapsuleCollider2D _capsule;
+        private ContactPoint2D _contact;
+        private ContactPoint2D[] _contacts;
+        private float _angle;
+
+        private void Start()
         {
-            _rbody = rbody;
-            _data = data;
+            _capsule = GetComponent<CapsuleCollider2D>();
+            _rbody = GetComponent<Rigidbody2D>();
+            _data = GetComponent<Person>().Data;
+        }
+        
+        private void OnCollisionStay2D(Collision2D other)
+        {
+            _contacts = other.contacts;
+            _contact = GetNearestPoint(_contacts);
+
+            if (Vector2.Distance(_contact.point, ContactPoint) <= 0.02f && !CorrectAngle(_contact.normal)) return;
+            
+            // if (пред точка близко к новой) return;
+
+            ContactPoint = _contact.point;
+            ContactNormal = _contact.normal;
         }
 
+        private ContactPoint2D GetNearestPoint(ContactPoint2D[] contacts) // пока что.
+        {
+            var length = contacts.Length;
+            var position = _capsule.transform.position;
+            var contact = contacts[0];
+            var value = Vector2.Distance(position, contacts[0].point);
+
+            for (int i = 0; i < length; i++)
+            {
+                var newValue = Vector2.Distance(position, contacts[i].point);
+
+                if (newValue >= value) continue;
+                
+                contact = contacts[i];
+                value = newValue;
+            }
+
+            return contact;
+        }
+        
+        private float RequireOffset() =>
+            _capsule.transform.position.y +
+            _capsule.offset.y - _capsule.size.y / 2 +
+            GlobalConstants.CollisionOffset;
+        
+        private bool CorrectAngle(Vector2 normal) => Vector2.Angle(normal, Vector2.up) <= _requireAngle;
+        
+        private void OnDrawGizmos()
+        {
+            if (_capsule == null) return;;
+
+            var pos = new Vector2(_capsule.transform.position.x, RequireOffset());
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(pos, _radius);
+
+            if (_contacts != null)
+            {
+                foreach (var contact in _contacts)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(contact.point, _radius);
+                }
+            }
+            
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(_contact.point, _radius);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(ContactPoint, _radius);
+            
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(ContactPoint, ContactNormal * _line);
+        }
+        
         public void Walk() => _rbody.velocity = GetHorizontalDirection(_data.SpeedMove * GlobalConstants.CoefPersonSpeed);
         public void Run() => _rbody.velocity = GetHorizontalDirection(_data.SpeedRun * GlobalConstants.CoefPersonSpeed);
         public void FallMove() => _rbody.velocity = GetHorizontalDirection(_data.SpeedMove * _data.FallSpeed * GlobalConstants.HorizontalFallMoveSpeed);
