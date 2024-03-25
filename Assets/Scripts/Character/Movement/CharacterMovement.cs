@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 namespace Character.Movement
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(Person))]
+    [RequireComponent(typeof(CapsuleCollider2D))]
     [RequireComponent(typeof(CapsuleCollider2D))]
     public class CharacterMovement : MonoBehaviour
     {
