@@ -4,10 +4,12 @@ namespace Character.CharacterControllers.AI
 {
     public class PersecutorAI : Controller
     {
-        [SerializeField] private Collider2D _target;
-        [SerializeField] private float _followRadius;
-        [SerializeField] private float _attackRadius;
-        [SerializeField] private LayerMask _layerMask;
+        [SerializeField] protected Collider2D _target;
+        [SerializeField] protected float _dashRadius;
+        [SerializeField] protected float _runRadius;
+        [SerializeField] protected float _followRadius;
+        [SerializeField] protected float _attackRadius;
+        [SerializeField] protected LayerMask _layerMask;
 
         private CapsuleCollider2D _capsule;
 
@@ -21,26 +23,47 @@ namespace Character.CharacterControllers.AI
         {
             SetTempDirection();
             
-            if (CanAttack()) return;
+            if (CanIdle()) return;
             if (CanFollow()) return;
             
             Person.Idle();
         }
 
-        private bool CanAttack()
+        private bool CanDash()
+        {
+            var collider = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
+            if (!collider) return false;
+            
+
+            return true;
+        }   
+        
+        private bool CanIdle()
         {
             var collider = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _attackRadius, _layerMask);
             if (!collider) return false;
             
             Person.Idle();
             return true;
-        } 
+        }
         
-        private bool CanFollow()
+        protected bool CanFollow()
         {
             _target = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _followRadius, _layerMask);
 
-            if (_target == null || GetTargetDistance() > _followRadius) return false;
+            if (_target == null) return false;
+
+            if (GetTargetDistance() > _dashRadius || Vector2.Angle(Person.Movement.ContactNormal, Vector2.up) >= 85)
+            {
+                Person.Roll();
+                return true;
+            }  
+            
+            if (GetTargetDistance() > _runRadius)
+            {
+                Person.Run();
+                return true;
+            }
             
             Person.Walk();
             return true;
@@ -54,15 +77,23 @@ namespace Character.CharacterControllers.AI
             Person.Movement.TempDirection = GetTargetVector();
         }
 
-        private Vector2 GetTargetVector() => _target.transform.position - transform.position;
-        private float GetTargetDistance() => Vector2.Distance(transform.position, _target.transform.position);
-        private Vector2 GetCapsuleCenterPos() => (Vector2)_capsule.transform.position + _capsule.offset;
+        protected Vector2 GetTargetVector() => _target.transform.position - transform.position;
+        protected float GetTargetDistance() => Vector2.Distance(transform.position, _target.transform.position);
+        protected Vector2 GetCapsuleCenterPos() => 
+            new Vector2(_capsule.transform.position.x, 
+            _capsule.transform.position.y + _capsule.size.y / 2);
         
-        private void OnDrawGizmos()
+        protected void OnDrawGizmos()
         {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _runRadius);
+            
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _dashRadius);
+            
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _followRadius);
-            
+
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _attackRadius);
         }

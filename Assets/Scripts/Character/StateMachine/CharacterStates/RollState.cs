@@ -16,7 +16,11 @@ namespace Character.StateMachine.CharacterStates
             Person.Movement.Roll();
         }
 
-        public override void Execute() => SafetyCompleting();
+        public override void Execute()
+        {
+            base.Execute();
+            SafetyCompleting();
+        }
 
         public override void FixedExecute()
         {

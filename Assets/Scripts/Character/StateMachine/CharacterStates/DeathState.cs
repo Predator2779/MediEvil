@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Character.Classes;
+using Global;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
@@ -35,9 +36,15 @@ namespace Character.StateMachine.CharacterStates
         {
             if (_isDeath) return;
 
-            Person.Movement.SetBodyType(RigidbodyType2D.Static);
-            if (!Person.IsPlayer) Person.gameObject.SetActive(false);
             _isDeath = true;
+            
+            Person.Movement.SetBodyType(RigidbodyType2D.Static);
+            
+            if (!Person.IsPlayer)
+            {
+                Person.gameObject.SetActive(false);
+                return;
+            }
 
             Task.Delay(Person.Data.TimeToRespawn).ContinueWith(_ => _isRespawned = true);
         }
@@ -48,6 +55,7 @@ namespace Character.StateMachine.CharacterStates
             IsCompleted = true;
             _isDeath = false;
             _isRespawned = false;
+            
             Person.transform.position = GetNearestPoint(Person.Data.SavePoints);
             Person.Health.TakeFullHeal();
             Person.Idle();
@@ -55,6 +63,8 @@ namespace Character.StateMachine.CharacterStates
 
         private Vector2 GetNearestPoint(List<Transform> points) // пока что.
         {
+            if (points == null) return GlobalConstants.StartPointPosition;
+            
             var length = points.Count;
             var position = Person.transform.position;
             var point = points[0].position;

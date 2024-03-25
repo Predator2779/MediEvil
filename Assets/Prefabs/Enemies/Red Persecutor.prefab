@@ -31,9 +31,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7181383657651461879}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.01, y: -3.343, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -162,7 +162,7 @@ Animator:
   m_GameObject: {fileID: 7181383657651461879}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f76a107537f34ef48ab94fd1ac1d627b, type: 2}
+  m_Controller: {fileID: 9100000, guid: ad483f3226f70324987eb98af6d5e7f5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsPlayer>k__BackingField: 1
-  <Data>k__BackingField: {fileID: 11400000, guid: 0273e2e790b6d2146a283184f3e968a4, type: 2}
+  <Data>k__BackingField: {fileID: 11400000, guid: bd7f7ef5f7ebf4e4fa40a582ac973380, type: 2}
   <SpriteRenderer>k__BackingField: {fileID: 5982292557700662461}
   <Animator>k__BackingField: {fileID: 5431478191462079009}
   <HealthBar>k__BackingField: {fileID: 0}
@@ -220,8 +220,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
-  _followRadius: 1.5
-  _attackRadius: 0.5
+  _dashRadius: 4.2
+  _followRadius: 3
+  _attackRadius: 0.75
   _layerMask:
     serializedVersion: 2
     m_Bits: 8
