@@ -13,7 +13,7 @@
         public const float PointOffset = 0.05f;
         public const float FallSpeed = 0.2f;
         public const float RunStaminaUsageCoef = 0.8f;
-        public const float JumpStaminaUsageCoef = 3;
+        public const float JumpStaminaUsageCoef = 5.5f;
         public const float RollStaminaUsageCoef = 1;
         public const float RollVerticalForce = 0.5f;
         public const int SlideCooldown = 1000;

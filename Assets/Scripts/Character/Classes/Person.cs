@@ -23,6 +23,7 @@ namespace Character.Classes
         public Health Health { get; private set; }
         public Stamina Stamina { get; private set; }
         public Mana Mana { get; private set; }
+        
         public void Execute() => StateMachine.ExecuteState();
         public void FixedExecute() => StateMachine.FixedExecute();
 

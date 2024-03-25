@@ -1,4 +1,5 @@
-﻿using Character.Classes;
+﻿using System;
+using Character.Classes;
 using UnityEngine;
 
 namespace Character.CharacterControllers
@@ -8,6 +9,7 @@ namespace Character.CharacterControllers
     {
         protected Person Person { get; set; }
 
+        private void OnValidate() => Initialize();
         private void Start() => Initialize();
         private void Update() => Execute();
         private void FixedUpdate() => FixedExecute();
@@ -25,14 +27,6 @@ namespace Character.CharacterControllers
         }
 
         protected virtual void FixedExecute() => Person.FixedExecute();
-
-        protected virtual void CheckConditions()
-        {
-            if (Condition1) Person.Idle();
-
-            /// ...
-        }
-
-        private bool Condition1 { get; set; }
+        protected virtual void CheckConditions() {}
     }
 }

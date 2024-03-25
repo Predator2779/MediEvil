@@ -73,11 +73,11 @@ namespace Character.CharacterControllers
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());
 
-        private void SetTempDirection()
+        protected virtual void SetTempDirection()
         {
             Person.Movement.Direction = GetDirection();
             
-            if (_inputHandler.GetHorizontalAxis() != 0)
+            if (Mathf.Abs(_inputHandler.GetHorizontalAxis()) > 0)
                 Person.Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
         }
     }
