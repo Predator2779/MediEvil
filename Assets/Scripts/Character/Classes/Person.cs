@@ -16,16 +16,15 @@ namespace Character.Classes
         [field: SerializeField] private ValueBar HealthBar { get; set; }
         [field: SerializeField] private ValueBar StaminaBar { get; set; }
         [field: SerializeField] private ValueBar ManaBar { get; set; }
-        public CharacterMovement Movement { get; private set; }
-        public CharacterStateMachine StateMachine { get; set; }
         
-        // Прокинуть Zenject-ом
+        public CharacterMovement Movement { get; private set; }
+        public PersonStateMachine StateMachine { get; set; }
+        
         public Health Health { get; private set; }
         public Stamina Stamina { get; private set; }
         public Mana Mana { get; private set; }
-        
-        public void Execute() => StateMachine.ExecuteState();
-        public void FixedExecute() => StateMachine.FixedExecute();
+
+        private void Awake() => Initialize();
 
         public virtual void Initialize()
         {
@@ -35,22 +34,23 @@ namespace Character.Classes
 
         private void SetComponents()
         {
+            SetStateMachine(new PersonStateMachine(this));
             Movement = GetComponent<CharacterMovement>();
-            StateMachine = new CharacterStateMachine(this);
-        }
-
-        private void SetValues()
-        {
+            
             Health = new Health(this, Data.MaxHealth, HealthBar);
             Stamina = new Stamina(this, Data.MaxStamina, StaminaBar);
             Mana = new Mana(this, Data.MaxMana, ManaBar);
-            
-            // Set current values
+        }
+
+        private void SetValues() // убрать
+        {
             Health.SetValue(Health.MaxValue);
             Stamina.SetValue(Stamina.MaxValue);
             Mana.SetValue(Mana.MaxValue);
         }
 
+        public void SetStateMachine(PersonStateMachine stateMachine) => StateMachine = stateMachine;
+        
         public void Idle() => StateMachine.ChangeState(StateMachine.IdleState);
         public void Walk() => StateMachine.ChangeState(StateMachine.WalkState);
         public void Run() => StateMachine.ChangeState(StateMachine.RunState);

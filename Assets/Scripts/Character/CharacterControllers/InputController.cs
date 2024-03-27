@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Character.CharacterControllers
 {
-    public class InputController : Controller
+    public sealed class InputController : Controller
     {
         private InputHandler _inputHandler;
 
@@ -15,6 +15,7 @@ namespace Character.CharacterControllers
             if (CheckJump()) return;
             if (CheckSlide()) return;
             if (CheckRoll()) return;
+            if (CheckAttack()) return;
             if (CheckWalking()) return;
 
             Person.Idle();
@@ -59,6 +60,14 @@ namespace Character.CharacterControllers
             return true;
         }
 
+        private bool CheckAttack() ///////////////
+        {
+            if (!_inputHandler.GetLMB()) return false;
+
+            // Person.GetComponent<Warrior>().Attack();
+            return true;
+        }
+        
         private bool CheckWalking()
         {
             if (!Person.Movement.IsGrounded() || _inputHandler.GetHorizontalAxis() == 0) return false;
@@ -73,7 +82,7 @@ namespace Character.CharacterControllers
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());
 
-        protected virtual void SetTempDirection()
+        private void SetTempDirection()
         {
             Person.Movement.Direction = GetDirection();
             

@@ -1,5 +1,4 @@
-﻿using System;
-using Character.Classes;
+﻿using Character.Classes;
 using UnityEngine;
 
 namespace Character.CharacterControllers
@@ -8,25 +7,19 @@ namespace Character.CharacterControllers
     public abstract class Controller : MonoBehaviour
     {
         protected Person Person { get; set; }
-
-        private void OnValidate() => Initialize();
+        
         private void Start() => Initialize();
         private void Update() => Execute();
         private void FixedUpdate() => FixedExecute();
 
-        protected virtual void Initialize()
-        {
-            Person = GetComponent<Person>();
-            Person.Initialize();
-        }
+        protected virtual void Initialize() => Person = GetComponent<Person>();
 
         protected virtual void Execute()
         {
+            Person.StateMachine.Execute();
             CheckConditions();
-            Person.Execute();
         }
-
-        protected virtual void FixedExecute() => Person.FixedExecute();
+        protected virtual void FixedExecute() => Person.StateMachine.FixedExecute();
         protected virtual void CheckConditions() {}
     }
 }

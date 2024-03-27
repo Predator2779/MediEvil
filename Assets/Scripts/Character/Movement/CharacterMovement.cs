@@ -1,15 +1,14 @@
 ﻿using Character.Classes;
 using Global;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Character.Movement
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(CapsuleCollider2D))]
-    [RequireComponent(typeof(CapsuleCollider2D))]
     public class CharacterMovement : MonoBehaviour
     {
+        [field: SerializeField] public CapsuleCollider2D Capsule { get; private set; }
         public Vector2 Direction { get; set; }
         public Vector2 TempDirection { get; set; } = new Vector2(1, 0);
         public Vector2 ContactPoint { get; set; }
@@ -18,16 +17,15 @@ namespace Character.Movement
         [SerializeField] private float _requireAngle;
         [SerializeField] private float _drawRadius;
         [SerializeField] private float _drawLine;
-        
+
         private Rigidbody2D _rbody;
         private CharacterData _data;
-        private CapsuleCollider2D _capsule;
         private ContactPoint2D _contact;
         private ContactPoint2D[] _contacts;
 
-        private void Start()
+        private void Awake()
         {
-            _capsule = GetComponent<CapsuleCollider2D>();
+            Capsule = GetComponent<CapsuleCollider2D>();
             _rbody = GetComponent<Rigidbody2D>();
             _data = GetComponent<Person>().Data;
         }
@@ -37,7 +35,8 @@ namespace Character.Movement
             _contacts = other.contacts;
             _contact = GetNearestPoint(_contacts);
 
-            if (Vector2.Distance(_contact.point, ContactPoint) <= GlobalConstants.PointOffset || !CorrectAngle(_contact.normal)) return;
+            if (Vector2.Distance(_contact.point, ContactPoint) <= GlobalConstants.PointOffset || 
+                !CorrectAngle(_contact.normal)) return;
 
             ContactPoint = _contact.point;
             ContactNormal = _contact.normal;
@@ -46,7 +45,7 @@ namespace Character.Movement
         private ContactPoint2D GetNearestPoint(ContactPoint2D[] contacts)
         {
             var length = contacts.Length;
-            var position = _capsule.transform.position;
+            var position = Capsule.transform.position;
             var contact = contacts[0];
             var value = Vector2.Distance(position, contacts[0].point);
 
@@ -64,17 +63,17 @@ namespace Character.Movement
         }
         
         private float RequireOffset() =>
-            _capsule.transform.position.y +
-            _capsule.offset.y - _capsule.size.y / 2 +
+            Capsule.transform.position.y +
+            Capsule.offset.y - Capsule.size.y / 2 +
             GlobalConstants.CollisionOffset;
 
         private bool CorrectAngle(Vector2 normal) => Vector2.Angle(normal, Vector2.up) <= _requireAngle;
         
         private void OnDrawGizmos()
         {
-            if (_capsule == null) return;;
+            if (Capsule == null) return;;
 
-            var pos = new Vector2(_capsule.transform.position.x, RequireOffset());
+            var pos = new Vector2(Capsule.transform.position.x, RequireOffset());
 
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(pos, _drawRadius);

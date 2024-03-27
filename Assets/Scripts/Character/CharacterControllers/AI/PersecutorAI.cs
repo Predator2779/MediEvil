@@ -2,6 +2,7 @@
 
 namespace Character.CharacterControllers.AI
 {
+    [RequireComponent(typeof(CapsuleCollider2D))]
     public class PersecutorAI : Controller
     {
         [SerializeField] protected Collider2D _target;
@@ -12,13 +13,13 @@ namespace Character.CharacterControllers.AI
         [SerializeField] protected LayerMask _layerMask;
 
         private CapsuleCollider2D _capsule;
-
+        
         protected override void Initialize()
         {
             base.Initialize();
-            _capsule = GetComponent<CapsuleCollider2D>();
+            _capsule = Person.Movement.Capsule;
         }
-
+        
         protected override void CheckConditions()
         {
             SetTempDirection();
@@ -33,7 +34,6 @@ namespace Character.CharacterControllers.AI
         {
             var collider = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
             if (!collider) return false;
-            
 
             return true;
         }   
@@ -77,14 +77,16 @@ namespace Character.CharacterControllers.AI
             Person.Movement.TempDirection = GetTargetVector();
         }
 
-        protected Vector2 GetTargetVector() => _target.transform.position - transform.position;
-        protected float GetTargetDistance() => Vector2.Distance(transform.position, _target.transform.position);
+        protected Vector2 GetTargetVector() => _target.transform.position - Person.transform.position;
+        protected float GetTargetDistance() => Vector2.Distance(Person.transform.position, _target.transform.position);
         protected Vector2 GetCapsuleCenterPos() => 
             new Vector2(_capsule.transform.position.x, 
             _capsule.transform.position.y + _capsule.size.y / 2);
         
-        protected void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
+            if (_capsule == null) return;
+            
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _runRadius);
             

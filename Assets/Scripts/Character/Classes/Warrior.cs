@@ -1,7 +1,10 @@
-﻿namespace Character.Classes
+﻿using Damageables.Weapon;
+using UnityEngine;
+
+namespace Character.Classes
 {
     public class Warrior : Person
     {
-        // [field: SerializeField] public IDamageble Weapon { get; }
+        [field: SerializeField] public Weapon Weapon { get; set; }
     }
 }
