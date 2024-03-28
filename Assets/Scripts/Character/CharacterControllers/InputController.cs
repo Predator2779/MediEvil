@@ -46,6 +46,7 @@ namespace Character.CharacterControllers
         private bool CheckSlide()
         {
             // bool для разового использования
+            // атака в прыжке (для варриора)
             if (!Person.Movement.IsGrounded() || !Person.Movement.CanSlide() || _inputHandler.GetVerticalAxis() >= 0) return false;
 
             Person.Slide();
