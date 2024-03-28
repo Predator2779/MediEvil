@@ -26,6 +26,8 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Execute()
         {
+            Person.Movement.SetSideByVelocity();
+            
             if (!Person.Movement.CanSlide()) Exit();
 
             base.Execute();

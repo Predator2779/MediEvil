@@ -15,8 +15,12 @@ namespace Character.StateMachine.CharacterStates
             base.Enter();
             Person.Movement.Jump();
         }
-        
-        public override void Execute() => SafetyCompleting();
+
+        public override void Execute()
+        {
+            Person.Movement.SetSideByVelocity();
+            SafetyCompleting();
+        }
 
         public override void FixedExecute()
         {

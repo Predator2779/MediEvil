@@ -9,6 +9,8 @@ namespace Character.StateMachine.CharacterStates
             Animation = "walk";
         }
 
+        public override void Execute() => Person.Movement.SetSideByVelocity();
+
         public override void FixedExecute()
         {
             base.FixedExecute();

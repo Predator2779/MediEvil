@@ -17,7 +17,7 @@ namespace Character.StateMachine.CharacterStates
         }
 
         public virtual void Enter() => Person.Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
-        public virtual void Execute() => Person.SpriteRenderer.flipX = Person.Movement.GetHorizontalVelocity() < 0;
+        public virtual void Execute() {}
         public virtual void FixedExecute() => ChangingIndicators();
         protected void SafetyCompleting() => IsCompleted = AnimationCompleted();
         public virtual void Exit() => Person.Animator.StopPlayback();
