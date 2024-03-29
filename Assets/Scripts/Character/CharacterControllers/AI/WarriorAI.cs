@@ -8,8 +8,8 @@ namespace Character.CharacterControllers.AI
     {
         protected override void Initialize()
         {
-            Person = GetComponent<Warrior>(); ////////////////////
-            Person.SetStateMachine(new WarriorStateMachine((Warrior)Person));
+            _person = GetComponent<Warrior>(); ////////////////////
+            _person.SetStateMachine(new WarriorStateMachine((Warrior)_person));
         }
         
         protected override void CheckConditions()
@@ -19,7 +19,7 @@ namespace Character.CharacterControllers.AI
             if (CanAttack()) return;
             if (CanFollow()) return;
 
-            Person.Idle();
+            _person.Idle();
         }
 
         private bool CanAttack()
@@ -27,7 +27,7 @@ namespace Character.CharacterControllers.AI
             var collider = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _attackRadius, _layerMask);
             if (!collider) return false;
 
-            Person.Idle();
+            _person.Idle();
             return true;
         }
     }

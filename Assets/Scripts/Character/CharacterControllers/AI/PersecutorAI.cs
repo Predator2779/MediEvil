@@ -17,7 +17,7 @@ namespace Character.CharacterControllers.AI
         protected override void Initialize()
         {
             base.Initialize();
-            _capsule = Person.Movement.Capsule;
+            _capsule = _person.Movement.Capsule;
         }
         
         protected override void CheckConditions()
@@ -27,7 +27,7 @@ namespace Character.CharacterControllers.AI
             if (CanIdle()) return;
             if (CanFollow()) return;
             
-            Person.Idle();
+            _person.Idle();
         }
 
         private bool CanDash()
@@ -43,7 +43,7 @@ namespace Character.CharacterControllers.AI
             var collider = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _attackRadius, _layerMask);
             if (!collider) return false;
             
-            Person.Idle();
+            _person.Idle();
             return true;
         }
         
@@ -53,19 +53,19 @@ namespace Character.CharacterControllers.AI
 
             if (_target == null) return false;
 
-            if (GetTargetDistance() > _dashRadius || Vector2.Angle(Person.Movement.ContactNormal, Vector2.up) >= 85)
+            if (GetTargetDistance() > _dashRadius || Vector2.Angle(_person.Movement.ContactNormal, Vector2.up) >= 85)
             {
-                Person.Roll();
+                _person.Roll();
                 return true;
             }  
             
             if (GetTargetDistance() > _runRadius)
             {
-                Person.Run();
+                _person.Run();
                 return true;
             }
             
-            Person.Walk();
+            _person.Walk();
             return true;
         }
         
@@ -73,12 +73,12 @@ namespace Character.CharacterControllers.AI
         {
             if (_target == null) return;
 
-            Person.Movement.Direction = GetTargetVector();
-            Person.Movement.TempDirection = GetTargetVector();
+            _person.Movement.Direction = GetTargetVector();
+            _person.Movement.TempDirection = GetTargetVector();
         }
 
-        protected Vector2 GetTargetVector() => _target.transform.position - Person.transform.position;
-        protected float GetTargetDistance() => Vector2.Distance(Person.transform.position, _target.transform.position);
+        protected Vector2 GetTargetVector() => _target.transform.position - _person.transform.position;
+        protected float GetTargetDistance() => Vector2.Distance(_person.transform.position, _target.transform.position);
         protected Vector2 GetCapsuleCenterPos() => 
             new Vector2(_capsule.transform.position.x, 
             _capsule.transform.position.y + _capsule.size.y / 2);

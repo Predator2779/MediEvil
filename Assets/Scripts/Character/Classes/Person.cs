@@ -13,26 +13,26 @@ namespace Character.Classes
         [field: SerializeField] public CharacterData Data { get; set; }
         [field: SerializeField] public SpriteRenderer SpriteRenderer { get; set; }
         [field: SerializeField] public Animator Animator { get; set; }
-        [field: SerializeField] private ValueBar HealthBar { get; set; }
-        [field: SerializeField] private ValueBar StaminaBar { get; set; }
-        [field: SerializeField] private ValueBar ManaBar { get; set; }
+        [field: SerializeField] protected ValueBar HealthBar { get; set; }
+        [field: SerializeField] protected ValueBar StaminaBar { get; set; }
+        [field: SerializeField] protected ValueBar ManaBar { get; set; }
         
-        public CharacterMovement Movement { get; private set; }
+        public CharacterMovement Movement { get; protected set; }
         public PersonStateMachine StateMachine { get; set; }
         
-        public Health Health { get; private set; }
-        public Stamina Stamina { get; private set; }
-        public Mana Mana { get; private set; }
+        public Health Health { get; protected set; }
+        public Stamina Stamina { get; protected set; }
+        public Mana Mana { get; protected set; }
 
         private void Awake() => Initialize();
 
-        public virtual void Initialize()
+        protected virtual void Initialize()
         {
             SetComponents();
             SetValues();
         }
 
-        private void SetComponents()
+        protected virtual void SetComponents()
         {
             SetStateMachine(new PersonStateMachine(this));
             Movement = GetComponent<CharacterMovement>();

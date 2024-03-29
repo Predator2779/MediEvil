@@ -6,20 +6,20 @@ namespace Character.CharacterControllers
     [RequireComponent(typeof(Person))]
     public abstract class Controller : MonoBehaviour
     {
-        protected Person Person { get; set; }
+        protected Person _person;
         
         private void Start() => Initialize();
         private void Update() => Execute();
         private void FixedUpdate() => FixedExecute();
 
-        protected virtual void Initialize() => Person = GetComponent<Person>();
+        protected virtual void Initialize() => _person = GetComponent<Person>();
 
         protected virtual void Execute()
         {
-            Person.StateMachine.Execute();
+            _person.StateMachine.Execute();
             CheckConditions();
         }
-        protected virtual void FixedExecute() => Person.StateMachine.FixedExecute();
+        protected virtual void FixedExecute() => _person.StateMachine.FixedExecute();
         protected virtual void CheckConditions() {}
     }
 }

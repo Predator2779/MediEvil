@@ -7,7 +7,7 @@ namespace Character.StateMachine
     {
         private readonly Warrior _warrior;
         public AttackState AttackState { get; }
-        
+
         public WarriorStateMachine(Warrior warrior) : base(warrior)
         {
             _warrior = warrior;
