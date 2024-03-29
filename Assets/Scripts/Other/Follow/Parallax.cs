@@ -43,9 +43,7 @@ namespace Other.Follow
             if (_invertDirection) direction *= -1;
             
             var vector = new Vector3(direction, _disableVerticalParallax ? 0 : direction, 0);
-         
             transform.position += vector * _parallaxStrength * Time.deltaTime;
-            // transform.position = Vector3.Lerp(transform.position,vector, _parallaxStrength * Time.deltaTime);
         }
     }
 }
