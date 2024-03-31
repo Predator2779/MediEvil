@@ -1,8 +1,6 @@
 ﻿using Character.Classes;
-using Character.StateMachine.StateSets;
 using Input;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 namespace Character.CharacterControllers.Inputs
 {
@@ -71,7 +69,7 @@ namespace Character.CharacterControllers.Inputs
 
         private bool CheckFall() => !_person.Movement.IsGrounded() && _person.Movement.IsFall();
 
-        private bool CheckJump() => _person.Stamina.CanUse() &&
+        private bool CheckJump() => _person.Stamina.CanUse &&
                                     !_person.Movement.IsFall() &&
                                     _person.Movement.IsGrounded() &&
                                     _inputHandler.GetVerticalAxis() > 0;
@@ -81,13 +79,13 @@ namespace Character.CharacterControllers.Inputs
                                      _person.Movement.CanSlide() &&
                                      _inputHandler.GetVerticalAxis() < 0;
 
-        private bool CheckRoll() => _person.Stamina.CanUse() &&
+        private bool CheckRoll() => _person.Stamina.CanUse &&
                                     !_person.Movement.IsFall() &&
                                     _person.Movement.IsGrounded() &&
                                     _inputHandler.GetSpaceBtn();
 
         private bool CheckAttack() => _inputHandler.GetLMB();
-        private bool CheckRunnig() => CheckWalking() && _inputHandler.GetShiftBtn() && _person.Stamina.CanUse();
+        private bool CheckRunnig() => CheckWalking() && _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
         private bool CheckWalking() => _person.Movement.IsGrounded() && _inputHandler.GetHorizontalAxis() != 0;
 
         private void Attack() => _warrior.Attack();

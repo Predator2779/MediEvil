@@ -15,9 +15,8 @@ namespace Global
         public const float PointOffset = 0.05f;
         public const float FallSpeed = 0.2f;
         public const float RunStaminaUsageCoef = 0.8f;
-        public const float JumpStaminaUsageCoef = 5.5f;
-        public const float RollStaminaUsageCoef = 1;
-        public const float RollVerticalForce = 0.5f;
+        public const float JumpStaminaUsageCoef = 50;
+        public const float RollStaminaUsageCoef = 20;
         public const int SlideCooldown = 1000;
         public const int FallDownDelay = 1500;
         public static Vector2 StartPointPosition = new Vector2(-49.75f, -0.58f);

@@ -13,7 +13,10 @@ namespace Character.StateMachine
 
         public void ChangeState(CharacterState newState)
         {
-            if (CurrentState == newState || !CurrentState.IsCompleted || newState.IsCooldown) return;
+            if (
+                CurrentState == newState || 
+                !newState.CanEnter() ||
+                !CurrentState.IsCompleted || newState.IsCooldown) return;
 
             CurrentState?.Exit();
             CurrentState = newState;

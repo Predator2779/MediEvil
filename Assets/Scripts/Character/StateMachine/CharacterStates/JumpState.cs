@@ -3,7 +3,7 @@ using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
-    public class JumpState : CharacterState
+    public class JumpState : TiredState
     {
         public JumpState(Person person) : base(person)
         {
@@ -14,6 +14,7 @@ namespace Character.StateMachine.CharacterStates
         {
             base.Enter();
             Person.Movement.Jump();
+            Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
         }
 
         public override void Execute()
@@ -22,10 +23,6 @@ namespace Character.StateMachine.CharacterStates
             SafetyCompleting();
         }
 
-        public override void FixedExecute()
-        {
-            Person.Movement.FallMove();
-            Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
-        }
+        public override void FixedExecute() => Person.Movement.FallMove();
     }
 }

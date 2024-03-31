@@ -2,13 +2,12 @@
 
 namespace Character.StateMachine.CharacterStates.WarriorStates
 {
-    public class WarriorState : CharacterState
+    public class WarriorState : TiredState
     {
         protected Warrior Warrior { get; }
         
         public WarriorState(Warrior warrior) : base(warrior)
         {
-            // Person = warrior;
             Warrior = warrior;
         }
     }

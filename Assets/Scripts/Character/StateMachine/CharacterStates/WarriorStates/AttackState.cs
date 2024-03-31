@@ -12,6 +12,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         public override void Enter()
         {
             base.Enter();
+            Warrior.Stamina.Decrease(Warrior.Data.StaminaAttackUsage);
             Warrior.Weapon.DoDamage(Warrior.Data.Damage);
         }
         
@@ -19,6 +20,9 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         {
             base.Execute();
             SafetyCompleting();
+            CooldownControl();
         }
+
+        public override bool CanEnter() => Warrior.Weapon != null && Warrior.Stamina.CanUse;
     }
 }

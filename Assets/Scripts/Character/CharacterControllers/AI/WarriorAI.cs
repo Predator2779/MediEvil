@@ -1,5 +1,4 @@
 ﻿using Character.Classes;
-using Character.StateMachine.StateSets;
 using UnityEngine;
 
 namespace Character.CharacterControllers.AI
@@ -8,10 +7,16 @@ namespace Character.CharacterControllers.AI
     {
         private Warrior _warrior;
 
-        protected override void Initialize() => _warrior = GetComponent<Warrior>();
+        protected override void Initialize()
+        {
+            base.Initialize();
+            _warrior = GetComponent<Warrior>();
+        }
         
         protected override void Execute()
         {
+            _person.StateMachine.Execute();
+            
             SetTempDirection();
 
             if (CanAttack())
@@ -20,7 +25,11 @@ namespace Character.CharacterControllers.AI
                 return;
             }
             
-            if (CanFollow()) return;
+            if (CanFollow())
+            {
+                Follow();
+                return;
+            }
 
             Idle();
         }

@@ -1,6 +1,4 @@
-﻿using Character.Movement;
-using Character.StateMachine.StateSets;
-using Character.ValueStorages;
+﻿using Character.StateMachine.StateSets;
 using Damageables.Weapon;
 using UnityEngine;
 

@@ -50,7 +50,7 @@ namespace Character.CharacterControllers.AI
             return _target;
         }
         
-        private void Follow()
+        protected void Follow()
         {
             if (GetTargetDistance() > _dashRadius || Vector2.Angle(_person.Movement.ContactNormal, Vector2.up) >= 85)
             {

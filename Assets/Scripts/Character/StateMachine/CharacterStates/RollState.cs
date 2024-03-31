@@ -3,7 +3,7 @@ using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
-    public class RollState : WalkState
+    public class RollState : TiredState
     {
         public RollState(Person person) : base(person)
         {
@@ -14,17 +14,10 @@ namespace Character.StateMachine.CharacterStates
         {
             base.Enter();
             Person.Movement.Roll();
-        }
-
-        public override void Execute()
-        {
-            base.Execute();
-            SafetyCompleting();
-        }
-
-        public override void FixedExecute()
-        {
             Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.RollStaminaUsageCoef);
         }
+
+        public override void Execute() => SafetyCompleting();
+        public override void FixedExecute() {}
     }
 }

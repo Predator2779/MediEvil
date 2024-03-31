@@ -6,6 +6,11 @@ namespace Character.ValueStorages
 {
     public class Stamina : ValueStorage
     {
+        public bool CanUse { get; private set; }  = true;
+        private Person Person { get; }
+
+        private bool _restoreIsDelayed;
+
         public Stamina(Person person, float currentValue, float maxValue) : base(currentValue, maxValue) 
         {
             Person = person;
@@ -16,34 +21,27 @@ namespace Character.ValueStorages
             Person = person;
         }
 
-        private bool _cooldown;
-        private bool _cooldownRestore;
-
         public override void Increase(float value)
         {
-            if (_cooldownRestore)
-            {
-                Task.Delay(Person.Data.StaminaRestoreDelay).ContinueWith(_ => { _cooldownRestore = false; });
-                return;
-            }
-
-            if (_cooldown && CurrentValue > MaxValue / 4)  _cooldown = false;
+            if (_restoreIsDelayed) return;
+            if (CurrentValue > MaxValue / 4)  CanUse = true;
             base.Increase(value);
         }
 
         public override void Decrease(float value)
         {
-            if (CurrentValue <= MinValue)
-            {
-                _cooldown = true;
-                _cooldownRestore = true;
-            }
-
+            if (!CanUse) return;
+            
             base.Decrease(value);
+
+            if (CurrentValue > MinValue) return;
+            
+            CanUse = false;
+            _restoreIsDelayed = true;
+                 
+            Task.Delay(Person.Data.StaminaRestoreDelay).ContinueWith(_ => { CanUse = true; _restoreIsDelayed = false; });
         }
 
-        private Person Person { get; }
-        public bool CanUse() => !_cooldown;
-        public bool CanRestore() => CurrentValue < MaxValue;
+        public bool CanRestore() => CurrentValue < MaxValue && !_restoreIsDelayed;
     }
 }

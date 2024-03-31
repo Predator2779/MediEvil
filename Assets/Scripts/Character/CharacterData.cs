@@ -13,7 +13,8 @@ namespace Character
         public float SpeedRun;
         public float JumpForce;
         public float FallSpeed;
-        public float RollForce;
+        public float RollHeight;
+        public float RollDistance;
         public float SlideLimitVelocity;
         public float SlideSpeed;
 
@@ -25,6 +26,7 @@ namespace Character
         public int CurrentStamina;
         public float StaminaRecovery;
         public float StaminaUsage;
+        public float StaminaAttackUsage;
         [Tooltip("Millisecond")] public int StaminaRestoreDelay;
         [Header("Mana")] public int MaxMana;
         public int CurrentMana;

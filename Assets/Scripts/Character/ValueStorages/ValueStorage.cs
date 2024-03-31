@@ -1,4 +1,5 @@
 ﻿using Character.ValueStorages.Bars;
+using UnityEngine;
 
 namespace Character.ValueStorages
 {
@@ -20,29 +21,25 @@ namespace Character.ValueStorages
         private ValueBar Bar { get; }
         protected float MinValue { get; } = 0;
         protected float CurrentValue { get; private set; }
-        public float MaxValue { get; }
+        protected float MaxValue { get; }
 
         public virtual void Increase(float value)
         {
-            var newValue = CurrentValue + value;
-            SetValue(newValue > MaxValue ? MaxValue : newValue);
+            CurrentValue = Mathf.Clamp(CurrentValue + value, CurrentValue, MaxValue);
             ChangeBar();
         }
 
         public virtual void Decrease(float value)
         {
-            var newValue = CurrentValue - value;
-            SetValue(newValue < MinValue ? MinValue : newValue);
+            CurrentValue = Mathf.Clamp(CurrentValue - value, MinValue, CurrentValue);
             ChangeBar();
         }
-
-        public void SetValue(float value) => CurrentValue = value;
 
         private void ChangeBar()
         {
             if (Bar != null) Bar.SetCurrentValue(GetPercentageRation());
         }
 
-        private float GetPercentageRation() => CurrentValue / MaxValue * 100;
+        protected float GetPercentageRation() => CurrentValue / MaxValue * 100;
     }
 }

@@ -102,7 +102,7 @@ namespace Character.Movement
         public void Run() => _rbody.velocity = GetHorizontalDirection(_data.SpeedRun * GlobalConstants.CoefPersonSpeed);
         public void FallMove() => _rbody.velocity = GetHorizontalDirection(_data.SpeedMove * _data.FallSpeed * GlobalConstants.HorizontalFallMoveSpeed);
         public void Jump() => _rbody.AddForce(GetJumpVector() * _data.JumpForce * _rbody.mass, ForceMode2D.Impulse);
-        public void Roll() => _rbody.velocity = GetRollVector() * _data.RollForce;
+        public void Roll() => _rbody.velocity = GetRollVector();
         public void Slide() => _rbody.AddForce(GetSlideVector() * _data.SlideSpeed, ForceMode2D.Impulse);
         public void SetBodyType(RigidbodyType2D type) => _rbody.bodyType = type;
         public bool IsGrounded() => ContactPoint.y <= _rbody.position.y + GlobalConstants.CollisionOffset &&
@@ -111,7 +111,7 @@ namespace Character.Movement
         public bool CanSlide() => Mathf.Abs(GetHorizontalVelocity()) >= _data.SlideLimitVelocity;
         private void RotateObj(float angle) => transform.localRotation = Quaternion.Euler(0f, angle, 0f);
         private Vector2 GetHorizontalDirection(float speed) => new Vector2(Direction.x * speed, _rbody.velocity.y);
-        private Vector2 GetRollVector() => new Vector2(TempDirection.normalized.x, GlobalConstants.RollVerticalForce);
+        private Vector2 GetRollVector() => new Vector2(TempDirection.normalized.x * _data.RollDistance, _data.RollHeight);
         private Vector2 GetSlideVector() => new Vector2(_rbody.velocity.x, _rbody.velocity.y);
         private Vector2 GetJumpVector() => new Vector2(Direction.normalized.x * GlobalConstants.HorizontalJumpCoef, 1);
         public float GetHorizontalVelocity() => _rbody.velocity.x;

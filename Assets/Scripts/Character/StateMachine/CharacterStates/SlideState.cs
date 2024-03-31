@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
-    public class SlideState : CharacterState
+    public class SlideState : TiredState
     {
         private Transform _transform;
         private Vector2 _normal;
@@ -13,7 +13,7 @@ namespace Character.StateMachine.CharacterStates
         public SlideState(Person person) : base(person)
         {
             Animation = "slide";
-            _transform = Person.GetComponent<Transform>();
+            _transform = Person.transform;
         }
 
         public override void Enter()
