@@ -6,12 +6,12 @@ namespace Character.ValueStorages
 {
     public class Stamina : ValueStorage
     {
-        public Stamina(Person person, int maxValue) : base(maxValue)
+        public Stamina(Person person, float currentValue, float maxValue) : base(currentValue, maxValue) 
         {
             Person = person;
         }
 
-        public Stamina(Person person, int maxValue, ValueBar bar) : base(maxValue, bar)
+        public Stamina(Person person, float currentValue, float maxValue, ValueBar bar) : base(currentValue, maxValue, bar)
         {
             Person = person;
         }

@@ -5,10 +5,11 @@ namespace Character.ValueStorages
 {
     public class Mana : Stamina
     {
-        public Mana(Person person, int maxValue) : base(person, maxValue)
+        public Mana(Person person, float currentValue, float maxValue) : base(person, currentValue, maxValue) 
         {
         }
-        public Mana(Person person, int maxValue, ValueBar bar) : base(person, maxValue, bar)
+
+        public Mana(Person person, float currentValue, float maxValue, ValueBar bar) : base(person, currentValue, maxValue, bar)
         {
         }
     }

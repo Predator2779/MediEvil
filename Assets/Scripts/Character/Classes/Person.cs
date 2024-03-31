@@ -32,23 +32,14 @@ namespace Character.Classes
         {
             Movement = GetComponent<CharacterMovement>();
 
-            Health = new Health(this, Data.MaxHealth, HealthBar);
-            Stamina = new Stamina(this, Data.MaxStamina, StaminaBar);
-            Mana = new Mana(this, Data.MaxMana, ManaBar);
+            Health = new Health(this, Data.MaxMana, Data.MaxMana, HealthBar);
+            Stamina = new Stamina(this, Data.MaxMana, Data.MaxMana, StaminaBar);
+            Mana = new Mana(this, Data.MaxMana, Data.MaxMana, ManaBar);
 
             _personStateSet = new PersonStateSet(this);
             StateMachine = new PersonStateMachine(_personStateSet.DefaultState);
-            
-            SetValues();
         }
-        
-        private void SetValues() // убрать
-        {
-            Health.SetValue(Health.MaxValue);
-            Stamina.SetValue(Stamina.MaxValue);
-            Mana.SetValue(Mana.MaxValue);
-        }
-        
+
         public void Idle() => StateMachine.ChangeState(_personStateSet.IdleState);
         public void Walk() => StateMachine.ChangeState(_personStateSet.WalkState);
         public void Run() => StateMachine.ChangeState(_personStateSet.RunState);

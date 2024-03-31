@@ -4,13 +4,15 @@ namespace Character.ValueStorages
 {
     public abstract class ValueStorage
     {
-        protected ValueStorage(float maxValue)
+        protected ValueStorage(float currentValue, float maxValue)
         {
+            CurrentValue = currentValue;
             MaxValue = maxValue;
         }
 
-        protected ValueStorage(float maxValue, ValueBar bar)
+        protected ValueStorage(float currentValue, float maxValue, ValueBar bar)
         {
+            CurrentValue = currentValue;
             MaxValue = maxValue;
             Bar = bar;
         }

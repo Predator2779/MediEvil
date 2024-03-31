@@ -6,12 +6,12 @@ namespace Character.ValueStorages
 {
     public class Health : ValueStorage
     {
-        public Health(Person person, int maxValue) : base(maxValue)
+        public Health(Person person, float currentValue, float maxValue) : base(currentValue, maxValue) 
         {
             Person = person;
         }
 
-        public Health(Person person, int maxValue, ValueBar bar) : base(maxValue, bar)
+        public Health(Person person, float currentValue, float maxValue, ValueBar bar) : base(currentValue, maxValue, bar)
         {
             Person = person;
         }
