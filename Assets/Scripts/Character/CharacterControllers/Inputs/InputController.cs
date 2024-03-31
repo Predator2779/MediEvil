@@ -22,43 +22,43 @@ namespace Character.CharacterControllers.Inputs
 
             SetTempDirection();
 
-            if (CheckFall())
+            if (IsFall())
             {
                 Fall();
                 return;
             }
 
-            if (CheckJump())
+            if (IsJump())
             {
                 Jump();
                 return;
             }
 
-            if (CheckSlide())
+            if (IsSlide())
             {
                 Slide();
                 return;
             }
 
-            if (CheckRoll())
+            if (IsRoll())
             {
                 Roll();
                 return;
             }
 
-            if (CheckAttack())
+            if (IsAttack())
             {
                 Attack();
                 return;
             }
 
-            if (CheckRunnig())
+            if (IsRunning())
             {
                 Run();
                 return;
             }   
             
-            if (CheckWalking())
+            if (IsWalking())
             {
                 Walk();
                 return;
@@ -67,26 +67,26 @@ namespace Character.CharacterControllers.Inputs
             Idle();
         }
 
-        private bool CheckFall() => !_person.Movement.IsGrounded() && _person.Movement.IsFall();
+        private bool IsFall() => !_person.Movement.IsGrounded() && _person.Movement.IsFall();
 
-        private bool CheckJump() => _person.Stamina.CanUse &&
+        private bool IsJump() => _person.Stamina.CanUse &&
                                     !_person.Movement.IsFall() &&
                                     _person.Movement.IsGrounded() &&
                                     _inputHandler.GetVerticalAxis() > 0;
         
         // добавить атаку в прыжке (для варриора)
-        private bool CheckSlide() => _person.Movement.IsGrounded() &&
+        private bool IsSlide() => _person.Movement.IsGrounded() &&
                                      _person.Movement.CanSlide() &&
                                      _inputHandler.GetVerticalAxis() < 0;
 
-        private bool CheckRoll() => _person.Stamina.CanUse &&
+        private bool IsRoll() => _person.Stamina.CanUse &&
                                     !_person.Movement.IsFall() &&
                                     _person.Movement.IsGrounded() &&
                                     _inputHandler.GetSpaceBtn();
 
-        private bool CheckAttack() => _inputHandler.GetLMB();
-        private bool CheckRunnig() => CheckWalking() && _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
-        private bool CheckWalking() => _person.Movement.IsGrounded() && _inputHandler.GetHorizontalAxis() != 0;
+        private bool IsAttack() => _inputHandler.GetLMB();
+        private bool IsRunning() => IsWalking() && _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
+        private bool IsWalking() => _person.Movement.IsGrounded() && _inputHandler.GetHorizontalAxis() != 0;
 
         private void Attack() => _warrior.Attack();
         private void Fall() => _person.Fall();

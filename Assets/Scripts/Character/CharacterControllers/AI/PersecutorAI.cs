@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 namespace Character.CharacterControllers.AI
 {
@@ -41,7 +43,7 @@ namespace Character.CharacterControllers.AI
             Idle();
         }
 
-        protected bool CanDash() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
+        // protected bool CanDash() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
         private bool CanIdle() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _attackRadius, _layerMask);
 
         protected bool CanFollow()
@@ -49,13 +51,12 @@ namespace Character.CharacterControllers.AI
             _target = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _followRadius, _layerMask);
             return _target;
         }
-        
+
         protected void Follow()
         {
             if (GetTargetDistance() > _dashRadius || Vector2.Angle(_person.Movement.ContactNormal, Vector2.up) >= 85)
             {
                 Roll();
-                return;
             }
 
             if (GetTargetDistance() > _runRadius)

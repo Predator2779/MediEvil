@@ -1,4 +1,5 @@
-﻿using Character.Classes;
+﻿using System.Collections;
+using Character.Classes;
 using UnityEngine;
 
 namespace Character.CharacterControllers.AI
@@ -13,6 +14,19 @@ namespace Character.CharacterControllers.AI
             _warrior = GetComponent<Warrior>();
         }
         
+        delegate void T();
+
+        private T t;
+        private bool delay;
+
+        protected IEnumerator OneShot()
+        {
+            t();
+            delay = true;
+            yield return new WaitForSeconds(2);
+            delay = false;
+        }
+        
         protected override void Execute()
         {
             _person.StateMachine.Execute();
@@ -21,8 +35,9 @@ namespace Character.CharacterControllers.AI
 
             if (CanAttack())
             {
-                Attack();
-                return;
+                t = Attack;
+                if (!delay) StartCoroutine(OneShot());
+                // Attack();
             }
             
             if (CanFollow())

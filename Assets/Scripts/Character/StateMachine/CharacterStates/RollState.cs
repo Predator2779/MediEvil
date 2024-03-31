@@ -17,7 +17,12 @@ namespace Character.StateMachine.CharacterStates
             Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.RollStaminaUsageCoef);
         }
 
-        public override void Execute() => SafetyCompleting();
+        public override void Execute()
+        {
+            SafetyCompleting();
+            Person.Movement.SetSideByVelocity();
+        }
+        
         public override void FixedExecute() {}
     }
 }
