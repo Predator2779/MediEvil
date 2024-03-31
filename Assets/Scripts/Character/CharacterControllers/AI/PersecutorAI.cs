@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Character.CharacterControllers.AI
 {
@@ -8,10 +7,10 @@ namespace Character.CharacterControllers.AI
     public class PersecutorAI : Controller
     {
         [SerializeField] protected Collider2D _target;
-        [SerializeField] protected float _dashRadius;
-        [SerializeField] protected float _runRadius;
-        [SerializeField] protected float _followRadius;
-        [SerializeField] protected float _attackRadius;
+        [SerializeField] protected float _viewingRadius;
+        [SerializeField] protected float _runDistance;
+        [SerializeField] protected float _walkDistance;
+        [SerializeField] protected float _stayDistance;
         [SerializeField] protected LayerMask _layerMask;
 
         private CapsuleCollider2D _capsule;
@@ -27,50 +26,61 @@ namespace Character.CharacterControllers.AI
             base.Execute();
 
             SetTempDirection();
-
-            if (CanIdle())
+            
+            if (!HasTarget() || CanStay())
             {
                 Idle();
                 return;
             }
 
-            if (CanFollow())
+            if (CanWalkFollow())
             {
-                Follow();
+                WalkFollow();
                 return;
+            }  
+            
+            if (CanRunFollow())
+            {
+                RunFollow();
             }
-
-            Idle();
         }
 
-        // protected bool CanDash() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
-        private bool CanIdle() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _attackRadius, _layerMask);
-
-        protected bool CanFollow()
+        protected bool HasTarget()
         {
-            _target = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _followRadius, _layerMask);
+            _target = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _viewingRadius, _layerMask);
             return _target;
         }
+        
+        // protected bool CanDash() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
+        private bool CanStay() => GetTargetDistance() <= _stayDistance;
+        protected bool CanWalkFollow() => GetTargetDistance() <= _runDistance;
+        protected bool CanRunFollow() => GetTargetDistance() <= _runDistance;
 
-        protected void Follow()
+        // protected void Follow()
+        // {
+        //     if (GetTargetDistance() > _dashRadius || Vector2.Angle(_person.Movement.ContactNormal, Vector2.up) >= 85)
+        //     {
+        //         Roll();
+        //     }
+        //
+        //     if (GetTargetDistance() > _runDistance)
+        //     {
+        //         RunFollow();
+        //         return;
+        //     }
+        //
+        //
+        // }
+
+        protected void Roll() => _person.Roll();
+
+        protected void RunFollow()
         {
-            if (GetTargetDistance() > _dashRadius || Vector2.Angle(_person.Movement.ContactNormal, Vector2.up) >= 85)
-            {
-                Roll();
-            }
-
-            if (GetTargetDistance() > _runRadius)
-            {
-                Run();
-                return;
-            }
-
-            Walk();
+            if (Random.Range(0, 2) == 0) _person.Run();
+            else Roll();
         }
-
-        private void Roll() => _person.Roll();
-        private void Run() => _person.Run();
-        private void Walk() => _person.Walk();
+        
+        protected void WalkFollow() => _person.Walk();
         protected void Idle() => _person.Idle();
 
         protected virtual void SetTempDirection()
@@ -81,8 +91,8 @@ namespace Character.CharacterControllers.AI
             _person.Movement.TempDirection = GetTargetVector();
         }
 
+        protected float GetTargetDistance() => Vector2.Distance(transform.position, _target.transform.position);
         protected Vector2 GetTargetVector() => _target.transform.position - _person.transform.position;
-        protected float GetTargetDistance() => Vector2.Distance(_person.transform.position, _target.transform.position);
 
         protected Vector2 GetCapsuleCenterPos() =>
             new Vector2(_capsule.transform.position.x,
@@ -92,17 +102,17 @@ namespace Character.CharacterControllers.AI
         {
             if (_capsule == null) return;
 
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _runRadius);
-
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _dashRadius);
+            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _viewingRadius);
+            
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _runDistance);
 
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _followRadius);
+            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _walkDistance);
 
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _attackRadius);
+            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _stayDistance);
         }
     }
 }

@@ -13,9 +13,39 @@ namespace Character.CharacterControllers.AI
             base.Initialize();
             _warrior = GetComponent<Warrior>();
         }
+
+        protected override void Execute()
+        {
+            _person.StateMachine.Execute();
+
+            SetTempDirection();
+            
+            if (!HasTarget())
+            {
+                Idle();
+                return;
+            }
+
+            if (CanAttack())
+            {
+                t = Attack;
+                if (!delay) StartCoroutine(OneShot());
+                // Attack();
+            }
+
+            if (CanWalkFollow())
+            {
+                WalkFollow();
+                return;
+            }  
+            
+            if (CanRunFollow())
+            {
+                RunFollow();
+            }
+        }
         
         delegate void T();
-
         private T t;
         private bool delay;
 
@@ -26,30 +56,8 @@ namespace Character.CharacterControllers.AI
             yield return new WaitForSeconds(2);
             delay = false;
         }
-        
-        protected override void Execute()
-        {
-            _person.StateMachine.Execute();
-            
-            SetTempDirection();
 
-            if (CanAttack())
-            {
-                t = Attack;
-                if (!delay) StartCoroutine(OneShot());
-                // Attack();
-            }
-            
-            if (CanFollow())
-            {
-                Follow();
-                return;
-            }
-
-            Idle();
-        }
-
-        private bool CanAttack() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _attackRadius, _layerMask);
+        private bool CanAttack() => GetTargetDistance() <= _stayDistance;
         private void Attack() => _warrior.Attack();
     }
 }
