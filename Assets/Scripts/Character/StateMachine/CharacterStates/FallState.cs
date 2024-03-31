@@ -9,18 +9,6 @@ namespace Character.StateMachine.CharacterStates
             Animation = "fall";
         }
 
-        public override void Enter()
-        {
-            IsCompleted = false;
-            base.Enter();
-        }
-
-        public override void Execute()
-        {
-            base.Execute();
-            if (Person.Movement.IsGrounded()) IsCompleted = true;
-        }
-
         public override void FixedExecute()
         {
             base.FixedExecute();
