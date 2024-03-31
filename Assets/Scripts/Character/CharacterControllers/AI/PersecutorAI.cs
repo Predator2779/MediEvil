@@ -1,5 +1,4 @@
-﻿using Other.Follow;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Character.CharacterControllers.AI
 {
