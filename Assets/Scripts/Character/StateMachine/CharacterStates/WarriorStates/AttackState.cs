@@ -18,6 +18,8 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         
         public override void Execute()
         {
+            if (AnimationCompleted()) Warrior.Idle();
+            
             base.Execute();
             SafetyCompleting();
             CooldownControl();

@@ -28,9 +28,8 @@ namespace Character.CharacterControllers.AI
 
             if (CanAttack())
             {
-                t = Attack;
-                if (!delay) StartCoroutine(OneShot());
-                // Attack();
+                Attack();
+                return;
             }
 
             if (CanWalkFollow())
@@ -45,17 +44,17 @@ namespace Character.CharacterControllers.AI
             }
         }
         
-        delegate void T();
-        private T t;
-        private bool delay;
-
-        protected IEnumerator OneShot()
-        {
-            t();
-            delay = true;
-            yield return new WaitForSeconds(2);
-            delay = false;
-        }
+        // delegate void T();
+        // private T t;
+        // private bool delay;
+        //
+        // protected IEnumerator OneShot()
+        // {
+        //     t();
+        //     delay = true;
+        //     yield return new WaitForSeconds(2);
+        //     delay = false;
+        // }
 
         private bool CanAttack() => GetTargetDistance() <= _stayDistance;
         private void Attack() => _warrior.Attack();
