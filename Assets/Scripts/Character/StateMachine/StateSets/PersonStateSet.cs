@@ -1,11 +1,11 @@
 ﻿using Character.Classes;
 using Character.StateMachine.CharacterStates;
-using Character.StateMachine.CharacterStates.WarriorStates;
 
 namespace Character.StateMachine.StateSets
 {
     public class PersonStateSet
     {
+        public CharacterState DefaultState { get; set; }
         public IdleState IdleState { get; }
         public WalkState WalkState { get; }
         public RunState RunState { get; }
@@ -27,6 +27,8 @@ namespace Character.StateMachine.StateSets
             FallDownState = new FallDownState(person);
             SlideState = new SlideState(person);
             DeathState = new DeathState(person);
+
+            DefaultState = IdleState;
         }
     }
 }

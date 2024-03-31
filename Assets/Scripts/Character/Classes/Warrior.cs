@@ -1,6 +1,4 @@
 ﻿using Character.Movement;
-using Character.StateMachine;
-using Character.StateMachine.CharacterStates.WarriorStates;
 using Character.StateMachine.StateSets;
 using Character.ValueStorages;
 using Damageables.Weapon;
@@ -11,16 +9,15 @@ namespace Character.Classes
     public class Warrior : Person
     {
         [field: SerializeField] public Weapon Weapon { get; set; }
-        public WarriorStateSet PersonStateSet { get; set; }
         
-        protected override void SetComponents()
+        private WarriorStateSet _warriorStateSet;
+
+        protected override void Initialize()
         {
-            // SetStateMachine(new PersonStateSet(this));
-            Movement = GetComponent<CharacterMovement>();
-            
-            Health = new Health(this, Data.MaxHealth, HealthBar);
-            Stamina = new Stamina(this, Data.MaxStamina, StaminaBar);
-            Mana = new Mana(this, Data.MaxMana, ManaBar);
+            base.Initialize();
+            _warriorStateSet = new WarriorStateSet(this);
         }
+
+        public void Attack() => StateMachine.ChangeState(_warriorStateSet.AttackState);
     }
 }

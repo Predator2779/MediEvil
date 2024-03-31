@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Other.Follow;
+using UnityEngine;
 
 namespace Character.CharacterControllers.AI
 {
@@ -13,62 +14,65 @@ namespace Character.CharacterControllers.AI
         [SerializeField] protected LayerMask _layerMask;
 
         private CapsuleCollider2D _capsule;
-        
+
         protected override void Initialize()
         {
             base.Initialize();
             _capsule = _person.Movement.Capsule;
         }
-        
-        protected override void CheckConditions()
+
+        protected override void Execute()
         {
+            base.Execute();
+
             SetTempDirection();
-            
-            if (CanIdle()) return;
-            if (CanFollow()) return;
-            
-            _person.Idle();
+
+            if (CanIdle())
+            {
+                Idle();
+                return;
+            }
+
+            if (CanFollow())
+            {
+                Follow();
+                return;
+            }
+
+            Idle();
         }
 
-        private bool CanDash()
-        {
-            var collider = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
-            if (!collider) return false;
+        protected bool CanDash() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
+        private bool CanIdle() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _attackRadius, _layerMask);
 
-            return true;
-        }   
-        
-        private bool CanIdle()
-        {
-            var collider = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _attackRadius, _layerMask);
-            if (!collider) return false;
-            
-            _person.Idle();
-            return true;
-        }
-        
         protected bool CanFollow()
         {
             _target = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _followRadius, _layerMask);
-
-            if (_target == null) return false;
-
-            if (GetTargetDistance() > _dashRadius || Vector2.Angle(_person.Movement.ContactNormal, Vector2.up) >= 85)
-            {
-                _person.Roll();
-                return true;
-            }  
-            
-            if (GetTargetDistance() > _runRadius)
-            {
-                _person.Run();
-                return true;
-            }
-            
-            _person.Walk();
-            return true;
+            return _target;
         }
         
+        private void Follow()
+        {
+            if (GetTargetDistance() > _dashRadius || Vector2.Angle(_person.Movement.ContactNormal, Vector2.up) >= 85)
+            {
+                Roll();
+                return;
+            }
+
+            if (GetTargetDistance() > _runRadius)
+            {
+                Run();
+                return;
+            }
+
+            Walk();
+        }
+
+        private void Roll() => _person.Roll();
+        private void Run() => _person.Run();
+        private void Walk() => _person.Walk();
+        protected void Idle() => _person.Idle();
+
         protected virtual void SetTempDirection()
         {
             if (_target == null) return;
@@ -79,20 +83,21 @@ namespace Character.CharacterControllers.AI
 
         protected Vector2 GetTargetVector() => _target.transform.position - _person.transform.position;
         protected float GetTargetDistance() => Vector2.Distance(_person.transform.position, _target.transform.position);
-        protected Vector2 GetCapsuleCenterPos() => 
-            new Vector2(_capsule.transform.position.x, 
-            _capsule.transform.position.y + _capsule.size.y / 2);
-        
+
+        protected Vector2 GetCapsuleCenterPos() =>
+            new Vector2(_capsule.transform.position.x,
+                _capsule.transform.position.y + _capsule.size.y / 2);
+
         private void OnDrawGizmos()
         {
             if (_capsule == null) return;
-            
+
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _runRadius);
-            
+
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _dashRadius);
-            
+
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _followRadius);
 

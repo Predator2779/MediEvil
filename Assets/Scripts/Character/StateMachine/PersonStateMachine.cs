@@ -1,10 +1,14 @@
-﻿using Character.Classes;
-using Character.StateMachine.CharacterStates;
+﻿using Character.StateMachine.CharacterStates;
 
 namespace Character.StateMachine
 {
     public class PersonStateMachine
     {
+        public PersonStateMachine(CharacterState defaultState)
+        {
+            CurrentState = defaultState;
+        }
+
         private CharacterState CurrentState { get; set; }
 
         public void ChangeState(CharacterState newState)
