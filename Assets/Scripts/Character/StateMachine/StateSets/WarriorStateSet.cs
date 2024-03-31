@@ -1,14 +1,14 @@
 ﻿using Character.Classes;
 using Character.StateMachine.CharacterStates.WarriorStates;
 
-namespace Character.StateMachine
+namespace Character.StateMachine.StateSets
 {
-    public class WarriorStateMachine : PersonStateMachine
+    public class WarriorStateSet : PersonStateSet
     {
         private readonly Warrior _warrior;
         public AttackState AttackState { get; }
 
-        public WarriorStateMachine(Warrior warrior) : base(warrior)
+        public WarriorStateSet(Warrior warrior) : base(warrior)
         {
             _warrior = warrior;
             AttackState = new AttackState(_warrior);

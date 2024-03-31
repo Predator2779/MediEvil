@@ -1,5 +1,6 @@
 ﻿using Character.Classes;
 using Character.StateMachine;
+using Character.StateMachine.StateSets;
 using Input;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ public sealed class InputController : Controller
             base.Initialize();
             _inputHandler = new InputHandler();
             _warrior = GetComponent<Warrior>();
-            _warrior.SetStateMachine(new WarriorStateMachine(_warrior));
+            _warrior.SetStateMachine(new PersonStateSet(_warrior));
         }
         
         protected override void CheckConditions()

@@ -1,5 +1,6 @@
 ﻿using Character.Classes;
 using Character.StateMachine;
+using Character.StateMachine.StateSets;
 using UnityEngine;
 
 namespace Character.CharacterControllers.AI
@@ -9,7 +10,7 @@ namespace Character.CharacterControllers.AI
         protected override void Initialize()
         {
             _person = GetComponent<Warrior>(); ////////////////////
-            _person.SetStateMachine(new WarriorStateMachine((Warrior)_person));
+            _person.SetStateMachine(new PersonStateSet((Warrior)_person));
         }
         
         protected override void CheckConditions()
