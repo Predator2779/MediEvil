@@ -16,7 +16,7 @@ namespace Damageables.Weapon
         {
             var collider = Physics2D.OverlapCircle(transform.position, AttackRadius, LayerMask);
             if (collider && collider.TryGetComponent(out Person person)) 
-                DoDamage(person.Health, WeaponDamage + personDamage);
+                DoDamage(person.Health, WeaponDamage * personDamage);
         }
 
         private void OnDrawGizmos()

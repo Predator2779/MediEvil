@@ -67,13 +67,13 @@ namespace Character.StateMachine.CharacterStates
             
             var length = points.Count;
             var position = Person.transform.position;
-            var point = points[0].position;
-            var value = Vector2.Distance(position, points[0].position);
+            var point = GlobalConstants.StartPointPosition;
+            var value = Vector2.Distance(position, point);
 
-            for (int i = 1; i < length; i++)
+            for (int i = 0; i < length; i++)
             {
                 var newValue = Vector2.Distance(position, points[i].position);
-                if (!(newValue < value)) continue;
+                if (newValue > value) continue;
                 point = points[i].position;
                 value = newValue;
             }

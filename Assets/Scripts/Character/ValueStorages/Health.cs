@@ -1,6 +1,7 @@
 ﻿using Character.Classes;
 using Character.ValueStorages.Bars;
 using Global;
+using UnityEngine;
 
 namespace Character.ValueStorages
 {
@@ -23,6 +24,7 @@ namespace Character.ValueStorages
 
         public void TakeDamage(float value)
         {
+            Debug.Log(value);
             base.Decrease(value);
             if (value >= GlobalConstants.KnockdownDamage) Person.FallDown();
             if (CurrentValue <= MinValue) Person.Die();

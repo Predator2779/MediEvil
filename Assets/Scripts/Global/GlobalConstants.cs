@@ -5,6 +5,7 @@ namespace Global
     public static class GlobalConstants
     {
         public const float KnockdownDamage = 12;
+        public const float VelocityDamageCoef = 0.5f;
         public const float CoefPersonSpeed = 1;
         public const float HorizontalJumpCoef = 0.5f;
         public const float HorizontalFallMoveSpeed = CoefPersonSpeed;

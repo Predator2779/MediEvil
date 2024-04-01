@@ -53,7 +53,7 @@ namespace Character.CharacterControllers.AI
         
         // protected bool CanDash() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
         private bool CanStay() => GetTargetDistance() <= _stayDistance;
-        protected bool CanWalkFollow() => GetTargetDistance() <= _runDistance;
+        protected bool CanWalkFollow() => GetTargetDistance() <= _walkDistance;
         protected bool CanRunFollow() => GetTargetDistance() <= _runDistance;
 
         // protected void Follow()

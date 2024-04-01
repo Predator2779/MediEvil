@@ -1,4 +1,6 @@
 ﻿using Character.Classes;
+using Global;
+using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates.WarriorStates
 {
@@ -13,7 +15,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         {
             base.Enter();
             Warrior.Stamina.Decrease(Warrior.Data.StaminaAttackUsage);
-            Warrior.Weapon.DoDamage(Warrior.Data.Damage);
+            Warrior.Weapon.DoDamage(Mathf.Clamp(Warrior.Data.Damage * GetVelocityModificator(), Warrior.Data.Damage, Warrior.Data.Damage * GetVelocityModificator()));
         }
         
         public override void Execute()
@@ -25,6 +27,9 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
             CooldownControl();
         }
 
+        private float GetVelocityModificator() => Mathf.Abs(Warrior.Movement.GetVelocity().x +
+                                                            Warrior.Movement.GetVelocity().y) * 
+                                                  GlobalConstants.VelocityDamageCoef;
         public override bool CanEnter() => Warrior.Weapon != null && Warrior.Stamina.CanUse;
     }
 }
