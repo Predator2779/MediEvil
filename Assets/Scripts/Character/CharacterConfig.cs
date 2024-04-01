@@ -34,7 +34,7 @@ namespace Character
         public int CurrentStamina;
         public float StaminaRecovery;
         public float StaminaUsage;
-        public float StaminaAttackUsage;
+        public float StaminaAttackUsageCoef;
         [Tooltip("Millisecond")] public int StaminaRestoreDelay;
         
         [Header("Mana")] 
