@@ -8,7 +8,8 @@ namespace Character.CharacterControllers.AI
     {
         private Warrior _warrior;
         private bool _canCombo;
-        
+        private bool _staminaRestore;
+
         protected override void Initialize()
         {
             base.Initialize();
@@ -20,6 +21,7 @@ namespace Character.CharacterControllers.AI
             _person.StateMachine.Execute();
 
             SetTempDirection();
+            StaminaControl();
             
             if (!HasTarget())
             {
@@ -29,8 +31,14 @@ namespace Character.CharacterControllers.AI
 
             _warrior.Movement.LookTo(_target.transform);
             
-            if (_person.Stamina.GetPercentageRation() <= 15)
+            if (_staminaRestore)
             {
+                if (CanStay())
+                {
+                    Idle();
+                    return;
+                }
+                
                 WalkFollow();
                 return;
             } 
@@ -57,6 +65,12 @@ namespace Character.CharacterControllers.AI
             {
                 RunFollow();
             }
+        }
+
+        private void StaminaControl()
+        {
+            if (_person.Stamina.GetPercentageRation() > 30) _staminaRestore = false; // написать конфиг для ИИ
+            if (_person.Stamina.GetPercentageRation() <= 0) _staminaRestore = true;
         }
         
         private void ComboAttack()
