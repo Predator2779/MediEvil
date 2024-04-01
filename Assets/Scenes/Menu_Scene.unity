@@ -3046,7 +3046,7 @@ Animator:
   m_GameObject: {fileID: 9200771574453532848}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dbd6ec495ca03124898e276c11852ffa, type: 2}
+  m_Controller: {fileID: 9100000, guid: f316af865b619b14eb146537b844f8d8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3068,6 +3068,7 @@ GameObject:
   - component: {fileID: 1958312539726230727}
   - component: {fileID: 1765027794752486403}
   - component: {fileID: 2774655685291517652}
+  - component: {fileID: 9200771574453532849}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -3075,6 +3076,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &9200771574453532849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9200771574453532848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3070fcea961b4754baf0a1f7f2a95ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 7400000, guid: d60a5bf93616915459db6a30644ced10, type: 2}
+  - {fileID: 7400000, guid: 0654dfb1dd28d9b49a3430f2d51fa57b, type: 2}
+  - {fileID: 7400000, guid: 886af6a1be0bcec438d22a0ac898513e, type: 2}
+  - {fileID: 7400000, guid: 61b0a1e4fb462284987af5a312a4df2f, type: 2}
+  - {fileID: 7400000, guid: 52ab5716c33869e429c43b0ded41f33c, type: 2}
+  - {fileID: 7400000, guid: 5d32061f096ef814ea581ef06d212b9b, type: 2}
+  - {fileID: 7400000, guid: 9c010aa72d5c0c549be089ef3041e683, type: 2}
+  - {fileID: 7400000, guid: 0bc22de282d4fd949a3a68e72c3faa8f, type: 2}
+  - {fileID: 7400000, guid: 3a2f55802679828498985fcee31a7f25, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
