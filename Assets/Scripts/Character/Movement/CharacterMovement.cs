@@ -19,7 +19,7 @@ namespace Character.Movement
         [SerializeField] private float _drawLine;
 
         private Rigidbody2D _rbody;
-        private CharacterData _data;
+        private CharacterConfig _config;
         private ContactPoint2D _contact;
         private ContactPoint2D[] _contacts;
 
@@ -27,7 +27,7 @@ namespace Character.Movement
         {
             Capsule = GetComponent<CapsuleCollider2D>();
             _rbody = GetComponent<Rigidbody2D>();
-            _data = GetComponent<Person>().Data;
+            _config = GetComponent<Person>().Config;
         }
         
         private void OnCollisionStay2D(Collision2D other)
@@ -98,20 +98,20 @@ namespace Character.Movement
         }
 
         public void SetSideByVelocity() => RotateObj(GetVelocity().x < 0 ? 180 : 0);
-        public void Walk() => _rbody.velocity = GetHorizontalDirection(_data.SpeedMove * GlobalConstants.CoefPersonSpeed);
-        public void Run() => _rbody.velocity = GetHorizontalDirection(_data.SpeedRun * GlobalConstants.CoefPersonSpeed);
-        public void FallMove() => _rbody.velocity = GetHorizontalDirection(_data.SpeedMove * _data.FallSpeed * GlobalConstants.HorizontalFallMoveSpeed);
-        public void Jump() => _rbody.AddForce(GetJumpVector() * _data.JumpForce * _rbody.mass, ForceMode2D.Impulse);
+        public void Walk() => _rbody.velocity = GetHorizontalDirection(_config.SpeedMove * GlobalConstants.CoefPersonSpeed);
+        public void Run() => _rbody.velocity = GetHorizontalDirection(_config.SpeedRun * GlobalConstants.CoefPersonSpeed);
+        public void FallMove() => _rbody.velocity = GetHorizontalDirection(_config.SpeedMove * _config.FallSpeed * GlobalConstants.HorizontalFallMoveSpeed);
+        public void Jump() => _rbody.AddForce(GetJumpVector() * _config.JumpForce * _rbody.mass, ForceMode2D.Impulse);
         public void Roll() => _rbody.velocity = GetRollVector();
-        public void Slide() => _rbody.AddForce(GetSlideVector() * _data.SlideSpeed, ForceMode2D.Impulse);
+        public void Slide() => _rbody.AddForce(GetSlideVector() * _config.SlideSpeed, ForceMode2D.Impulse);
         public void SetBodyType(RigidbodyType2D type) => _rbody.bodyType = type;
         public bool IsGrounded() => ContactPoint.y <= _rbody.position.y + GlobalConstants.CollisionOffset &&
                                     _rbody.position.y - ContactPoint.y <= GlobalConstants.MaxGroundOffset;
         public bool IsFall() => _rbody.velocity.y < -GlobalConstants.FallSpeed;
-        public bool CanSlide() => Mathf.Abs(GetVelocity().x) >= _data.SlideLimitVelocity;
+        public bool CanSlide() => Mathf.Abs(GetVelocity().x) >= _config.SlideLimitVelocity;
         private void RotateObj(float angle) => transform.localRotation = Quaternion.Euler(0f, angle, 0f);
         private Vector2 GetHorizontalDirection(float speed) => new Vector2(Direction.x * speed, _rbody.velocity.y);
-        private Vector2 GetRollVector() => new Vector2(TempDirection.normalized.x * _data.RollDistance, _data.RollHeight);
+        private Vector2 GetRollVector() => new Vector2(TempDirection.normalized.x * _config.RollDistance, _config.RollHeight);
         private Vector2 GetSlideVector() => new Vector2(_rbody.velocity.x, _rbody.velocity.y);
         private Vector2 GetJumpVector() => new Vector2(Direction.normalized.x * GlobalConstants.HorizontalJumpCoef, 1);
         public Vector2 GetVelocity() => _rbody.velocity;

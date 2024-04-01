@@ -30,7 +30,7 @@ namespace Character.StateMachine.CharacterStates
         {
             if (Person.Stamina.CanUse || IsCooldown) return;
             IsCooldown = true;
-            Task.Delay(Person.Data.StaminaRestoreDelay).ContinueWith(_ => IsCooldown = false);
+            Task.Delay(Person.Config.StaminaRestoreDelay).ContinueWith(_ => IsCooldown = false);
         }
         
         protected bool AnimationCompleted()
@@ -41,7 +41,7 @@ namespace Character.StateMachine.CharacterStates
 
         protected virtual void ChangingIndicators()
         {
-            if (Person.Stamina.CanRestore()) Person.Stamina.Increase(Person.Data.StaminaRecovery);
+            if (Person.Stamina.CanRestore()) Person.Stamina.Increase(Person.Config.StaminaRecovery);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Other.Scenes
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.TryGetComponent(out Person person) || !person.IsPlayer) return;
-            person.Data.SavePoints.Clear();
+            person.Config.SavePoints.Clear();
             LoadScene();
         }
     }

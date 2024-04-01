@@ -19,6 +19,6 @@ namespace Character.StateMachine.CharacterStates
             Person.Movement.Run();
         }
 
-        protected override void ChangingIndicators() => Person.Stamina.Decrease(Person.Data.StaminaUsage * GlobalConstants.RunStaminaUsageCoef);
+        protected override void ChangingIndicators() => Person.Stamina.Decrease(Person.Config.StaminaUsage * GlobalConstants.RunStaminaUsageCoef);
     }
 }

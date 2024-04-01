@@ -14,8 +14,8 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         public override void Enter()
         {
             base.Enter();
-            Warrior.Stamina.Decrease(Warrior.Data.StaminaAttackUsage);
-            Warrior.Weapon.DoDamage(Mathf.Clamp(Warrior.Data.Damage * GetVelocityModificator(), Warrior.Data.Damage, Warrior.Data.Damage * GetVelocityModificator()));
+            Warrior.Stamina.Decrease(Warrior.Config.StaminaAttackUsage);
+            Warrior.Weapon.DoDamage(Mathf.Clamp(Warrior.Config.Damage * GetVelocityModificator(), Warrior.Config.Damage, Warrior.Config.Damage * GetVelocityModificator()));
         }
         
         public override void Execute()

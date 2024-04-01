@@ -39,7 +39,7 @@ namespace Character.ValueStorages
             CanUse = false;
             _restoreIsDelayed = true;
                  
-            Task.Delay(Person.Data.StaminaRestoreDelay).ContinueWith(_ => { CanUse = true; _restoreIsDelayed = false; });
+            Task.Delay(Person.Config.StaminaRestoreDelay).ContinueWith(_ => { CanUse = true; _restoreIsDelayed = false; });
         }
 
         public bool CanRestore() => CurrentValue < MaxValue && !_restoreIsDelayed;

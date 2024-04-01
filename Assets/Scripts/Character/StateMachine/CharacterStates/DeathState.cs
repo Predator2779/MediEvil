@@ -46,7 +46,7 @@ namespace Character.StateMachine.CharacterStates
                 return;
             }
 
-            Task.Delay(Person.Data.TimeToRespawn).ContinueWith(_ => _isRespawned = true);
+            Task.Delay(Person.Config.TimeToRespawn).ContinueWith(_ => _isRespawned = true);
         }
 
         private void Respawn()
@@ -56,7 +56,7 @@ namespace Character.StateMachine.CharacterStates
             _isDeath = false;
             _isRespawned = false;
             
-            Person.transform.position = GetNearestPoint(Person.Data.SavePoints);
+            Person.transform.position = GetNearestPoint(Person.Config.SavePoints);
             Person.Health.TakeFullHeal();
             Person.Idle();
         }
@@ -68,14 +68,17 @@ namespace Character.StateMachine.CharacterStates
             var length = points.Count;
             var position = Person.transform.position;
             var point = GlobalConstants.StartPointPosition;
-            var value = Vector2.Distance(position, point);
+            var distance = Vector2.Distance(position, point);
 
             for (int i = 0; i < length; i++)
             {
-                var newValue = Vector2.Distance(position, points[i].position);
-                if (newValue > value) continue;
-                point = points[i].position;
-                value = newValue;
+                var newPoint = points[i].position;
+                var newDistance = Vector2.Distance(position, newPoint);
+                
+                if (newDistance > distance) continue;
+                
+                point = newPoint;
+                distance = newDistance;
             }
 
             return point;

@@ -11,7 +11,7 @@ namespace Character.Classes
     public class Person : MonoBehaviour
     {
         [field: SerializeField] public bool IsPlayer { get; set; }
-        [field: SerializeField] public CharacterData Data { get; set; }
+        [field: SerializeField] public CharacterConfig Config { get; set; }
         [field: SerializeField] public Animator Animator { get; set; }
         [field: SerializeField] protected ValueBar HealthBar { get; set; }
         [field: SerializeField] protected ValueBar StaminaBar { get; set; }
@@ -32,9 +32,9 @@ namespace Character.Classes
         {
             Movement = GetComponent<CharacterMovement>();
 
-            Health = new Health(this, Data.MaxHealth, Data.MaxHealth, HealthBar);
-            Stamina = new Stamina(this, Data.MaxStamina, Data.MaxStamina, StaminaBar);
-            Mana = new Mana(this, Data.MaxMana, Data.MaxMana, ManaBar);
+            Health = new Health(this, Config.MaxHealth, Config.MaxHealth, HealthBar);
+            Stamina = new Stamina(this, Config.MaxStamina, Config.MaxStamina, StaminaBar);
+            Mana = new Mana(this, Config.MaxMana, Config.MaxMana, ManaBar);
 
             _personStateSet = new PersonStateSet(this);
             StateMachine = new PersonStateMachine(_personStateSet.DefaultState);

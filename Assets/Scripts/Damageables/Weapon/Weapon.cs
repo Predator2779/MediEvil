@@ -15,10 +15,16 @@ namespace Damageables.Weapon
         public void DoDamage(float personDamage)
         {
             var collider = Physics2D.OverlapCircle(transform.position, AttackRadius, LayerMask);
-            if (collider && collider.TryGetComponent(out Person person)) 
-                DoDamage(person.Health, WeaponDamage * personDamage);
+
+            if (!collider || !collider.TryGetComponent(out Person person)) return;
+            
+            var damage = WeaponDamage * personDamage / GetDistanceDamageModificator(person.transform);
+            DoDamage(person.Health, damage);
         }
 
+        private float GetDistanceDamageModificator(Transform target) => 
+            AttackRadius / Vector2.Distance(transform.position, target.position);
+        
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
