@@ -1,7 +1,6 @@
 ﻿using Character.Classes;
 using Character.ValueStorages.Bars;
 using Global;
-using UnityEngine;
 
 namespace Character.ValueStorages
 {
@@ -18,13 +17,15 @@ namespace Character.ValueStorages
         }
 
         private Person Person { get; }
+        public bool CanDamage { get; set; } = true;
 
         public void TakeHeal(float value) => Increase(value);
         public void TakeFullHeal() => Increase(MaxValue);
 
         public void TakeDamage(float value)
         {
-            // Debug.Log(value);
+            if (!CanDamage) return;
+            
             base.Decrease(value);
             if (value >= GlobalConstants.KnockdownDamage) Person.FallDown();
             if (CurrentValue <= MinValue) Person.Die();

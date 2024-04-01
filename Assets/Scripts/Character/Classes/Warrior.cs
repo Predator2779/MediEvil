@@ -17,5 +17,6 @@ namespace Character.Classes
         }
 
         public void Attack() => StateMachine.ChangeState(_warriorStateSet.AttackState);
+        public void ComboAttack() => StateMachine.ChangeState(_warriorStateSet.ComboAttackState);
     }
 }

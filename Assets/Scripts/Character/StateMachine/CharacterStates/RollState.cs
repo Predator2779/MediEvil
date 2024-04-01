@@ -14,6 +14,7 @@ namespace Character.StateMachine.CharacterStates
         {
             base.Enter();
             Person.Movement.Roll();
+            Person.Health.CanDamage = false;
             Person.Stamina.Decrease(Person.Config.StaminaUsage * GlobalConstants.RollStaminaUsageCoef);
         }
 
@@ -22,7 +23,13 @@ namespace Character.StateMachine.CharacterStates
             SafetyCompleting();
             Person.Movement.SetSideByVelocity();
         }
-        
+
+        public override void Exit()
+        {
+            base.Exit();
+            Person.Health.CanDamage = true;
+        }
+
         public override void FixedExecute() {}
     }
 }

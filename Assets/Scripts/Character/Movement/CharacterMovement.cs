@@ -97,7 +97,6 @@ namespace Character.Movement
             Gizmos.DrawRay(ContactPoint, ContactNormal * _drawLine);
         }
 
-        public void SetSideByVelocity() => RotateObj(GetVelocity().x < 0 ? 180 : 0);
         public void Walk() => _rbody.velocity = GetHorizontalDirection(_config.SpeedMove * GlobalConstants.CoefPersonSpeed);
         public void Run() => _rbody.velocity = GetHorizontalDirection(_config.SpeedRun * GlobalConstants.CoefPersonSpeed);
         public void FallMove() => _rbody.velocity = GetHorizontalDirection(_config.SpeedMove * _config.FallSpeed * GlobalConstants.HorizontalFallMoveSpeed);
@@ -109,7 +108,10 @@ namespace Character.Movement
                                     _rbody.position.y - ContactPoint.y <= GlobalConstants.MaxGroundOffset;
         public bool IsFall() => _rbody.velocity.y < -GlobalConstants.FallSpeed;
         public bool CanSlide() => Mathf.Abs(GetVelocity().x) >= _config.SlideLimitVelocity;
+        public void SetSideByVelocity() => RotateObj(GetVelocity().x < 0 ? 180 : 0);
         private void RotateObj(float angle) => transform.localRotation = Quaternion.Euler(0f, angle, 0f);
+        public void LookTo(Transform target) => transform.localRotation = Quaternion.Euler(0f, GetTargetSide(target), 0f);
+        private float GetTargetSide(Transform target) => target.transform.position.x > transform.position.x ? 0 : 180;
         private Vector2 GetHorizontalDirection(float speed) => new Vector2(Direction.x * speed, _rbody.velocity.y);
         private Vector2 GetRollVector() => new Vector2(TempDirection.normalized.x * _config.RollDistance, _config.RollHeight);
         private Vector2 GetSlideVector() => new Vector2(_rbody.velocity.x, _rbody.velocity.y);

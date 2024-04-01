@@ -40,6 +40,6 @@ namespace Character.ValueStorages
             if (Bar != null) Bar.SetCurrentValue(GetPercentageRation());
         }
 
-        protected float GetPercentageRation() => CurrentValue / MaxValue * 100;
+        public float GetPercentageRation() => CurrentValue / MaxValue * 100;
     }
 }

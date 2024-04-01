@@ -22,8 +22,11 @@ namespace Character
 
         [Space] [Header("Parameters")] [Space]
         
-        [Header("Damage")] 
+        [Header("Attack")] 
         public float Damage;
+        public float ComboAttackDamageModificator;
+        [Tooltip("Seconds")] public float ComboInterval;
+        [Tooltip("Frames")] public int SecondStrikeDelay;
         
         [Header("Health")]
         public int MaxHealth;
@@ -35,7 +38,7 @@ namespace Character
         public float StaminaRecovery;
         public float StaminaUsage;
         public float StaminaAttackUsageCoef;
-        [Tooltip("Millisecond")] public int StaminaRestoreDelay;
+        [Tooltip("Milliseconds")] public int StaminaRestoreDelay;
         
         [Header("Mana")] 
         public int MaxMana;
@@ -43,7 +46,7 @@ namespace Character
         public float ManaUsage;
         
         [Header("Death")] 
-        [Tooltip("Millisecond")] public int TimeToRespawn;
+        [Tooltip("Milliseconds")] public int TimeToRespawn;
         public List<Transform> SavePoints;
     }
 }

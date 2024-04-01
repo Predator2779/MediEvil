@@ -36,6 +36,7 @@ namespace Global
         public static Vector2 StartPointPosition = new Vector2(-49.75f, -0.58f);
 
         // AI
+        public const int ComboChanceAI = 10;
         public const int RollChanceAI = 35;
     }
 }

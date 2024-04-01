@@ -1,4 +1,6 @@
-﻿using Character.Classes;
+﻿using System.Collections;
+using Character.Classes;
+using Global;
 using Input;
 using UnityEngine;
 
@@ -88,7 +90,12 @@ namespace Character.CharacterControllers.Inputs
         private bool IsRunning() => IsWalking() && _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
         private bool IsWalking() => _person.Movement.IsGrounded() && _inputHandler.GetHorizontalAxis() != 0;
 
-        private void Attack() => _warrior.Attack();
+        private void Attack()
+        {
+            if (Random.Range(0, GlobalConstants.ComboChanceAI) == 0) _warrior.Attack(); 
+            else _warrior.ComboAttack();
+        }
+        
         private void Fall() => _person.Fall();
         private void Jump() => _person.Jump();
         private void Slide() => _person.Slide();
