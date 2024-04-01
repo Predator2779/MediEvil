@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Global;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Character.CharacterControllers.AI
@@ -76,8 +77,8 @@ namespace Character.CharacterControllers.AI
 
         protected void RunFollow()
         {
-            if (Random.Range(0, 2) == 0) _person.Run();
-            else Roll();
+            if (Random.Range(0, GlobalConstants.RollChanceAI) == 0) Roll();
+            else _person.Run();
         }
         
         protected void WalkFollow() => _person.Walk();

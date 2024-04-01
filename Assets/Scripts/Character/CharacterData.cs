@@ -7,8 +7,10 @@ namespace Character
     public class CharacterData : ScriptableObject
     {
         [Header("About")] [Space]
+        
         public string Name;
-        [Space] [Header("Speed")] 
+        
+        [Space] [Header("Movement")] 
         public float SpeedMove;
         public float SpeedRun;
         public float JumpForce;
@@ -18,21 +20,30 @@ namespace Character
         public float SlideLimitVelocity;
         public float SlideSpeed;
 
-        [Space] [Header("Parameters")] [Header("Health")]
+        [Space] [Header("Parameters")] [Space]
+        
+        [Header("Damage")] 
+        public float Damage;
+        
+        [Header("Health")]
         public int MaxHealth;
-
         public int CurrentHealth;
-        [Header("Stamina")] public int MaxStamina;
+        
+        [Header("Stamina")]
+        public int MaxStamina;
         public int CurrentStamina;
         public float StaminaRecovery;
         public float StaminaUsage;
         public float StaminaAttackUsage;
         [Tooltip("Millisecond")] public int StaminaRestoreDelay;
-        [Header("Mana")] public int MaxMana;
+        
+        [Header("Mana")] 
+        public int MaxMana;
         public int CurrentMana;
         public float ManaUsage;
-        [Header("Damage")] public float Damage;
-        [Header("Death")] public List<Transform> SavePoints;
+        
+        [Header("Death")] 
         [Tooltip("Millisecond")] public int TimeToRespawn;
+        public List<Transform> SavePoints;
     }
 }

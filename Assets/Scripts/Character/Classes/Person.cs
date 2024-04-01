@@ -32,8 +32,8 @@ namespace Character.Classes
         {
             Movement = GetComponent<CharacterMovement>();
 
-            Health = new Health(this, Data.MaxMana, Data.MaxMana, HealthBar);
-            Stamina = new Stamina(this, Data.MaxMana, Data.MaxMana, StaminaBar);
+            Health = new Health(this, Data.MaxHealth, Data.MaxHealth, HealthBar);
+            Stamina = new Stamina(this, Data.MaxStamina, Data.MaxStamina, StaminaBar);
             Mana = new Mana(this, Data.MaxMana, Data.MaxMana, ManaBar);
 
             _personStateSet = new PersonStateSet(this);
