@@ -8,6 +8,7 @@ namespace Character.StateMachine.CharacterStates
     public class SlideState : TiredState
     {
         private Transform _transform;
+        private Quaternion _prevQuaternion;
         private Vector2 _normal;
 
         public SlideState(Person person) : base(person)
@@ -19,6 +20,8 @@ namespace Character.StateMachine.CharacterStates
         public override void Enter()
         {
             _normal = Person.Movement.ContactNormal;
+            _prevQuaternion = _transform.rotation;
+            
             Person.Movement.Slide();
             IsCompleted = false;
             base.Enter();
@@ -42,12 +45,13 @@ namespace Character.StateMachine.CharacterStates
         private void RotateByNormal()
         {
             float angle = Mathf.Atan2(_normal.x, _normal.y) * Mathf.Rad2Deg;
-            _transform.rotation = Quaternion.Euler(0, 0, -angle);
+            var rot = _transform.rotation.eulerAngles;
+            _transform.rotation = Quaternion.Euler(rot.x, rot.y, -angle);
         }
 
         public override void Exit()
         {
-            _transform.rotation = Quaternion.Euler(0, 0, 0);
+            _transform.rotation = Quaternion.Euler(_transform.rotation.x, _transform.rotation.y, _prevQuaternion.z);
             IsCompleted = true;
             IsCooldown = true;
             
