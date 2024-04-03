@@ -20,6 +20,7 @@ namespace Character.StateMachine.CharacterStates
         public override void Execute()
         {
             Person.Movement.SetSideByVelocity();
+            Person.Movement.FallMove();
             SafetyCompleting();
         }
 

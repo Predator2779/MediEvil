@@ -47,6 +47,12 @@ namespace Character.CharacterControllers.Inputs
                 return;
             }
 
+            if (IsDefense())
+            {
+                Defense();
+                return;
+            }
+            
             if (IsAttack())
             {
                 Attack();
@@ -86,6 +92,7 @@ namespace Character.CharacterControllers.Inputs
                                     _inputHandler.GetSpaceBtn();
 
         private bool IsAttack() => _inputHandler.GetLMB();
+        private bool IsDefense() => _inputHandler.GetRMB();
         private bool IsRunning() => IsWalking() && _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
         private bool IsWalking() => _person.Movement.IsGrounded() && _inputHandler.GetHorizontalAxis() != 0;
 
@@ -94,7 +101,8 @@ namespace Character.CharacterControllers.Inputs
             if (Random.Range(0, GlobalConstants.ComboChanceAI) == 0) _warrior.Attack(); 
             else _warrior.ComboAttack();
         }
-        
+
+        private void Defense() => _warrior.Defense();
         private void Fall() => _person.Fall();
         private void Jump() => _person.Jump();
         private void Slide() => _person.Slide();
