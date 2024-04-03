@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Global;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates.WarriorStates
@@ -10,11 +11,11 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
             Animation = "combo-attack";
         }
 
-        protected override float GetDamage()
+        protected override void ApplyDamage()
         {
-            var baseDamage = Warrior.Config.Damage * Warrior.Config.ComboAttackDamageModificator;
-            return Mathf.Clamp(baseDamage * GetVelocityModificator(), baseDamage,
-                baseDamage * GetVelocityModificator());
+            var outputDamage = GetDamage() * Warrior.Config.ComboAttackDamageModificator;
+            Warrior.Weapon.DoDamage(outputDamage);
+            Warrior.Stamina.Decrease(Warrior.Config.StaminaAttackUsageCoef * outputDamage / GlobalConstants.StaminaComboDivider);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Character.Classes;
 using Global;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace Character.Movement

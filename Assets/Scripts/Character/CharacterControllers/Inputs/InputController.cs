@@ -1,6 +1,9 @@
-﻿using Character.Classes;
+﻿using System.Collections;
+using Character.Classes;
 using Global;
 using Input;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace Character.CharacterControllers.Inputs
@@ -9,14 +12,24 @@ namespace Character.CharacterControllers.Inputs
     {
         private InputHandler _inputHandler;
         private Warrior _warrior;
+        private bool _canCombo;
+
+        private CompositeDisposable _disposables;
+
+        // private void OnDisable()
+        // {
+        //     foreach (var d in _disposables) d.Dispose();
+        //     _disposables.Clear();
+        // }
 
         protected override void Initialize()
         {
             base.Initialize();
             _inputHandler = new InputHandler();
             _warrior = GetComponent<Warrior>();
-        }
 
+        }
+        
         protected override void Execute()
         {
             base.Execute();
@@ -52,7 +65,7 @@ namespace Character.CharacterControllers.Inputs
                 Defense();
                 return;
             }
-            
+
             if (IsAttack())
             {
                 Attack();
@@ -63,9 +76,9 @@ namespace Character.CharacterControllers.Inputs
             {
                 Run();
                 return;
-            }   
+            }
             
-            if (IsWalking())
+            if (CanWalking())
             {
                 Walk();
                 return;
@@ -77,29 +90,41 @@ namespace Character.CharacterControllers.Inputs
         private bool IsFall() => !_person.Movement.IsGrounded() && _person.Movement.IsFall();
 
         private bool IsJump() => _person.Stamina.CanUse &&
-                                    !_person.Movement.IsFall() &&
-                                    _person.Movement.IsGrounded() &&
-                                    _inputHandler.GetVerticalAxis() > 0;
-        
+                                 !_person.Movement.IsFall() &&
+                                 _person.Movement.IsGrounded() &&
+                                 _inputHandler.GetVerticalAxis() > 0;
+
         // добавить атаку в прыжке (для варриора)
         private bool IsSlide() => _person.Movement.IsGrounded() &&
-                                     _person.Movement.CanSlide() &&
-                                     _inputHandler.GetVerticalAxis() < 0;
+                                  _person.Movement.CanSlide() &&
+                                  _inputHandler.GetVerticalAxis() < 0;
 
         private bool IsRoll() => _person.Stamina.CanUse &&
-                                    !_person.Movement.IsFall() &&
-                                    _person.Movement.IsGrounded() &&
-                                    _inputHandler.GetSpaceBtn();
+                                 !_person.Movement.IsFall() &&
+                                 _person.Movement.IsGrounded() &&
+                                 _inputHandler.GetSpaceBtn();
 
         private bool IsAttack() => _inputHandler.GetLMB();
         private bool IsDefense() => _inputHandler.GetRMB();
-        private bool IsRunning() => IsWalking() && _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
+        private bool IsRunning() => CanWalking() && _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
         private bool IsWalking() => _person.Movement.IsGrounded() && _inputHandler.GetHorizontalAxis() != 0;
 
+        private bool CanWalking() => _person.Movement.IsGrounded() && _inputHandler.GetHorizontalAxis() != 0;
+        
         private void Attack()
         {
-            if (Random.Range(0, GlobalConstants.ComboChanceAI) == 0) _warrior.Attack(); 
-            else _warrior.ComboAttack();
+            if (_canCombo) _warrior.ComboAttack();
+            else _warrior.Attack();
+            
+            StopCoroutine(ResetCombo());
+            StartCoroutine(ResetCombo());
+        }
+
+        private IEnumerator ResetCombo()
+        {
+            _canCombo = true;
+            yield return new WaitForSeconds(_warrior.Config.ComboInterval);
+            _canCombo = false;
         }
 
         private void Defense() => _warrior.Defense();
@@ -110,7 +135,7 @@ namespace Character.CharacterControllers.Inputs
         private void Run() => _person.Run();
         private void Walk() => _person.Walk();
         private void Idle() => _person.Idle();
-        
+
         private Vector2 GetDirection() => new Vector2(
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());

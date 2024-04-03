@@ -9,7 +9,7 @@ namespace Character.StateMachine
             CurrentState = defaultState;
         }
 
-        private CharacterState CurrentState { get; set; }
+        public CharacterState CurrentState { get; set; }
 
         public void ChangeState(CharacterState newState)
         {

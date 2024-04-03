@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Character.Classes;
+using Global;
 using UnityEngine;
 
 namespace Character.CharacterControllers.AI
@@ -7,7 +8,6 @@ namespace Character.CharacterControllers.AI
     public class WarriorAI : PersecutorAI
     {
         private Warrior _warrior;
-        private bool _canCombo;
         private bool _staminaRestore;
 
         protected override void Initialize()
@@ -43,12 +43,6 @@ namespace Character.CharacterControllers.AI
                 return;
             } 
             
-            if (CanAttack() && _canCombo)
-            {
-                ComboAttack();
-                return;
-            }
-            
             if (CanAttack())
             {
                 Attack();
@@ -73,27 +67,12 @@ namespace Character.CharacterControllers.AI
             if (_person.Stamina.GetPercentageRation() <= 0) _staminaRestore = true;
         }
         
-        private void ComboAttack()
-        {
-            _warrior.ComboAttack();
-            _canCombo = true;
-            StopCoroutine(ResetCombo());
-            StartCoroutine(ResetCombo());
-        }
-        
         private void Attack()
         {
-            _warrior.Attack();
-            _canCombo = true;
-            StopCoroutine(ResetCombo());
-            StartCoroutine(ResetCombo());
+            if (Random.Range(0, GlobalConstants.ComboChanceAI) == 0) _warrior.Attack(); 
+            else _warrior.ComboAttack();
         }
-        private IEnumerator ResetCombo()
-        {
-            yield return new WaitForSeconds(_warrior.Config.ComboInterval);
-            _canCombo = false;
-        }
-        
+
         private bool CanAttack() => GetTargetDistance() <= _stayDistance;
     }
 }

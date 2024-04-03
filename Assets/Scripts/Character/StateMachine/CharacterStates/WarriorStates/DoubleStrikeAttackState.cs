@@ -11,19 +11,26 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
             Animation = "combo-attack";
         }
 
+        public override void Execute()
+        {
+            base.Execute();
+            SecondStrike();
+        }
+
         private void SecondStrike()
         {
             _frames++;
             if (_frames < Warrior.Config.SecondStrikeDelay) return;
             
             _frames = 0;
-            ApplyDamage();
+            ApplyDamageWithoutStamina();
         }
 
-        public override void Execute()
+        private void ApplyDamageWithoutStamina()
         {
-            base.Execute();
-            SecondStrike();
+            var outputDamage = GetDamage();
+            Warrior.Weapon.DoDamage(outputDamage);
         }
+        
     }
 }

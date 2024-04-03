@@ -28,14 +28,14 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
             CooldownControl();
         }
 
-        protected virtual float GetDamage()
+        protected float GetDamage()
         {
             var baseDamage = Warrior.Config.Damage;
             return Mathf.Clamp(baseDamage * GetVelocityModificator(), baseDamage,
                 baseDamage * GetVelocityModificator());
         }
 
-        protected void ApplyDamage()
+        protected virtual void ApplyDamage()
         {
             var outputDamage = GetDamage();
             Warrior.Weapon.DoDamage(outputDamage);

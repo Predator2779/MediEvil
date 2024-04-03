@@ -5,8 +5,9 @@ namespace Global
     public static class GlobalConstants
     {
         // Damage
-        public const float KnockdownDamage = 12;
+        public const float KnockdownDamage = 12;   // урон сшибающийс ног (переделать)
         public const float VelocityDamageCoef = 0.5f;
+        public const int ComboFrameCount = 10;  // сколько кадров дается на комбо
 
         // Move Speed
         public const float CoefPersonSpeed = 1;
@@ -21,22 +22,23 @@ namespace Global
         // Ground Offsets
         public const float MaxGroundOffset = 0.2f;
         public const float CollisionOffset = 0.05f;
-        public const float PointOffset = 0.05f;
+        public const float PointOffset = 0.05f;       
         
         // Stamina
-        public const float RunStaminaUsageCoef = 0.8f;
-        public const float JumpStaminaUsageCoef = 50;
-        public const float RollStaminaUsageCoef = 20;
+        public const float RunStaminaUsageCoef = 0.8f;  // в конфиг
+        public const float JumpStaminaUsageCoef = 50;  // в конфиг
+        public const float RollStaminaUsageCoef = 20;  // в конфиг
+        public const float StaminaComboDivider = 1.5f; // режет использование выносливости во время комбо-атаки
         
         // Colldowns
         public const int SlideCooldown = 1000;
-        public const int FallDownDelay = 1500;
+        public const int FallDownDelay = 1500;   // задержка вставания персонажа
 
         // Saves
         public static Vector2 StartPointPosition = new Vector2(-49.75f, -0.58f);
 
         // AI
-        public const int ComboChanceAI = 10;
+        public const int ComboChanceAI = 10;   // 1 из 10 шанс совершения комбо
         public const int RollChanceAI = 35;
     }
 }
