@@ -16,11 +16,11 @@ namespace Character.CharacterControllers.Inputs
 
         private CompositeDisposable _disposables;
 
-        // private void OnDisable()
-        // {
-        //     foreach (var d in _disposables) d.Dispose();
-        //     _disposables.Clear();
-        // }
+        private void OnDisable()
+        {
+            foreach (var d in _disposables) d?.Dispose();
+            _disposables.Clear();
+        }
 
         protected override void Initialize()
         {
@@ -28,96 +28,99 @@ namespace Character.CharacterControllers.Inputs
             _inputHandler = new InputHandler();
             _warrior = GetComponent<Warrior>();
 
+            Subscribe();
         }
-        
+
+        private void Subscribe()
+        {
+            this.UpdateAsObservable()
+                .Where(_ => !IsAttack())
+                .Where(_ => !IsDefense())
+                .Where(_ => !IsFall())
+                .Where(_ => !IsWalk())
+                .Where(_ => !IsRun())
+                .Where(_ => !IsJump())
+                .Where(_ => !IsSlide())
+                .Where(_ => !IsRoll())
+                .Subscribe(_ => { Idle(); });
+            
+            this.UpdateAsObservable()
+                .Where(_ => IsAttack())
+                .Subscribe(_ => { Attack(); });
+
+            this.UpdateAsObservable()
+                .Where(_ => IsWalk() && !IsRun())
+                .Subscribe(_ => { Walk(); });
+
+            this.UpdateAsObservable()
+                .Where(_ => IsWalk() && IsRun())
+                .Subscribe(_ => { Run(); });
+
+            this.UpdateAsObservable()
+                .Where(_ => IsFall())
+                .Subscribe(_ => { Fall(); });
+
+            this.UpdateAsObservable()
+                .Where(_ => IsJump())
+                .Subscribe(_ => { Jump(); });
+
+            this.UpdateAsObservable()
+                .Where(_ => IsSlide())
+                .Subscribe(_ => { Slide(); });
+
+            this.UpdateAsObservable()
+                .Where(_ => IsDefense())
+                .Subscribe(_ => { Defense(); });
+
+            this.UpdateAsObservable()
+                .Where(_ => IsRoll())
+                .Subscribe(_ => { Roll(); });
+        }
+
         protected override void Execute()
         {
             base.Execute();
-
-            SetTempDirection();
-
-            if (IsFall())
-            {
-                Fall();
-                return;
-            }
-
-            if (IsJump())
-            {
-                Jump();
-                return;
-            }
-
-            if (IsSlide())
-            {
-                Slide();
-                return;
-            }
-
-            if (IsRoll())
-            {
-                Roll();
-                return;
-            }
-
-            if (IsDefense())
-            {
-                Defense();
-                return;
-            }
-
-            if (IsAttack())
-            {
-                Attack();
-                return;
-            }
-
-            if (IsRunning())
-            {
-                Run();
-                return;
-            }
-            
-            if (CanWalking())
-            {
-                Walk();
-                return;
-            }
-
-            Idle();
+            SetTempDirection(GetDirection());
         }
-
+        
+        private Vector2 GetDirection() => new Vector2(
+            _inputHandler.GetHorizontalAxis(),
+            _inputHandler.GetVerticalAxis());
+        
+        private bool IsWalk() => _inputHandler.GetHorizontalAxis() != 0 && _person.Movement.IsGrounded();
+        private bool IsRun() => _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
         private bool IsFall() => !_person.Movement.IsGrounded() && _person.Movement.IsFall();
-
-        private bool IsJump() => _person.Stamina.CanUse &&
+        
+        private bool IsJump() => _inputHandler.GetVerticalAxis() > 0 &&
+                                 _person.Stamina.CanUse &&
                                  !_person.Movement.IsFall() &&
-                                 _person.Movement.IsGrounded() &&
-                                 _inputHandler.GetVerticalAxis() > 0;
+                                 _person.Movement.IsGrounded();
 
         // добавить атаку в прыжке (для варриора)
-        private bool IsSlide() => _person.Movement.IsGrounded() &&
-                                  _person.Movement.CanSlide() &&
-                                  _inputHandler.GetVerticalAxis() < 0;
+        private bool IsSlide() => _inputHandler.GetVerticalAxis() < 0 &&
+                                  _person.Movement.IsGrounded() &&
+                                  _person.Movement.CanSlide();
 
-        private bool IsRoll() => _person.Stamina.CanUse &&
+        private bool IsRoll() => _inputHandler.GetSpaceBtn() &&
+                                 _person.Stamina.CanUse &&
                                  !_person.Movement.IsFall() &&
-                                 _person.Movement.IsGrounded() &&
-                                 _inputHandler.GetSpaceBtn();
+                                 _person.Movement.IsGrounded();
 
         private bool IsAttack() => _inputHandler.GetLMB();
         private bool IsDefense() => _inputHandler.GetRMB();
-        private bool IsRunning() => CanWalking() && _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
-        private bool IsWalking() => _person.Movement.IsGrounded() && _inputHandler.GetHorizontalAxis() != 0;
 
-        private bool CanWalking() => _person.Movement.IsGrounded() && _inputHandler.GetHorizontalAxis() != 0;
-        
         private void Attack()
         {
             if (_canCombo) _warrior.ComboAttack();
             else _warrior.Attack();
-            
-            StopCoroutine(ResetCombo());
-            StartCoroutine(ResetCombo());
+
+            // Observable.FromCoroutine(ResetCombo).Subscribe(_ =>
+            // {
+            //     
+            // });
+
+            // StopCoroutine(ResetCombo());
+            // StartCoroutine(ResetCombo());
         }
 
         private IEnumerator ResetCombo()
@@ -136,15 +139,11 @@ namespace Character.CharacterControllers.Inputs
         private void Walk() => _person.Walk();
         private void Idle() => _person.Idle();
 
-        private Vector2 GetDirection() => new Vector2(
-            _inputHandler.GetHorizontalAxis(),
-            _inputHandler.GetVerticalAxis());
-
-        private void SetTempDirection()
+        private void SetTempDirection(Vector2 input)
         {
-            _person.Movement.Direction = GetDirection();
+            _person.Movement.Direction = input;
 
-            if (Mathf.Abs(_inputHandler.GetHorizontalAxis()) > 0)
+            if (Mathf.Abs(input.x) > 0)
                 _person.Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
         }
     }

@@ -1,5 +1,8 @@
-﻿using Character.Classes;
+﻿using System;
+using System.Collections;
+using Character.Classes;
 using Global;
+using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
@@ -24,19 +27,24 @@ namespace Character.Movement
         private ContactPoint2D _contact;
         private ContactPoint2D[] _contacts;
 
+        private CompositeDisposable _disposables;
+        
         private void Awake()
         {
             Capsule = GetComponent<CapsuleCollider2D>();
             _rbody = GetComponent<Rigidbody2D>();
             _config = GetComponent<Person>().Config;
+
+            this.OnCollisionStay2DAsObservable()
+                .Subscribe(collision => { SetContacts(collision); });
         }
-        
-        private void OnCollisionStay2D(Collision2D other)
+
+        private void SetContacts(Collision2D collision)
         {
-            _contacts = other.contacts;
+            _contacts = collision.contacts;
             _contact = GetNearestPoint(_contacts);
 
-            if (Vector2.Distance(_contact.point, ContactPoint) <= GlobalConstants.PointOffset || 
+            if (Vector2.Distance(_contact.point, ContactPoint) <= GlobalConstants.PointOffset ||
                 !CorrectAngle(_contact.normal)) return;
 
             ContactPoint = _contact.point;
@@ -55,24 +63,25 @@ namespace Character.Movement
                 var newValue = Vector2.Distance(position, contacts[i].point);
 
                 if (newValue >= value) continue;
-                
+
                 contact = contacts[i];
                 value = newValue;
             }
 
             return contact;
         }
-        
+
         private float RequireOffset() =>
             Capsule.transform.position.y +
             Capsule.offset.y - Capsule.size.y / 2 +
             GlobalConstants.CollisionOffset;
 
         private bool CorrectAngle(Vector2 normal) => Vector2.Angle(normal, Vector2.up) <= _requireAngle;
-        
+
         private void OnDrawGizmos()
         {
-            if (Capsule == null) return;;
+            if (Capsule == null) return;
+            ;
 
             var pos = new Vector2(Capsule.transform.position.x, RequireOffset());
 
@@ -87,34 +96,48 @@ namespace Character.Movement
                     Gizmos.DrawSphere(contact.point, _drawRadius);
                 }
             }
-            
+
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(_contact.point, _drawRadius);
 
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(ContactPoint, _drawRadius);
-            
+
             Gizmos.color = Color.blue;
             Gizmos.DrawRay(ContactPoint, ContactNormal * _drawLine);
         }
 
-        public void Walk() => _rbody.velocity = GetHorizontalDirection(_config.SpeedMove * GlobalConstants.CoefPersonSpeed);
-        public void Run() => _rbody.velocity = GetHorizontalDirection(_config.SpeedRun * GlobalConstants.CoefPersonSpeed);
-        public void FallMove() => _rbody.velocity = GetHorizontalDirection(_config.SpeedMove * _config.FallSpeed * GlobalConstants.HorizontalFallMoveSpeed);
+        public void Walk() =>
+            _rbody.velocity = GetHorizontalDirection(_config.SpeedMove * GlobalConstants.CoefPersonSpeed);
+
+        public void Run() =>
+            _rbody.velocity = GetHorizontalDirection(_config.SpeedRun * GlobalConstants.CoefPersonSpeed);
+
+        public void FallMove() => _rbody.velocity =
+            GetHorizontalDirection(_config.SpeedMove * _config.FallSpeed * GlobalConstants.HorizontalFallMoveSpeed);
+
         public void Jump() => _rbody.AddForce(GetJumpVector() * _config.JumpForce * _rbody.mass, ForceMode2D.Impulse);
         public void Roll() => _rbody.velocity = GetRollVector();
         public void Slide() => _rbody.AddForce(GetSlideVector() * _config.SlideSpeed, ForceMode2D.Impulse);
         public void SetBodyType(RigidbodyType2D type) => _rbody.bodyType = type;
+
         public bool IsGrounded() => ContactPoint.y <= _rbody.position.y + GlobalConstants.CollisionOffset &&
                                     _rbody.position.y - ContactPoint.y <= GlobalConstants.MaxGroundOffset;
+
         public bool IsFall() => _rbody.velocity.y < -GlobalConstants.FallSpeed;
         public bool CanSlide() => Mathf.Abs(GetVelocity().x) >= _config.SlideLimitVelocity;
         public void SetSideByVelocity() => RotateObj(GetVelocity().x < 0 ? 180 : 0);
         private void RotateObj(float angle) => transform.localRotation = Quaternion.Euler(0f, angle, 0f);
-        public void LookTo(Transform target) => transform.localRotation = Quaternion.Euler(0f, GetTargetSide(target), 0f);
+
+        public void LookTo(Transform target) =>
+            transform.localRotation = Quaternion.Euler(0f, GetTargetSide(target), 0f);
+
         private float GetTargetSide(Transform target) => target.transform.position.x > transform.position.x ? 0 : 180;
         private Vector2 GetHorizontalDirection(float speed) => new Vector2(Direction.x * speed, _rbody.velocity.y);
-        private Vector2 GetRollVector() => new Vector2(TempDirection.normalized.x * _config.RollDistance, _config.RollHeight);
+
+        private Vector2 GetRollVector() =>
+            new Vector2(TempDirection.normalized.x * _config.RollDistance, _config.RollHeight);
+
         private Vector2 GetSlideVector() => new Vector2(_rbody.velocity.x, _rbody.velocity.y);
         private Vector2 GetJumpVector() => new Vector2(Direction.normalized.x * GlobalConstants.HorizontalJumpCoef, 1);
         public Vector2 GetVelocity() => _rbody.velocity;

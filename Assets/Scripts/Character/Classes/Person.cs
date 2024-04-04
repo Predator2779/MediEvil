@@ -1,9 +1,12 @@
-﻿using Character.Movement;
+﻿using Character.CharacterControllers;
+using Character.Movement;
 using Character.StateMachine;
 using Character.StateMachine.StateSets;
 using Character.ValueStorages;
 using Character.ValueStorages.Bars;
+using Global.Zenject;
 using UnityEngine;
+using Zenject;
 
 namespace Character.Classes
 {
@@ -25,6 +28,7 @@ namespace Character.Classes
         public Mana Mana { get; protected set; }
         
         private PersonStateSet _personStateSet;
+        [Inject] private ITest _test;
 
         private void Awake() => Initialize();
 
@@ -38,6 +42,8 @@ namespace Character.Classes
 
             _personStateSet = new PersonStateSet(this);
             StateMachine = new PersonStateMachine(_personStateSet.DefaultState);
+            
+            _test.PrintTest2(); //////
         }
 
         public void Idle() => StateMachine.ChangeState(_personStateSet.IdleState);
