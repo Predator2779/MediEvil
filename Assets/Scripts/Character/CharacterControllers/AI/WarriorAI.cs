@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Character.Classes;
+﻿using Character.Classes;
 using Global;
 using UnityEngine;
 

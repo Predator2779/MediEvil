@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Character.Classes;
-using Global;
 using Input;
 using UniRx;
 using UniRx.Triggers;

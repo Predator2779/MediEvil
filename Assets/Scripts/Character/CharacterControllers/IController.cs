@@ -1,6 +1,4 @@
-﻿using Character.Classes;
-
-namespace Character.CharacterControllers
+﻿namespace Character.CharacterControllers
 {
     public interface IController
     {

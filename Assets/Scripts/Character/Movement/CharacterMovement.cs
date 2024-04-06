@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using Character.Classes;
+﻿using Character.Classes;
 using Global;
 using UniRx;
 using UniRx.Triggers;
@@ -15,7 +13,6 @@ namespace Character.Movement
         [field: SerializeField] public CapsuleCollider2D Capsule { get; private set; }
         public Vector2 Direction { get; set; }
         public Vector2 TempDirection { get; set; } = new Vector2(1, 0);
-        public Vector2 ContactPoint { get; set; }
         public Vector2 ContactNormal { get; set; }
 
         [SerializeField] private float _requireAngle;
@@ -24,6 +21,7 @@ namespace Character.Movement
 
         private Rigidbody2D _rbody;
         private CharacterConfig _config;
+        private Vector2 _contactPoint;
         private ContactPoint2D _contact;
         private ContactPoint2D[] _contacts;
 
@@ -44,10 +42,10 @@ namespace Character.Movement
             _contacts = collision.contacts;
             _contact = GetNearestPoint(_contacts);
 
-            if (Vector2.Distance(_contact.point, ContactPoint) <= GlobalConstants.PointOffset ||
+            if (Vector2.Distance(_contact.point, _contactPoint) <= GlobalConstants.PointOffset ||
                 !CorrectAngle(_contact.normal)) return;
 
-            ContactPoint = _contact.point;
+            _contactPoint = _contact.point;
             ContactNormal = _contact.normal;
         }
 
@@ -81,7 +79,6 @@ namespace Character.Movement
         private void OnDrawGizmos()
         {
             if (Capsule == null) return;
-            ;
 
             var pos = new Vector2(Capsule.transform.position.x, RequireOffset());
 
@@ -101,10 +98,10 @@ namespace Character.Movement
             Gizmos.DrawSphere(_contact.point, _drawRadius);
 
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(ContactPoint, _drawRadius);
+            Gizmos.DrawSphere(_contactPoint, _drawRadius);
 
             Gizmos.color = Color.blue;
-            Gizmos.DrawRay(ContactPoint, ContactNormal * _drawLine);
+            Gizmos.DrawRay(_contactPoint, ContactNormal * _drawLine);
         }
 
         public void Walk() =>
@@ -121,8 +118,8 @@ namespace Character.Movement
         public void Slide() => _rbody.AddForce(GetSlideVector() * _config.SlideSpeed, ForceMode2D.Impulse);
         public void SetBodyType(RigidbodyType2D type) => _rbody.bodyType = type;
 
-        public bool IsGrounded() => ContactPoint.y <= _rbody.position.y + GlobalConstants.CollisionOffset &&
-                                    _rbody.position.y - ContactPoint.y <= GlobalConstants.MaxGroundOffset;
+        public bool IsGrounded() => _contactPoint.y <= _rbody.position.y + GlobalConstants.CollisionOffset &&
+                                    _rbody.position.y - _contactPoint.y <= GlobalConstants.MaxGroundOffset;
 
         public bool IsFall() => _rbody.velocity.y < -GlobalConstants.FallSpeed;
         public bool CanSlide() => Mathf.Abs(GetVelocity().x) >= _config.SlideLimitVelocity;
