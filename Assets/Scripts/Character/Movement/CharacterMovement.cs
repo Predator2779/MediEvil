@@ -26,15 +26,47 @@ namespace Character.Movement
         private ContactPoint2D[] _contacts;
 
         private CompositeDisposable _disposables;
-        
+
         private void Awake()
+        {
+            SetComponents();
+            this.OnCollisionStay2DAsObservable()
+                .Subscribe(collision => { SetContacts(collision); });
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (Capsule == null) return;
+
+            var pos = new Vector2(Capsule.transform.position.x, RequireOffset());
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(pos, _drawRadius);
+
+            if (_contacts != null)
+            {
+                foreach (var contact in _contacts)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(contact.point, _drawRadius);
+                }
+            }
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(_contact.point, _drawRadius);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(_contactPoint, _drawRadius);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(_contactPoint, ContactNormal * _drawLine);
+        }
+
+        private void SetComponents()
         {
             Capsule = GetComponent<CapsuleCollider2D>();
             _rbody = GetComponent<Rigidbody2D>();
             _config = GetComponent<Person>().Config;
-
-            this.OnCollisionStay2DAsObservable()
-                .Subscribe(collision => { SetContacts(collision); });
         }
 
         private void SetContacts(Collision2D collision)
@@ -75,35 +107,7 @@ namespace Character.Movement
             GlobalConstants.CollisionOffset;
 
         private bool CorrectAngle(Vector2 normal) => Vector2.Angle(normal, Vector2.up) <= _requireAngle;
-
-        private void OnDrawGizmos()
-        {
-            if (Capsule == null) return;
-
-            var pos = new Vector2(Capsule.transform.position.x, RequireOffset());
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(pos, _drawRadius);
-
-            if (_contacts != null)
-            {
-                foreach (var contact in _contacts)
-                {
-                    Gizmos.color = Color.yellow;
-                    Gizmos.DrawSphere(contact.point, _drawRadius);
-                }
-            }
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(_contact.point, _drawRadius);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(_contactPoint, _drawRadius);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawRay(_contactPoint, ContactNormal * _drawLine);
-        }
-
+        
         public void Walk() =>
             _rbody.velocity = GetHorizontalDirection(_config.SpeedMove * GlobalConstants.CoefPersonSpeed);
 

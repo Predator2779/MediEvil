@@ -1,45 +1,59 @@
 ﻿using Character;
-using Character.Movement;
-using Character.ValueStorages;
-using Character.ValueStorages.Bars;
-using UnityEditor.Animations;
+using Character.CharacterControllers;
+using Character.Classes;
+using UI;
 using UnityEngine;
 
 namespace Builders
 {
-    public class UnitBuilder : IUnitBuilder
+    public class UnitBuilder
     {
         private GameObject _unit;
+        private Person _person;
+        private readonly CharacterConfig _config;
+        private readonly Controller _controller;
+        private readonly ValueBarContainer _barContainer;
 
         public UnitBuilder(
+            GameObject baseObject,
             CharacterConfig config,
-            AnimatorController animController, 
-            ValueBar healthBar)
+            Controller controller,
+            ValueBarContainer barContainer)
         {
-            // capsule?
-            // rbody??
+            _unit = baseObject;
+            _config = config;
+            _controller = controller;
+            _barContainer = barContainer;
+        }
+
+        public UnitBuilder BuildWarrior()
+        {
+            _person = _unit.AddComponent<Warrior>();
+            _person = SetFields(_person);
+            return this;
+        }
+
+        public UnitBuilder BuildThrower()
+        {
+            return this;
+        }
+
+        public UnitBuilder BuildMage()
+        {
+            return this;
+        }
+
+        public GameObject GetResult() => _unit;
+
+        private Person SetFields(Person person)
+        {
+            person.Config = _config;
             
-            // или сделать базовый каркас для инстанцирования префаба в котором будут основные общие элементы
-        }
-        
-        public void BuildWarrior()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void BuildThrower()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void BuildMage()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public GameObject GetResult()
-        {
-            throw new System.NotImplementedException();
+            person.HealthBar = _barContainer.HealthBar;
+            person.StaminaBar = _barContainer.StaminaBar;
+            person.ManaBar = _barContainer.ManaBar;
+            
+            return person;
         }
     }
 }

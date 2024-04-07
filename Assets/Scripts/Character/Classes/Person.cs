@@ -1,10 +1,10 @@
-﻿using Character.Movement;
+﻿using Character.CharacterControllers;
+using Character.Movement;
 using Character.StateMachine;
 using Character.StateMachine.StateSets;
 using Character.ValueStorages;
 using Character.ValueStorages.Bars;
 using UnityEngine;
-using Zenject;
 
 namespace Character.Classes
 {
@@ -14,10 +14,11 @@ namespace Character.Classes
         [field: SerializeField] public bool IsPlayer { get; set; }
         [field: SerializeField] public CharacterConfig Config { get; set; }
         [field: SerializeField] public Animator Animator { get; set; }
-        [field: SerializeField] protected ValueBar HealthBar { get; set; }
-        [field: SerializeField] protected ValueBar StaminaBar { get; set; }
-        [field: SerializeField] protected ValueBar ManaBar { get; set; }
+        [field: SerializeField] public ValueBar HealthBar { get; set; }
+        [field: SerializeField] public ValueBar StaminaBar { get; set; }
+        [field: SerializeField] public ValueBar ManaBar { get; set; }
         
+        public IController Controller { get; set; }
         public CharacterMovement Movement { get; protected set; }
         public PersonStateMachine StateMachine { get; set; }
         
@@ -33,9 +34,9 @@ namespace Character.Classes
         {
             Movement = GetComponent<CharacterMovement>();
 
-            Health = new Health(this, Config.MaxHealth, Config.MaxHealth, HealthBar);
-            Stamina = new Stamina(this, Config.MaxStamina, Config.MaxStamina, StaminaBar);
-            Mana = new Mana(this, Config.MaxMana, Config.MaxMana, ManaBar);
+            Health = new Health(this, Config.CurrentHealth, Config.MaxHealth, HealthBar);
+            Stamina = new Stamina(this, Config.CurrentStamina, Config.MaxStamina, StaminaBar);
+            Mana = new Mana(this, Config.CurrentMana, Config.MaxMana, ManaBar);
 
             _personStateSet = new PersonStateSet(this);
             StateMachine = new PersonStateMachine(_personStateSet.DefaultState);

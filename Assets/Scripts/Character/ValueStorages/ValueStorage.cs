@@ -20,7 +20,7 @@ namespace Character.ValueStorages
 
         private ValueBar Bar { get; }
         protected float MinValue { get; } = 0;
-        protected float CurrentValue { get; private set; }
+        public float CurrentValue { get; private set; }
         protected float MaxValue { get; }
 
         public virtual void Increase(float value)
