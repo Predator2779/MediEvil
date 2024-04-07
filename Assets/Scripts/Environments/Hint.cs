@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using TMPro;
 using UnityEngine;
 
@@ -15,12 +16,12 @@ namespace Environments
         
         private void OnTriggerStay2D(Collider2D other)
         {
-            if (other.TryGetComponent(out Person person) && person.IsPlayer) SetAlpha(GetDistance(person.transform.position));
+            if (other.TryGetComponent(out PersonContainer person) && person.IsPlayer) SetAlpha(GetDistance(person.transform.position));
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.TryGetComponent(out Person person) && person.IsPlayer) SetAlpha(0);
+            if (other.TryGetComponent(out PersonContainer person) && person.IsPlayer) SetAlpha(0);
         }
 
         private float GetDistance(Vector2 position) => _collider.size.x / 2 - Vector2.Distance(position, transform.position);

@@ -1,9 +1,11 @@
-﻿namespace Character.CharacterControllers
+﻿using Character.Classes;
+
+namespace Character.CharacterControllers
 {
     public interface IController
     {
-        protected void Initialize();
-        protected void Execute();
-        protected void FixedExecute();
+        public void Initialize();
+        public void Execute();
+        public void FixedExecute();
     }
 }

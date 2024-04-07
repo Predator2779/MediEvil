@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using UnityEngine;
 
 namespace Other.Scenes
@@ -7,7 +8,7 @@ namespace Other.Scenes
     {
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.TryGetComponent(out Person person) || !person.IsPlayer) return;
+            if (!other.TryGetComponent(out PersonContainer person) || !person.IsPlayer) return;
             person.Config.SavePoints.Clear();
             LoadScene();
         }

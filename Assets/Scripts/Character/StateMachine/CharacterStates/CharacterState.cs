@@ -1,47 +1,48 @@
 ﻿using System.Threading.Tasks;
 using Character.Classes;
+using Character.ComponentContainer;
 using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
     public abstract class CharacterState
     {
-        protected Person Person { get; }
+        protected PersonContainer PersonContainer { get; }
         protected string Animation { get; set; }
 
         public bool IsCooldown;
         public bool IsCompleted = true;
 
-        protected CharacterState(Person person)
+        protected CharacterState(PersonContainer personContainer)
         {
-            Person = person;
+            PersonContainer = personContainer;
         }
 
         public virtual bool CanEnter() => true; 
         public virtual void Enter() => 
-            Person.Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
+            PersonContainer.Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
 
         public virtual void Execute() {}
         public virtual void FixedExecute() => ChangingIndicators();
         protected void SafetyCompleting() => IsCompleted = AnimationCompleted();
-        public virtual void Exit() => Person.Animator.StopPlayback();
+        public virtual void Exit() => PersonContainer.Animator.StopPlayback();
 
         protected void CooldownControl()
         {
-            if (Person.Stamina.CanUse || IsCooldown) return;
+            if (PersonContainer.Stamina.CanUse || IsCooldown) return;
             IsCooldown = true;
-            Task.Delay(Person.Config.StaminaRestoreDelay).ContinueWith(_ => IsCooldown = false);
+            Task.Delay(PersonContainer.Config.StaminaRestoreDelay).ContinueWith(_ => IsCooldown = false);
         }
         
         protected bool AnimationCompleted()
         {
-            var animInfo = Person.Animator.GetCurrentAnimatorStateInfo(0);
+            var animInfo = PersonContainer.Animator.GetCurrentAnimatorStateInfo(0);
             return animInfo.normalizedTime >= animInfo.length + GlobalConstants.AnimDelay;
         }
 
         protected virtual void ChangingIndicators()
         {
-            if (Person.Stamina.CanRestore()) Person.Stamina.Increase(Person.Config.StaminaRecovery);
+            if (PersonContainer.Stamina.CanRestore()) PersonContainer.Stamina.Increase(PersonContainer.Config.StaminaRecovery);
         }
     }
 }

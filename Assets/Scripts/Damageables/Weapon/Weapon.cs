@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Character.ValueStorages;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Damageables.Weapon
         {
             var collider = Physics2D.OverlapCircle(transform.position, AttackRadius, LayerMask);
 
-            if (!collider || !collider.TryGetComponent(out Person person)) return;
+            if (!collider || !collider.TryGetComponent(out PersonContainer person)) return;
             
             var damage = WeaponDamage * personDamage / GetDistanceDamageModificator(person.transform);
             DoDamage(person.Health, damage);

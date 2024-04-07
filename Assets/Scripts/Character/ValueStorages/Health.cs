@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Character.ValueStorages.Bars;
 using Global;
 
@@ -6,17 +7,21 @@ namespace Character.ValueStorages
 {
     public class Health : ValueStorage
     {
-        public Health(Person person, float currentValue, float maxValue) : base(currentValue, maxValue) 
+        public delegate void healthEvent();
+        public healthEvent Falldown;
+        public healthEvent Die;
+        
+        public Health(PersonContainer personContainer, float currentValue, float maxValue) : base(currentValue, maxValue) 
         {
-            Person = person;
+            PersonContainer = personContainer;
         }
 
-        public Health(Person person, float currentValue, float maxValue, ValueBar bar) : base(currentValue, maxValue, bar)
+        public Health(PersonContainer personContainer, float currentValue, float maxValue, ValueBar bar) : base(currentValue, maxValue, bar)
         {
-            Person = person;
+            PersonContainer = personContainer;
         }
 
-        private Person Person { get; }
+        private PersonContainer PersonContainer { get; }
         public bool CanDamage { get; set; } = true;
 
         public void TakeHeal(float value) => Increase(value);
@@ -27,8 +32,9 @@ namespace Character.ValueStorages
             if (!CanDamage) return;
             
             base.Decrease(value);
-            if (value >= GlobalConstants.KnockdownDamage) Person.FallDown();
-            if (CurrentValue <= MinValue) Person.Die();
+            
+            if (value >= GlobalConstants.KnockdownDamage) Falldown?.Invoke();
+            if (CurrentValue <= MinValue) Die?.Invoke();
         }
     }
 }

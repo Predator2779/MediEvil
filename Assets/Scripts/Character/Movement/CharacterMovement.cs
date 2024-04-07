@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Global;
 using UniRx;
 using UniRx.Triggers;
@@ -10,7 +11,7 @@ namespace Character.Movement
     [RequireComponent(typeof(CapsuleCollider2D))]
     public class CharacterMovement : MonoBehaviour
     {
-        [field: SerializeField] public CapsuleCollider2D Capsule { get; private set; }
+        public CapsuleCollider2D Capsule { get; private set; }
         public Vector2 Direction { get; set; }
         public Vector2 TempDirection { get; set; } = new Vector2(1, 0);
         public Vector2 ContactNormal { get; set; }
@@ -66,7 +67,7 @@ namespace Character.Movement
         {
             Capsule = GetComponent<CapsuleCollider2D>();
             _rbody = GetComponent<Rigidbody2D>();
-            _config = GetComponent<Person>().Config;
+            _config = GetComponent<PersonContainer>().Config;
         }
 
         private void SetContacts(Collision2D collision)

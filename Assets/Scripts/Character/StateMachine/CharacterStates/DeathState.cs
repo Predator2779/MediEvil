@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Character.Classes;
+using Character.ComponentContainer;
 using Global;
 using UnityEngine;
 
@@ -8,12 +9,14 @@ namespace Character.StateMachine.CharacterStates
 {
     public class DeathState : CharacterState
     {
+        private Person _person;
         private bool _isDeath;
         private bool _isRespawned;
 
-        public DeathState(Person person) : base(person)
+        public DeathState(Person person) : base(person.Container)
         {
             Animation = "death";
+            _person = person;
         }
 
         public override void Enter()
@@ -35,30 +38,31 @@ namespace Character.StateMachine.CharacterStates
         private void Die()
         {
             if (_isDeath) return;
-
             _isDeath = true;
+
+            _person.Describe();
+            PersonContainer.Movement.SetBodyType(RigidbodyType2D.Static);
             
-            Person.Movement.SetBodyType(RigidbodyType2D.Static);
-            
-            if (!Person.IsPlayer)
+            if (!PersonContainer.IsPlayer)
             {
-                Person.gameObject.SetActive(false);
+                PersonContainer.gameObject.SetActive(false);
                 return;
             }
 
-            Task.Delay(Person.Config.TimeToRespawn).ContinueWith(_ => _isRespawned = true);
+            Task.Delay(PersonContainer.Config.TimeToRespawn).ContinueWith(_ => _isRespawned = true);
         }
 
-        private void Respawn()
+        private void Respawn()  //// вынести в отдельный класс
         {
-            Person.Movement.SetBodyType(RigidbodyType2D.Dynamic);
+            PersonContainer.Movement.SetBodyType(RigidbodyType2D.Dynamic);
             IsCompleted = true;
             _isDeath = false;
             _isRespawned = false;
             
-            Person.transform.position = GetNearestPoint(Person.Config.SavePoints);
-            Person.Health.TakeFullHeal();
-            Person.Idle();
+            PersonContainer.transform.position = GetNearestPoint(PersonContainer.Config.SavePoints);
+            PersonContainer.Health.TakeFullHeal();
+
+            // PersonContainer.Idle(); удалить
         }
 
         private Vector2 GetNearestPoint(List<Transform> points) // пока что.
@@ -66,7 +70,7 @@ namespace Character.StateMachine.CharacterStates
             if (points == null) return GlobalConstants.StartPointPosition;
             
             var length = points.Count;
-            var position = Person.transform.position;
+            var position = PersonContainer.transform.position;
             var point = GlobalConstants.StartPointPosition;
             var distance = Vector2.Distance(position, point);
 

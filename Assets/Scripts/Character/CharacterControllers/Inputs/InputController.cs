@@ -4,81 +4,88 @@ using Input;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Zenject;
 
 namespace Character.CharacterControllers.Inputs
 {
     public sealed class InputController : Controller
     {
+        [Inject] private Warrior _warrior;
+        [Inject] private Mage _mage;
         private InputHandler _inputHandler;
-        private Warrior _warrior;
         private bool _canCombo;
 
-        private CompositeDisposable _disposables;
+        // private IEnumerator ResetCombo()
+        // {
+        //     _canCombo = true;
+        //     yield return new WaitForSeconds(_warrior.Config.ComboInterval);
+        //     _canCombo = false;
+        // }
 
-        private void OnDisable()
-        {
-            foreach (var d in _disposables) d?.Dispose();
-            _disposables.Clear();
-        }
-
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
+            _warrior.Initialize();
             _inputHandler = new InputHandler();
-            _warrior = GetComponent<Warrior>();
-
-            Subscribe();
         }
 
-        private void Subscribe()
+        private void CheckConditions()
         {
-            this.UpdateAsObservable()
-                .Where(_ => !IsAttack())
-                .Where(_ => !IsDefense())
-                .Where(_ => !IsFall())
-                .Where(_ => !IsWalk())
-                .Where(_ => !IsRun())
-                .Where(_ => !IsJump())
-                .Where(_ => !IsSlide())
-                .Where(_ => !IsRoll())
-                .Subscribe(_ => { Idle(); });
+            if (IsFall())
+            {
+                Fall();
+                return;
+            }
+
+            if (IsJump())
+            {
+                Jump();
+                return;
+            }
+
+            if (IsSlide())
+            {
+                Slide();
+                return;
+            }
+
+            if (IsRoll())
+            {
+                Roll();
+                return;
+            }
+
+            if (IsDefense())
+            {
+                Defense();
+                return;
+            }
+
+            if (IsAttack())
+            {
+                Attack();
+                return;
+            }
+
+            if (IsRun())
+            {
+                Run();
+                return;
+            }
             
-            this.UpdateAsObservable()
-                .Where(_ => IsAttack())
-                .Subscribe(_ => { Attack(); });
+            if (IsWalk())
+            {
+                Walk();
+                return;
+            }
 
-            this.UpdateAsObservable()
-                .Where(_ => IsWalk() && !IsRun())
-                .Subscribe(_ => { Walk(); });
-
-            this.UpdateAsObservable()
-                .Where(_ => IsWalk() && IsRun())
-                .Subscribe(_ => { Run(); });
-
-            this.UpdateAsObservable()
-                .Where(_ => IsFall())
-                .Subscribe(_ => { Fall(); });
-
-            this.UpdateAsObservable()
-                .Where(_ => IsJump())
-                .Subscribe(_ => { Jump(); });
-
-            this.UpdateAsObservable()
-                .Where(_ => IsSlide())
-                .Subscribe(_ => { Slide(); });
-
-            this.UpdateAsObservable()
-                .Where(_ => IsDefense())
-                .Subscribe(_ => { Defense(); });
-
-            this.UpdateAsObservable()
-                .Where(_ => IsRoll())
-                .Subscribe(_ => { Roll(); });
+            Idle();
         }
 
-        protected override void Execute()
+        public override void Execute()
         {
             base.Execute();
+            CheckConditions();
             SetTempDirection(GetDirection());
         }
         
@@ -86,24 +93,24 @@ namespace Character.CharacterControllers.Inputs
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());
         
-        private bool IsWalk() => _inputHandler.GetHorizontalAxis() != 0 && _person.Movement.IsGrounded();
-        private bool IsRun() => _inputHandler.GetShiftBtn() && _person.Stamina.CanUse;
-        private bool IsFall() => !_person.Movement.IsGrounded() && _person.Movement.IsFall();
+        private bool IsWalk() => _inputHandler.GetHorizontalAxis() != 0 && _person.Container.Movement.IsGrounded();
+        private bool IsRun() => _inputHandler.GetShiftBtn() && _person.Container.Stamina.CanUse;
+        private bool IsFall() => !_person.Container.Movement.IsGrounded() && _person.Container.Movement.IsFall();
         
         private bool IsJump() => _inputHandler.GetVerticalAxis() > 0 &&
-                                 _person.Stamina.CanUse &&
-                                 !_person.Movement.IsFall() &&
-                                 _person.Movement.IsGrounded();
+                                 _person.Container.Stamina.CanUse &&
+                                 !_person.Container.Movement.IsFall() &&
+                                 _person.Container.Movement.IsGrounded();
 
         // добавить атаку в прыжке (для варриора)
         private bool IsSlide() => _inputHandler.GetVerticalAxis() < 0 &&
-                                  _person.Movement.IsGrounded() &&
-                                  _person.Movement.CanSlide();
+                                  _person.Container.Movement.IsGrounded() &&
+                                  _person.Container.Movement.CanSlide();
 
         private bool IsRoll() => _inputHandler.GetSpaceBtn() &&
-                                 _person.Stamina.CanUse &&
-                                 !_person.Movement.IsFall() &&
-                                 _person.Movement.IsGrounded();
+                                 _person.Container.Stamina.CanUse &&
+                                 !_person.Container.Movement.IsFall() &&
+                                 _person.Container.Movement.IsGrounded();
 
         private bool IsAttack() => _inputHandler.GetLMB();
         private bool IsDefense() => _inputHandler.GetRMB();
@@ -122,13 +129,6 @@ namespace Character.CharacterControllers.Inputs
             // StartCoroutine(ResetCombo());
         }
 
-        private IEnumerator ResetCombo()
-        {
-            _canCombo = true;
-            yield return new WaitForSeconds(_warrior.Config.ComboInterval);
-            _canCombo = false;
-        }
-
         private void Defense() => _warrior.Defense();
         private void Fall() => _person.Fall();
         private void Jump() => _person.Jump();
@@ -140,10 +140,10 @@ namespace Character.CharacterControllers.Inputs
 
         private void SetTempDirection(Vector2 input)
         {
-            _person.Movement.Direction = input;
+            _person.Container.Movement.Direction = input;
 
             if (Mathf.Abs(input.x) > 0)
-                _person.Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
+                _person.Container.Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
         }
     }
 }

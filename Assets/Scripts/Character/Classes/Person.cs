@@ -1,45 +1,39 @@
 ﻿using Character.CharacterControllers;
-using Character.Movement;
+using Character.ComponentContainer;
 using Character.StateMachine;
 using Character.StateMachine.StateSets;
-using Character.ValueStorages;
-using Character.ValueStorages.Bars;
-using UnityEngine;
 
 namespace Character.Classes
 {
-    [RequireComponent(typeof(CharacterMovement))]
-    public class Person : MonoBehaviour
+    public class Person
     {
-        [field: SerializeField] public bool IsPlayer { get; set; }
-        [field: SerializeField] public CharacterConfig Config { get; set; }
-        [field: SerializeField] public Animator Animator { get; set; }
-        [field: SerializeField] public ValueBar HealthBar { get; set; }
-        [field: SerializeField] public ValueBar StaminaBar { get; set; }
-        [field: SerializeField] public ValueBar ManaBar { get; set; }
-        
-        public IController Controller { get; set; }
-        public CharacterMovement Movement { get; protected set; }
+        public PersonContainer Container { get; set; }
         public PersonStateMachine StateMachine { get; set; }
-        
-        public Health Health { get; protected set; }
-        public Stamina Stamina { get; protected set; }
-        public Mana Mana { get; protected set; }
-        
         private PersonStateSet _personStateSet;
-        
-        private void Awake() => Initialize();
 
-        protected virtual void Initialize()
+        public Person(PersonContainer container)
         {
-            Movement = GetComponent<CharacterMovement>();
+            Container = container;
+        }
 
-            Health = new Health(this, Config.CurrentHealth, Config.MaxHealth, HealthBar);
-            Stamina = new Stamina(this, Config.CurrentStamina, Config.MaxStamina, StaminaBar);
-            Mana = new Mana(this, Config.CurrentMana, Config.MaxMana, ManaBar);
+        public virtual void Initialize()
+        {
+            Subscribe();
 
             _personStateSet = new PersonStateSet(this);
             StateMachine = new PersonStateMachine(_personStateSet.DefaultState);
+        }
+
+        private void Subscribe()
+        {
+            Container.Health.Falldown += FallDown;
+            Container.Health.Die += Die;
+        }
+
+        public void Describe()
+        {
+            Container.Health.Falldown -= FallDown;
+            Container.Health.Die -= Die;
         }
 
         public void Idle() => StateMachine.ChangeState(_personStateSet.IdleState);

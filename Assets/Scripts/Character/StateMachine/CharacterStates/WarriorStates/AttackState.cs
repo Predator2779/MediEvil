@@ -19,7 +19,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
 
         public override void Execute()
         {
-            Warrior.Movement.SetSideByVelocity();
+            Warrior.Container.Movement.SetSideByVelocity();
             
             if (AnimationCompleted()) Warrior.Idle();
 
@@ -30,7 +30,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
 
         protected float GetDamage()
         {
-            var baseDamage = Warrior.Config.Damage;
+            var baseDamage = Warrior.Container.Config.Damage;
             return Mathf.Clamp(baseDamage * GetVelocityModificator(), baseDamage,
                 baseDamage * GetVelocityModificator());
         }
@@ -39,13 +39,13 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         {
             var outputDamage = GetDamage();
             Warrior.Weapon.DoDamage(outputDamage);
-            Warrior.Stamina.Decrease(Warrior.Config.StaminaAttackUsageCoef * outputDamage);
+            Warrior.Container.Stamina.Decrease(Warrior.Container.Config.StaminaAttackUsageCoef * outputDamage);
         }
 
-        protected float GetVelocityModificator() => Mathf.Abs(Warrior.Movement.GetVelocity().x +
-                                                              Warrior.Movement.GetVelocity().y) *
+        protected float GetVelocityModificator() => Mathf.Abs(Warrior.Container.Movement.GetVelocity().x +
+                                                              Warrior.Container.Movement.GetVelocity().y) *
                                                     GlobalConstants.VelocityDamageCoef;
 
-        public override bool CanEnter() => Warrior.Weapon != null && Warrior.Stamina.CanUse;
+        public override bool CanEnter() => Warrior.Weapon != null && Warrior.Container.Stamina.CanUse;
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Character.Classes;
+using Character.ComponentContainer;
 using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class FallDownState : CharacterState
     {
-        public FallDownState(Person person) : base(person)
+        public FallDownState(PersonContainer personContainer) : base(personContainer)
         {
             Animation = "death";
         }

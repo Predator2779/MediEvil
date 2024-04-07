@@ -8,7 +8,6 @@ namespace Builders
     public class UnitDirector : MonoBehaviour
     {
         [SerializeField] private bool _isWarrior, _isThrower, _isMage;
-        [SerializeField] private Controller _controller;
         [SerializeField] private GameObject _prefabBase;
         [SerializeField] private Transform _parent;
         [SerializeField] private CharacterConfig _config;

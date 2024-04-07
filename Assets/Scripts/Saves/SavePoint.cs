@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Other;
 using UnityEngine;
 
@@ -13,17 +14,17 @@ namespace Saves
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.TryGetComponent(out Person person) || !person.IsPlayer) return;
+            if (!other.TryGetComponent(out PersonContainer person) || !person.IsPlayer) return;
             
             AddPoint(person, transform);
             _changer.ChangeSprite();
         }
 
-        private void AddPoint(Person person, Transform point)
+        private void AddPoint(PersonContainer personContainer, Transform point)
         {
-            if (person.Config.SavePoints != null && 
-                !person.Config.SavePoints.Contains(point)) 
-                person.Config.SavePoints.Add(point);
+            if (personContainer.Config.SavePoints != null && 
+                !personContainer.Config.SavePoints.Contains(point)) 
+                personContainer.Config.SavePoints.Add(point);
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace Character.Classes
+﻿using Character.ComponentContainer;
+
+namespace Character.Classes
 {
-    public class Mage : Person
+    public class Mage : PersonContainer
     {
         // пале для магии
     }

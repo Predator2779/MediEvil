@@ -1,4 +1,5 @@
-﻿using Global;
+﻿using Character.Classes;
+using Global;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,22 +8,39 @@ namespace Character.CharacterControllers.AI
     [RequireComponent(typeof(CapsuleCollider2D))]
     public class PersecutorAI : Controller
     {
-        [SerializeField] protected Collider2D _target;
         [SerializeField] protected float _viewingRadius;
         [SerializeField] protected float _runDistance;
         [SerializeField] protected float _walkDistance;
         [SerializeField] protected float _stayDistance;
         [SerializeField] protected LayerMask _layerMask;
 
+        protected Collider2D _target;
         private CapsuleCollider2D _capsule;
 
-        protected override void Initialize()
+        // private void OnDrawGizmos()
+        // {
+        //     if (_capsule == null) return;
+        //
+        //     Gizmos.color = Color.green;
+        //     Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _viewingRadius);
+        //     
+        //     Gizmos.color = Color.yellow;
+        //     Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _runDistance);
+        //
+        //     Gizmos.color = Color.blue;
+        //     Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _walkDistance);
+        //
+        //     Gizmos.color = Color.red;
+        //     Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _stayDistance);
+        // }
+        
+        public override void Initialize()
         {
             base.Initialize();
-            _capsule = _person.Movement.Capsule;
+            _capsule = _person.Container.Movement.Capsule;
         }
 
-        protected override void Execute()
+        public override void Execute()
         {
             base.Execute();
 
@@ -88,32 +106,16 @@ namespace Character.CharacterControllers.AI
         {
             if (_target == null) return;
 
-            _person.Movement.Direction = GetTargetVector();
-            _person.Movement.TempDirection = GetTargetVector();
+            _person.Container.Movement.Direction = GetTargetVector();
+            _person.Container.Movement.TempDirection = GetTargetVector();
         }
 
         protected float GetTargetDistance() => Vector2.Distance(transform.position, _target.transform.position);
-        protected Vector2 GetTargetVector() => _target.transform.position - _person.transform.position;
+        protected Vector2 GetTargetVector() => _target.transform.position - _person.Container.transform.position;
 
         protected Vector2 GetCapsuleCenterPos() =>
             new Vector2(_capsule.transform.position.x,
                 _capsule.transform.position.y + _capsule.size.y / 2);
-
-        private void OnDrawGizmos()
-        {
-            if (_capsule == null) return;
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _viewingRadius);
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _runDistance);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _walkDistance);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _stayDistance);
-        }
+        
     }
 }

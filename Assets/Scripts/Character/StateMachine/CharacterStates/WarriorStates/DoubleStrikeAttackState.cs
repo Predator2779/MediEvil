@@ -20,7 +20,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         private void SecondStrike()
         {
             _frames++;
-            if (_frames < Warrior.Config.SecondStrikeDelay) return;
+            if (_frames < Warrior.Container.Config.SecondStrikeDelay) return;
             
             _frames = 0;
             ApplyDamageWithoutStamina();

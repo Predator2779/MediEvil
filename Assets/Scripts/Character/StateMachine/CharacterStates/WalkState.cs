@@ -1,20 +1,21 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class WalkState : CharacterState
     {
-        public WalkState(Person person) : base(person)
+        public WalkState(PersonContainer personContainer) : base(personContainer)
         {
             Animation = "walk";
         }
 
-        public override void Execute() => Person.Movement.SetSideByVelocity();
+        public override void Execute() => PersonContainer.Movement.SetSideByVelocity();
 
         public override void FixedExecute()
         {
             base.FixedExecute();
-            Person.Movement.Walk();
+            PersonContainer.Movement.Walk();
         }
     }
 }

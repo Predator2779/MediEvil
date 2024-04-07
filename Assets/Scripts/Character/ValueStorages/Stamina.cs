@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Character.Classes;
+using Character.ComponentContainer;
 using Character.ValueStorages.Bars;
 
 namespace Character.ValueStorages
@@ -7,18 +8,18 @@ namespace Character.ValueStorages
     public class Stamina : ValueStorage
     {
         public bool CanUse { get; private set; }  = true;
-        private Person Person { get; }
+        private PersonContainer PersonContainer { get; }
 
         private bool _restoreIsDelayed;
 
-        public Stamina(Person person, float currentValue, float maxValue) : base(currentValue, maxValue) 
+        public Stamina(PersonContainer personContainer, float currentValue, float maxValue) : base(currentValue, maxValue) 
         {
-            Person = person;
+            PersonContainer = personContainer;
         }
 
-        public Stamina(Person person, float currentValue, float maxValue, ValueBar bar) : base(currentValue, maxValue, bar)
+        public Stamina(PersonContainer personContainer, float currentValue, float maxValue, ValueBar bar) : base(currentValue, maxValue, bar)
         {
-            Person = person;
+            PersonContainer = personContainer;
         }
 
         public override void Increase(float value)
@@ -39,7 +40,7 @@ namespace Character.ValueStorages
             CanUse = false;
             _restoreIsDelayed = true;
                  
-            Task.Delay(Person.Config.StaminaRestoreDelay).ContinueWith(_ => { CanUse = true; _restoreIsDelayed = false; });
+            Task.Delay(PersonContainer.Config.StaminaRestoreDelay).ContinueWith(_ => { CanUse = true; _restoreIsDelayed = false; });
         }
 
         public bool CanRestore() => CurrentValue < MaxValue && !_restoreIsDelayed;

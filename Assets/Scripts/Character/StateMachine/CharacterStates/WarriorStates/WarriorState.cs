@@ -6,7 +6,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
     {
         protected Warrior Warrior { get; }
         
-        public WarriorState(Warrior warrior) : base(warrior)
+        public WarriorState(Warrior warrior) : base(warrior.Container)
         {
             Warrior = warrior;
         }

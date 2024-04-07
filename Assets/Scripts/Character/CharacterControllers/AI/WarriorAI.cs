@@ -1,21 +1,22 @@
 ﻿using Character.Classes;
 using Global;
 using UnityEngine;
+using Zenject;
 
 namespace Character.CharacterControllers.AI
 {
     public class WarriorAI : PersecutorAI
     {
-        private Warrior _warrior;
+        [Inject] private Warrior _warrior;
         private bool _staminaRestore;
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
             _warrior = GetComponent<Warrior>();
         }
 
-        protected override void Execute()
+        public override void Execute()
         {
             _person.StateMachine.Execute();
 
@@ -28,7 +29,7 @@ namespace Character.CharacterControllers.AI
                 return;
             }
 
-            _warrior.Movement.LookTo(_target.transform);
+            _warrior.Container.Movement.LookTo(_target.transform);
             
             if (_staminaRestore)
             {
@@ -62,8 +63,8 @@ namespace Character.CharacterControllers.AI
 
         private void StaminaControl()
         {
-            if (_person.Stamina.GetPercentageRation() > 30) _staminaRestore = false; // написать конфиг для ИИ
-            if (_person.Stamina.GetPercentageRation() <= 0) _staminaRestore = true;
+            if (_person.Container.Stamina.GetPercentageRation() > 30) _staminaRestore = false; // написать конфиг для ИИ
+            if (_person.Container.Stamina.GetPercentageRation() <= 0) _staminaRestore = true;
         }
         
         private void Attack()

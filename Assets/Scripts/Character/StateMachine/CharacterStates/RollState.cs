@@ -1,11 +1,12 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class RollState : TiredState
     {
-        public RollState(Person person) : base(person)
+        public RollState(PersonContainer personContainer) : base(personContainer)
         {
             Animation = "roll";
         }
@@ -13,21 +14,21 @@ namespace Character.StateMachine.CharacterStates
         public override void Enter()
         {
             base.Enter();
-            Person.Movement.Roll();
-            Person.Health.CanDamage = false;
-            Person.Stamina.Decrease(Person.Config.StaminaUsage * GlobalConstants.RollStaminaUsageCoef);
+            PersonContainer.Movement.Roll();
+            PersonContainer.Health.CanDamage = false;
+            PersonContainer.Stamina.Decrease(PersonContainer.Config.StaminaUsage * GlobalConstants.RollStaminaUsageCoef);
         }
 
         public override void Execute()
         {
             SafetyCompleting();
-            Person.Movement.SetSideByVelocity();
+            PersonContainer.Movement.SetSideByVelocity();
         }
 
         public override void Exit()
         {
             base.Exit();
-            Person.Health.CanDamage = true;
+            PersonContainer.Health.CanDamage = true;
         }
 
         public override void FixedExecute() {}

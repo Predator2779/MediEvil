@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Character.Classes;
+using Character.ComponentContainer;
 using UnityEngine;
 
 namespace Environments
@@ -21,7 +22,7 @@ namespace Environments
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (!other.gameObject.TryGetComponent(out Person _)) StartCoroutine(Delay());
+            if (!other.gameObject.TryGetComponent(out PersonContainer _)) StartCoroutine(Delay());
         }
 
         private IEnumerator Delay()

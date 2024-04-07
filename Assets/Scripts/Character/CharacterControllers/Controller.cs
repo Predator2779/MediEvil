@@ -1,19 +1,21 @@
-﻿using Character.Classes;
+﻿using System;
+using Character.Classes;
+using Character.ComponentContainer;
 using UnityEngine;
+using Zenject;
 
 namespace Character.CharacterControllers
 {
-    [RequireComponent(typeof(Person))]
-    public abstract class Controller : MonoBehaviour
+    public abstract class Controller : MonoBehaviour, IController
     {
-        protected Person _person;
+        [Inject] protected Person _person;
 
-        private void Start() => Initialize();
+        private void Awake() => Initialize();
         private void Update() => Execute();
         private void FixedUpdate() => FixedExecute();
-
-        protected virtual void Initialize() => _person = GetComponent<Person>();
-        protected virtual void Execute() => _person.StateMachine.Execute();
-        protected virtual void FixedExecute() => _person.StateMachine.FixedExecute();
+        
+        public virtual void Initialize() {}
+        public virtual void Execute() => _person.StateMachine.Execute();
+        public virtual void FixedExecute() => _person.StateMachine.FixedExecute();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Character.StateMachine.CharacterStates.WarriorStates;
 
 namespace Character.StateMachine.StateSets

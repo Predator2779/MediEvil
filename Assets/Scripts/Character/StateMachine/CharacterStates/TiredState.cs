@@ -1,12 +1,13 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class TiredState : CharacterState
     {
-        public override bool CanEnter() => Person.Stamina.CanUse;
+        public override bool CanEnter() => PersonContainer.Stamina.CanUse;
 
-        public TiredState(Person person) : base(person)
+        public TiredState(PersonContainer personContainer) : base(personContainer)
         {
         }
     }

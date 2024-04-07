@@ -1,24 +1,25 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class RunState : TiredState
     {
-        public RunState(Person person) : base(person)
+        public RunState(PersonContainer personContainer) : base(personContainer)
         {
             Animation = "run";
         }
         
-        public override void Execute() => Person.Movement.SetSideByVelocity();
+        public override void Execute() => PersonContainer.Movement.SetSideByVelocity();
         
         public override void FixedExecute()
         {
             base.FixedExecute();
             ChangingIndicators();
-            Person.Movement.Run();
+            PersonContainer.Movement.Run();
         }
 
-        protected override void ChangingIndicators() => Person.Stamina.Decrease(Person.Config.StaminaUsage * GlobalConstants.RunStaminaUsageCoef);
+        protected override void ChangingIndicators() => PersonContainer.Stamina.Decrease(PersonContainer.Config.StaminaUsage * GlobalConstants.RunStaminaUsageCoef);
     }
 }

@@ -12,7 +12,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         public override void Enter()
         {
             base.Enter();
-            Warrior.Health.CanDamage = false;
+            Warrior.Container.Health.CanDamage = false;
         }
 
         public override void Execute()
@@ -24,7 +24,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         public override void Exit()
         {
             base.Exit();
-            Warrior.Health.CanDamage = true;
+            Warrior.Container.Health.CanDamage = true;
         }
     }
 }

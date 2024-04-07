@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using UnityEngine;
 
 namespace Other
@@ -7,7 +8,7 @@ namespace Other
     {
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent(out Person person)) person.Die();
+            if (other.TryGetComponent(out PersonContainer person)) person.Health.Die();
         }
     }
 }

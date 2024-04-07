@@ -1,10 +1,11 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class IdleState : CharacterState
     {
-        public IdleState(Person person) : base(person)
+        public IdleState(PersonContainer personContainer) : base(personContainer)
         {
             Animation = "idle";
         }

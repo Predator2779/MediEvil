@@ -1,10 +1,11 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class FallState : CharacterState
     {
-        public FallState(Person person) : base(person)
+        public FallState(PersonContainer personContainer) : base(personContainer)
         {
             Animation = "fall";
         }
@@ -12,7 +13,7 @@ namespace Character.StateMachine.CharacterStates
         public override void FixedExecute()
         {
             base.FixedExecute();
-            Person.Movement.FallMove();
+            PersonContainer.Movement.FallMove();
         }
     }
 }

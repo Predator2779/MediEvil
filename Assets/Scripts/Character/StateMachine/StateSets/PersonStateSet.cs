@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Character.StateMachine.CharacterStates;
 
 namespace Character.StateMachine.StateSets
@@ -18,14 +19,14 @@ namespace Character.StateMachine.StateSets
 
         public PersonStateSet(Person person)
         {
-            IdleState = new IdleState(person);
-            WalkState = new WalkState(person);
-            RunState = new RunState(person);
-            JumpState = new JumpState(person);
-            RollState = new RollState(person);
-            FallState = new FallState(person);
-            FallDownState = new FallDownState(person);
-            SlideState = new SlideState(person);
+            IdleState = new IdleState(person.Container);
+            WalkState = new WalkState(person.Container);
+            RunState = new RunState(person.Container);
+            JumpState = new JumpState(person.Container);
+            RollState = new RollState(person.Container);
+            FallState = new FallState(person.Container);
+            FallDownState = new FallDownState(person.Container);
+            SlideState = new SlideState(person.Container);
             DeathState = new DeathState(person);
 
             DefaultState = IdleState;

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Character.Classes;
+using Character.ComponentContainer;
 using Global;
 using UnityEngine;
 
@@ -11,35 +12,35 @@ namespace Character.StateMachine.CharacterStates
         private Quaternion _prevQuaternion;
         private Vector2 _normal;
 
-        public SlideState(Person person) : base(person)
+        public SlideState(PersonContainer personContainer) : base(personContainer)
         {
             Animation = "slide";
-            _transform = Person.transform;
+            _transform = PersonContainer.transform;
         }
 
         public override void Enter()
         {
-            _normal = Person.Movement.ContactNormal;
+            _normal = PersonContainer.Movement.ContactNormal;
             _prevQuaternion = _transform.rotation;
             
-            Person.Movement.Slide();
+            PersonContainer.Movement.Slide();
             IsCompleted = false;
             base.Enter();
         }
 
         public override void Execute()
         {
-            Person.Movement.SetSideByVelocity();
+            PersonContainer.Movement.SetSideByVelocity();
             
-            if (!Person.Movement.CanSlide()) Exit();
+            if (!PersonContainer.Movement.CanSlide()) Exit();
 
             base.Execute();
             RotateByNormal();
 
-            if (Person.Movement.Direction.y <= 0) return;
+            if (PersonContainer.Movement.Direction.y <= 0) return;
             
             Exit();
-            Person.Jump();
+            // PersonContainer.Jump();
         }
 
         private void RotateByNormal()

@@ -1,11 +1,12 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Global;
 
 namespace Character.StateMachine.CharacterStates
 {
     public class JumpState : TiredState
     {
-        public JumpState(Person person) : base(person)
+        public JumpState(PersonContainer personContainer) : base(personContainer)
         {
             Animation = "jump";
         }
@@ -13,17 +14,17 @@ namespace Character.StateMachine.CharacterStates
         public override void Enter()
         {
             base.Enter();
-            Person.Movement.Jump();
-            Person.Stamina.Decrease(Person.Config.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
+            PersonContainer.Movement.Jump();
+            PersonContainer.Stamina.Decrease(PersonContainer.Config.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
         }
 
         public override void Execute()
         {
-            Person.Movement.SetSideByVelocity();
-            Person.Movement.FallMove();
+            PersonContainer.Movement.SetSideByVelocity();
+            PersonContainer.Movement.FallMove();
             SafetyCompleting();
         }
 
-        public override void FixedExecute() => Person.Movement.FallMove();
+        public override void FixedExecute() => PersonContainer.Movement.FallMove();
     }
 }
