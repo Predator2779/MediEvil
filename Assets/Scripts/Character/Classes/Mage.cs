@@ -2,8 +2,10 @@
 
 namespace Character.Classes
 {
-    public class Mage : PersonContainer
+    public class Mage : Person
     {
-        // пале для магии
+        public Mage(PersonContainer container) : base(container)
+        {
+        }
     }
 }

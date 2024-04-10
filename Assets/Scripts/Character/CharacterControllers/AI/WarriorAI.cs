@@ -1,19 +1,26 @@
 ﻿using Character.Classes;
+using Character.ComponentContainer;
 using Global;
 using UnityEngine;
-using Zenject;
 
 namespace Character.CharacterControllers.AI
 {
     public class WarriorAI : PersecutorAI
     {
-        [Inject] private Warrior _warrior;
+        private Warrior _warrior;
         private bool _staminaRestore;
 
+        public WarriorAI(PersonContainer container, ScopeCoverage scopeCoverage) : base(container, scopeCoverage)
+        {
+            _warrior = new Warrior(container, null);
+        }
+        
+        public void SetWarrior(Warrior warrior) => _warrior = warrior;
+        
         public override void Initialize()
         {
             base.Initialize();
-            _warrior = GetComponent<Warrior>();
+            Debug.Log(_warrior?.Container.Config.Name);
         }
 
         public override void Execute()
@@ -63,8 +70,8 @@ namespace Character.CharacterControllers.AI
 
         private void StaminaControl()
         {
-            if (_person.Container.Stamina.GetPercentageRation() > 30) _staminaRestore = false; // написать конфиг для ИИ
-            if (_person.Container.Stamina.GetPercentageRation() <= 0) _staminaRestore = true;
+            if (_person?.Container.Stamina.GetPercentageRation() > 30) _staminaRestore = false; // написать конфиг для ИИ
+            if (_person?.Container.Stamina.GetPercentageRation() <= 0) _staminaRestore = true;
         }
         
         private void Attack()

@@ -1,8 +1,6 @@
-﻿using Character.CharacterControllers;
-using Character.ComponentContainer;
+﻿using Character.ComponentContainer;
 using Character.StateMachine.StateSets;
 using Damageables.Weapon;
-using UnityEngine;
 
 namespace Character.Classes
 {

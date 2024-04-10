@@ -1,5 +1,4 @@
-﻿using Character.Classes;
-using Character.ComponentContainer;
+﻿using Character.ComponentContainer;
 using Other;
 using UnityEngine;
 

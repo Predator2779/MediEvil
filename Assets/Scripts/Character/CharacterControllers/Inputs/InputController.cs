@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using Character.Classes;
+﻿using Character.Classes;
+using Character.ComponentContainer;
 using Input;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
-using Zenject;
 
 namespace Character.CharacterControllers.Inputs
 {
     public sealed class InputController : Controller
     {
-        [Inject] private Warrior _warrior;
-        [Inject] private Mage _mage;
+        private Warrior _warrior;
+        private Thrower _thrower;
+        private Mage _mage;
         private InputHandler _inputHandler;
         private bool _canCombo;
 
@@ -22,6 +20,13 @@ namespace Character.CharacterControllers.Inputs
         //     _canCombo = false;
         // }
 
+        public InputController(PersonContainer container) : base(container)
+        {
+            _warrior = new Warrior(container, null);
+            _thrower = new Thrower(container);
+            _mage = new Mage(container);
+        }
+        
         public override void Initialize()
         {
             base.Initialize();

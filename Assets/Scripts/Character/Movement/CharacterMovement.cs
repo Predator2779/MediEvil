@@ -1,5 +1,4 @@
-﻿using Character.Classes;
-using Character.ComponentContainer;
+﻿using Character.ComponentContainer;
 using Global;
 using UniRx;
 using UniRx.Triggers;
@@ -16,9 +15,9 @@ namespace Character.Movement
         public Vector2 TempDirection { get; set; } = new Vector2(1, 0);
         public Vector2 ContactNormal { get; set; }
 
-        [SerializeField] private float _requireAngle;
-        [SerializeField] private float _drawRadius;
-        [SerializeField] private float _drawLine;
+        [SerializeField] private float _requireAngle = 50;
+        [SerializeField] private float _drawRadius = 0.02f;
+        [SerializeField] private float _drawLine = 1;
 
         private Rigidbody2D _rbody;
         private CharacterConfig _config;
@@ -31,8 +30,7 @@ namespace Character.Movement
         private void Awake()
         {
             SetComponents();
-            this.OnCollisionStay2DAsObservable()
-                .Subscribe(collision => { SetContacts(collision); });
+            this.OnCollisionStay2DAsObservable().Subscribe(SetContacts);
         }
 
         private void OnDrawGizmos()

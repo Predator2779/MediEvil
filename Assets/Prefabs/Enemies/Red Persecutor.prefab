@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 5431478191462079009}
   - component: {fileID: 8265651185471258704}
   - component: {fileID: 3920210717989964669}
-  - component: {fileID: 3940655975889716083}
   m_Layer: 9
   m_Name: Red Persecutor
   m_TagString: Untagged
@@ -185,7 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861e0dcaa567438ca7a5cf6f7ac93670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Capsule>k__BackingField: {fileID: 0}
   _requireAngle: 50
   _drawRadius: 0.02
   _drawLine: 1
@@ -202,31 +200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsPlayer>k__BackingField: 1
-  <Data>k__BackingField: {fileID: 11400000, guid: bd7f7ef5f7ebf4e4fa40a582ac973380, type: 2}
-  <SpriteRenderer>k__BackingField: {fileID: 5982292557700662461}
+  <Config>k__BackingField: {fileID: 0}
   <Animator>k__BackingField: {fileID: 5431478191462079009}
   <HealthBar>k__BackingField: {fileID: 0}
   <StaminaBar>k__BackingField: {fileID: 0}
   <ManaBar>k__BackingField: {fileID: 0}
---- !u!114 &3940655975889716083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7181383657651461879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ebd6a5851394b3f9137749b0734a0bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Person>k__BackingField: {fileID: 0}
-  _target: {fileID: 0}
-  _dashRadius: 4.2
-  _runRadius: 0
-  _followRadius: 3
-  _attackRadius: 0.75
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  _capsule: {fileID: 0}
