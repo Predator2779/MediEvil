@@ -1,10 +1,7 @@
 ﻿using Character;
 using Character.CharacterControllers;
-using Character.CharacterControllers.AI;
-using Character.CharacterControllers.Inputs;
 using Character.ComponentContainer;
 using Character.Movement;
-using UI;
 using UnityEngine;
 
 namespace Builders.Creators
@@ -19,21 +16,36 @@ namespace Builders.Creators
         protected PersonContainer _container;
 
         private void Awake() => StartCreator();
-        protected abstract void StartCreator();
-        protected virtual void CreateUnit()
+
+        private void StartCreator()
         {
-            _unit = Instantiate(_unitPrefabBase, transform.position, Quaternion.identity, _path);
-            _container = _unit.AddComponent<PersonContainer>();
-
-            SetFields(_container); ;
+            InstantiateUnitComponents();
+            SetController();
+            Initialize();
+            
+            Destroy(gameObject);
         }
+        protected abstract void InstantiateUnitComponents();
+        protected abstract void SetController();
+        private void Initialize() => _container.Initialize();
+        
+        protected void CreateUnit() => _unit = Instantiate(
+            _unitPrefabBase,
+            transform.position, 
+            Quaternion.identity, 
+            _path);
 
-        protected void SetController(Controller controller) => _container.Controller = controller;
+        protected void CreateContainer()
+        {
+            _container = _unit.AddComponent<PersonContainer>();
+            SetFields(_container);
+        }
 
         protected virtual void SetFields(PersonContainer personContainer)
         {
             personContainer.Config ??= _config;
             personContainer.Movement ??= _unit.AddComponent<CharacterMovement>();
+            personContainer.Animator ??= _unit.GetComponent<Animator>();
         }
     }
 }

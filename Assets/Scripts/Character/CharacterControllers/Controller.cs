@@ -3,16 +3,16 @@ using Character.ComponentContainer;
 
 namespace Character.CharacterControllers
 {
-    public abstract class Controller : IController
+    public abstract class Controller
     {
-        protected Person _person;
+        protected readonly Person _person;
 
         protected Controller(PersonContainer container)
         {
             _person = new Person(container);
         }
 
-        public virtual void Initialize() {}
+        public virtual void Initialize() => _person.Initialize();
         public virtual void Execute() => _person.StateMachine.Execute();
         public virtual void FixedExecute() => _person.StateMachine.FixedExecute();
     }

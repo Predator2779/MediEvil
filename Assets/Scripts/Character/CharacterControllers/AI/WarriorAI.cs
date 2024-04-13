@@ -1,5 +1,6 @@
 ﻿using Character.Classes;
 using Character.ComponentContainer;
+using Damageables.Weapon;
 using Global;
 using UnityEngine;
 
@@ -10,19 +11,17 @@ namespace Character.CharacterControllers.AI
         private Warrior _warrior;
         private bool _staminaRestore;
 
-        public WarriorAI(PersonContainer container, ScopeCoverage scopeCoverage) : base(container, scopeCoverage)
+        public WarriorAI(PersonContainer container, ScopeCoverage scopeCoverage, Weapon weapon = null) : base(container, scopeCoverage)
         {
-            _warrior = new Warrior(container, null);
+            _warrior = new Warrior(container, weapon);
         }
-        
-        public void SetWarrior(Warrior warrior) => _warrior = warrior;
-        
+
         public override void Initialize()
         {
             base.Initialize();
-            Debug.Log(_warrior?.Container.Config.Name);
+            _warrior.Initialize();
         }
-
+        
         public override void Execute()
         {
             _person.StateMachine.Execute();
@@ -36,7 +35,7 @@ namespace Character.CharacterControllers.AI
                 return;
             }
 
-            _warrior.Container.Movement.LookTo(_target.transform);
+            _warrior?.Container.Movement.LookTo(_target.transform);
             
             if (_staminaRestore)
             {

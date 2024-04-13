@@ -22,19 +22,21 @@ namespace Character.ComponentContainer
         public Health Health { get; protected set; }
         public Stamina Stamina { get; protected set; }
         public Mana Mana { get; protected set; }
-
-        private void Awake()
+        
+        public void Initialize()
         {
-            Movement = GetComponent<CharacterMovement>();
+            SetComponents();
+            Controller.Initialize();
+        }
+        
+        private void Update() => Controller.Execute();
+        private void FixedUpdate() => Controller.FixedExecute();
 
+        private void SetComponents()
+        {
             Health = new Health(this, Config.CurrentHealth, Config.MaxHealth, HealthBar);
             Stamina = new Stamina(this, Config.CurrentStamina, Config.MaxStamina, StaminaBar);
             Mana = new Mana(this, Config.CurrentMana, Config.MaxMana, ManaBar);
-            
-            Controller.Initialize();
         }
-
-        private void Update() => Controller.Execute();
-        private void FixedUpdate() => Controller.FixedExecute();
     }
 }

@@ -5,7 +5,6 @@ using Random = UnityEngine.Random;
 
 namespace Character.CharacterControllers.AI
 {
-    [RequireComponent(typeof(CapsuleCollider2D))]
     public class PersecutorAI : Controller
     {
         protected float _viewingRadius = 3;
@@ -63,6 +62,8 @@ namespace Character.CharacterControllers.AI
                 return;
             }
 
+            _person?.Container.Movement.LookTo(_target.transform);
+            
             if (CanWalkFollow())
             {
                 WalkFollow();
@@ -113,7 +114,7 @@ namespace Character.CharacterControllers.AI
         protected void WalkFollow() => _person.Walk();
         protected void Idle() => _person.Idle();
 
-        protected virtual void SetTempDirection()
+        protected void SetTempDirection()
         {
             if (_target == null) return;
 

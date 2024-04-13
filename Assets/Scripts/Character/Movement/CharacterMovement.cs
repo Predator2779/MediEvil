@@ -132,7 +132,7 @@ namespace Character.Movement
         public void LookTo(Transform target) =>
             transform.localRotation = Quaternion.Euler(0f, GetTargetSide(target), 0f);
 
-        private float GetTargetSide(Transform target) => target.transform.position.x > transform.position.x ? 0 : 180;
+        private float GetTargetSide(Transform target) => target.transform.position.x < transform.position.x ? 0 : 180;
         private Vector2 GetHorizontalDirection(float speed) => new Vector2(Direction.x * speed, _rbody.velocity.y);
 
         private Vector2 GetRollVector() =>

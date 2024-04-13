@@ -25,7 +25,10 @@ namespace Character.Classes
 
         private void Subscribe()
         {
-            Container.Health.Falldown += FallDown;
+            Container
+                .Health
+                .Falldown
+                += FallDown;
             Container.Health.Die += Die;
         }
 

@@ -1,5 +1,6 @@
 ﻿using Character.Classes;
 using Character.ComponentContainer;
+using Damageables.Weapon;
 using Input;
 using UnityEngine;
 
@@ -20,9 +21,9 @@ namespace Character.CharacterControllers.Inputs
         //     _canCombo = false;
         // }
 
-        public InputController(PersonContainer container) : base(container)
+        public InputController(PersonContainer container, Weapon weapon = null) : base(container)
         {
-            _warrior = new Warrior(container, null);
+            _warrior = new Warrior(container, weapon);
             _thrower = new Thrower(container);
             _mage = new Mage(container);
         }

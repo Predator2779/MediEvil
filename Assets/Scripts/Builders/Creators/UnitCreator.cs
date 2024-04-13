@@ -1,4 +1,5 @@
 ﻿using System;
+using Character.CharacterControllers;
 using Character.CharacterControllers.AI;
 using Character.ComponentContainer;
 using UI;
@@ -13,26 +14,26 @@ namespace Builders.Creators
 
         private ScopeCoverage _scopeCoverage;
 
-        protected override void StartCreator()
+        protected override void InstantiateUnitComponents()
         {
             _scopeCoverage = GetComponent<ScopeCoverage>();
             
+            CreateUnit();
+            CreateContainer();
+        }
+
+        protected override void SetController()
+        {
             switch (_controller)
             {
                 case TypeController.PersecutorAI:
-                    CreateUnit();
-                    SetController(new PersecutorAI(_container, _scopeCoverage));
-                    Destroy(gameObject);
+                    _container.Controller = new PersecutorAI(_container, _scopeCoverage);
                     break;
                 case TypeController.WarriorAI:
-                    CreateUnit();
-                    SetController(new PersecutorAI(_container, _scopeCoverage));
-                    Destroy(gameObject);
+                    _container.Controller = new WarriorAI(_container, _scopeCoverage);
                     break;
                 case TypeController.BattleMageAI:
-                    CreateUnit();
-                    SetController(new BattleMageAI(_container));
-                    Destroy(gameObject);
+                    _container.Controller = new BattleMageAI(_container);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
