@@ -1,7 +1,5 @@
-﻿using Character.CharacterControllers;
-using Character.CharacterControllers.Inputs;
+﻿using Character.CharacterControllers.Inputs;
 using Character.ComponentContainer;
-using Character.Movement;
 using Other.Follow;
 using UI;
 using UnityEngine;
@@ -20,7 +18,7 @@ namespace Builders.Creators
             CreateCamera();
         }
         
-        protected override void SetController() => _container.Controller = new InputController(_container);
+        protected override void SetController() => _container.Controller = new InputController(_container, GetWeapon());
         
         private void CreateCamera()
         {

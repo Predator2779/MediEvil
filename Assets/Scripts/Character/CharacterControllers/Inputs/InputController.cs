@@ -24,8 +24,8 @@ namespace Character.CharacterControllers.Inputs
         public InputController(PersonContainer container, Weapon weapon = null) : base(container)
         {
             _warrior = new Warrior(container, weapon);
-            _thrower = new Thrower(container);
-            _mage = new Mage(container);
+            // _thrower = new Thrower(container);
+            // _mage = new Mage(container);
         }
         
         public override void Initialize()
@@ -90,33 +90,40 @@ namespace Character.CharacterControllers.Inputs
 
         public override void Execute()
         {
+            _warrior.StateMachine.Execute();/////////////////
             base.Execute();
             CheckConditions();
             SetTempDirection(GetDirection());
         }
-        
+
+        public override void FixedExecute()
+        {
+            base.FixedExecute();
+            _warrior.StateMachine.FixedExecute();/////////////////
+        }
+
         private Vector2 GetDirection() => new Vector2(
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());
         
-        private bool IsWalk() => _inputHandler.GetHorizontalAxis() != 0 && _person.Container.Movement.IsGrounded();
-        private bool IsRun() => _inputHandler.GetShiftBtn() && _person.Container.Stamina.CanUse;
-        private bool IsFall() => !_person.Container.Movement.IsGrounded() && _person.Container.Movement.IsFall();
+        private bool IsWalk() => _inputHandler.GetHorizontalAxis() != 0 && _warrior.Container.Movement.IsGrounded();
+        private bool IsRun() => _inputHandler.GetShiftBtn() && _warrior.Container.Stamina.CanUse;
+        private bool IsFall() => !_warrior.Container.Movement.IsGrounded() && _warrior.Container.Movement.IsFall();
         
         private bool IsJump() => _inputHandler.GetVerticalAxis() > 0 &&
-                                 _person.Container.Stamina.CanUse &&
-                                 !_person.Container.Movement.IsFall() &&
-                                 _person.Container.Movement.IsGrounded();
+                                 _warrior.Container.Stamina.CanUse &&
+                                 !_warrior.Container.Movement.IsFall() &&
+                                 _warrior.Container.Movement.IsGrounded();
 
         // добавить атаку в прыжке (для варриора)
         private bool IsSlide() => _inputHandler.GetVerticalAxis() < 0 &&
-                                  _person.Container.Movement.IsGrounded() &&
-                                  _person.Container.Movement.CanSlide();
+                                  _warrior.Container.Movement.IsGrounded() &&
+                                  _warrior.Container.Movement.CanSlide();
 
         private bool IsRoll() => _inputHandler.GetSpaceBtn() &&
-                                 _person.Container.Stamina.CanUse &&
-                                 !_person.Container.Movement.IsFall() &&
-                                 _person.Container.Movement.IsGrounded();
+                                 _warrior.Container.Stamina.CanUse &&
+                                 !_warrior.Container.Movement.IsFall() &&
+                                 _warrior.Container.Movement.IsGrounded();
 
         private bool IsAttack() => _inputHandler.GetLMB();
         private bool IsDefense() => _inputHandler.GetRMB();
@@ -136,20 +143,21 @@ namespace Character.CharacterControllers.Inputs
         }
 
         private void Defense() => _warrior.Defense();
-        private void Fall() => _person.Fall();
-        private void Jump() => _person.Jump();
-        private void Slide() => _person.Slide();
-        private void Roll() => _person.Roll();
-        private void Run() => _person.Run();
-        private void Walk() => _person.Walk();
-        private void Idle() => _person.Idle();
+        private void Fall() => _warrior.Fall();
+        private void Jump() => _warrior.Jump();
+        private void Slide() => _warrior.Slide();
+        private void Roll() => _warrior.Roll();
+        private void Run() => _warrior.Run();
+        private void Walk() => _warrior.Walk();
+        private void Idle() => _warrior.Idle();
 
         private void SetTempDirection(Vector2 input)
         {
-            _person.Container.Movement.Direction = input;
+            _warrior.Container.Movement.Direction = input;
 
             if (Mathf.Abs(input.x) > 0)
-                _person.Container.Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
+                _warrior.Container.Movement.TempDirection = new Vector2(input.x, 0);
+            // _person.Container.Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
         }
     }
 }

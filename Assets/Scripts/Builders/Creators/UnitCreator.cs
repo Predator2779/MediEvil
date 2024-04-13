@@ -1,5 +1,4 @@
 ﻿using System;
-using Character.CharacterControllers;
 using Character.CharacterControllers.AI;
 using Character.ComponentContainer;
 using UI;
@@ -30,7 +29,7 @@ namespace Builders.Creators
                     _container.Controller = new PersecutorAI(_container, _scopeCoverage);
                     break;
                 case TypeController.WarriorAI:
-                    _container.Controller = new WarriorAI(_container, _scopeCoverage);
+                    _container.Controller = new WarriorAI(_container, _scopeCoverage, GetWeapon());
                     break;
                 case TypeController.BattleMageAI:
                     _container.Controller = new BattleMageAI(_container);

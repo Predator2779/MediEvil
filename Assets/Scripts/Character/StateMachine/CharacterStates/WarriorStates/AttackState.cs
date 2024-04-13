@@ -42,9 +42,9 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
             Warrior.Container.Stamina.Decrease(Warrior.Container.Config.StaminaAttackUsageCoef * outputDamage);
         }
 
-        protected float GetVelocityModificator() => Mathf.Abs(Warrior.Container.Movement.GetVelocity().x +
-                                                              Warrior.Container.Movement.GetVelocity().y) *
-                                                    GlobalConstants.VelocityDamageCoef;
+        private float GetVelocityModificator() => Mathf.Abs(Warrior.Container.Movement.GetVelocity().x +
+                                                            Warrior.Container.Movement.GetVelocity().y) *
+                                                  GlobalConstants.VelocityDamageCoef;
 
         public override bool CanEnter() => Warrior.Weapon != null && Warrior.Container.Stamina.CanUse;
     }

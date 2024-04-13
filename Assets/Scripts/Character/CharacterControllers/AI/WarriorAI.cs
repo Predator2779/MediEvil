@@ -8,7 +8,7 @@ namespace Character.CharacterControllers.AI
 {
     public class WarriorAI : PersecutorAI
     {
-        private Warrior _warrior;
+        private readonly Warrior _warrior;
         private bool _staminaRestore;
 
         public WarriorAI(PersonContainer container, ScopeCoverage scopeCoverage, Weapon weapon = null) : base(container, scopeCoverage)
@@ -19,7 +19,7 @@ namespace Character.CharacterControllers.AI
         public override void Initialize()
         {
             base.Initialize();
-            _warrior.Initialize();
+            _warrior?.Initialize();
         }
         
         public override void Execute()
@@ -47,8 +47,8 @@ namespace Character.CharacterControllers.AI
                 
                 WalkFollow();
                 return;
-            } 
-            
+            }
+
             if (CanAttack())
             {
                 Attack();
@@ -75,8 +75,8 @@ namespace Character.CharacterControllers.AI
         
         private void Attack()
         {
-            if (Random.Range(0, GlobalConstants.ComboChanceAI) == 0) _warrior.Attack(); 
-            else _warrior.ComboAttack();
+            if (Random.Range(0, GlobalConstants.ComboChanceAI) == 0) _warrior?.Attack(); 
+            else _warrior?.ComboAttack();
         }
 
         private bool CanAttack() => GetTargetDistance() <= _stayDistance;

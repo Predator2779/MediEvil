@@ -1,5 +1,6 @@
 ﻿using Character.CharacterControllers;
 using Character.Movement;
+using Character.StateMachine;
 using Character.ValueStorages;
 using Character.ValueStorages.Bars;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace Character.ComponentContainer
         
         public Controller Controller { get; set; }
         public CharacterMovement Movement { get; set; }
+        public PersonStateMachine StateMachine { get; set; }
 
         public Health Health { get; protected set; }
         public Stamina Stamina { get; protected set; }

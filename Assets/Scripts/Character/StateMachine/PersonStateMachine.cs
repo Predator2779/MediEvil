@@ -1,4 +1,6 @@
 ﻿using Character.StateMachine.CharacterStates;
+using ModestTree;
+using UnityEngine;
 
 namespace Character.StateMachine
 {
@@ -29,7 +31,7 @@ namespace Character.StateMachine
             CurrentState = newState;
             CurrentState.Enter();
         }
-        
+
         public void Execute() => CurrentState.Execute();
         public void FixedExecute() => CurrentState.FixedExecute();
     }

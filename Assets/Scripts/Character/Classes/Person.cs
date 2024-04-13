@@ -13,22 +13,19 @@ namespace Character.Classes
         public Person(PersonContainer container)
         {
             Container = container;
+            _personStateSet = new PersonStateSet(this);
+            Container.StateMachine = new PersonStateMachine(_personStateSet.DefaultState);
+            StateMachine = container.StateMachine;
         }
 
         public virtual void Initialize()
         {
             Subscribe();
-
-            _personStateSet = new PersonStateSet(this);
-            StateMachine = new PersonStateMachine(_personStateSet.DefaultState);
         }
 
         private void Subscribe()
         {
-            Container
-                .Health
-                .Falldown
-                += FallDown;
+            Container.Health.Falldown += FallDown;
             Container.Health.Die += Die;
         }
 

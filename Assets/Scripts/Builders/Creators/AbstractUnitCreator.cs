@@ -1,7 +1,7 @@
 ﻿using Character;
-using Character.CharacterControllers;
 using Character.ComponentContainer;
 using Character.Movement;
+using Damageables.Weapon;
 using UnityEngine;
 
 namespace Builders.Creators
@@ -46,6 +46,12 @@ namespace Builders.Creators
             personContainer.Config ??= _config;
             personContainer.Movement ??= _unit.AddComponent<CharacterMovement>();
             personContainer.Animator ??= _unit.GetComponent<Animator>();
+        }
+
+        protected Weapon GetWeapon()
+        {
+            var weapon = _unitPrefabBase.GetComponentInChildren<Weapon>();
+            return weapon != null ? weapon : null;
         }
     }
 }
