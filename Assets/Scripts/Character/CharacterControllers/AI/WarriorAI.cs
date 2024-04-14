@@ -24,7 +24,7 @@ namespace Character.CharacterControllers.AI
         
         public override void Execute()
         {
-            _person.StateMachine.Execute();
+            _container.StateMachine.Execute();
 
             SetTempDirection();
             StaminaControl();

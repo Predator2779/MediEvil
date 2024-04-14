@@ -21,7 +21,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         {
             Warrior.Container.Movement.SetSideByVelocity();
             
-            if (AnimationCompleted()) Warrior.Idle();
+            // if (AnimationCompleted()) Warrior.Idle();
 
             base.Execute();
             SafetyCompleting();

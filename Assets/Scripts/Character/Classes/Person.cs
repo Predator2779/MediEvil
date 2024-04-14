@@ -7,7 +7,6 @@ namespace Character.Classes
     public class Person
     {
         public PersonContainer Container { get; set; }
-        public PersonStateMachine StateMachine { get; set; }
         private PersonStateSet _personStateSet;
 
         public Person(PersonContainer container)
@@ -15,7 +14,6 @@ namespace Character.Classes
             Container = container;
             _personStateSet = new PersonStateSet(this);
             Container.StateMachine = new PersonStateMachine(_personStateSet.DefaultState);
-            StateMachine = container.StateMachine;
         }
 
         public virtual void Initialize()
@@ -35,14 +33,14 @@ namespace Character.Classes
             Container.Health.Die -= Die;
         }
 
-        public void Idle() => StateMachine.ChangeState(_personStateSet.IdleState);
-        public void Walk() => StateMachine.ChangeState(_personStateSet.WalkState);
-        public void Run() => StateMachine.ChangeState(_personStateSet.RunState);
-        public void Jump() => StateMachine.ChangeState(_personStateSet.JumpState);
-        public void Roll() => StateMachine.ChangeState(_personStateSet.RollState);
-        public void Fall() => StateMachine.ChangeState(_personStateSet.FallState);
-        public void Slide() => StateMachine.ChangeState(_personStateSet.SlideState);
-        public void FallDown() => StateMachine.ChangeState(_personStateSet.FallDownState);
-        public void Die() => StateMachine.ForcedChangeState(_personStateSet.DeathState);
+        public void Idle() => Container.StateMachine.ChangeState(_personStateSet.IdleState);
+        public void Walk() => Container.StateMachine.ChangeState(_personStateSet.WalkState);
+        public void Run() => Container.StateMachine.ChangeState(_personStateSet.RunState);
+        public void Jump() => Container.StateMachine.ChangeState(_personStateSet.JumpState);
+        public void Roll() => Container.StateMachine.ChangeState(_personStateSet.RollState);
+        public void Fall() => Container.StateMachine.ChangeState(_personStateSet.FallState);
+        public void Slide() => Container.StateMachine.ChangeState(_personStateSet.SlideState);
+        public void FallDown() => Container.StateMachine.ChangeState(_personStateSet.FallDownState);
+        public void Die() => Container.StateMachine.ForcedChangeState(_personStateSet.DeathState);
     }
 }
