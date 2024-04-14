@@ -1,4 +1,5 @@
-﻿using Character.Classes;
+﻿using System.Threading.Tasks;
+using Character.Classes;
 using Character.ComponentContainer;
 using Damageables.Weapon;
 using Input;
@@ -10,20 +11,15 @@ namespace Character.CharacterControllers.Inputs
     {
         private Warrior _warrior;
         private InputHandler _inputHandler;
-        private bool _canCombo;
 
-        // private IEnumerator ResetCombo()
-        // {
-        //     _canCombo = true;
-        //     yield return new WaitForSeconds(_warrior.Config.ComboInterval);
-        //     _canCombo = false;
-        // }
+        private bool _canCombo;
+        private int _countComboClicks;
 
         public InputController(PersonContainer container, Weapon weapon = null) : base(container)
         {
             _warrior = new Warrior(container, weapon);
         }
-        
+
         public override void Initialize()
         {
             base.Initialize();
@@ -63,6 +59,13 @@ namespace Character.CharacterControllers.Inputs
                 return;
             }
 
+            if (_countComboClicks > 0 && CanEnterState())
+            {
+                _countComboClicks = 0;
+                ComboAttack();
+                return;
+            }
+
             if (IsAttack())
             {
                 Attack();
@@ -74,7 +77,7 @@ namespace Character.CharacterControllers.Inputs
                 Run();
                 return;
             }
-            
+
             if (IsWalk())
             {
                 Walk();
@@ -87,6 +90,7 @@ namespace Character.CharacterControllers.Inputs
         public override void Execute()
         {
             base.Execute();
+            TrackCombo();
             CheckConditions();
             SetTempDirection(GetDirection());
         }
@@ -94,11 +98,11 @@ namespace Character.CharacterControllers.Inputs
         private Vector2 GetDirection() => new Vector2(
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());
-        
+
         private bool IsWalk() => _inputHandler.GetHorizontalAxis() != 0 && _person.Container.Movement.IsGrounded();
         private bool IsRun() => _inputHandler.GetShiftBtn() && _person.Container.Stamina.CanUse;
         private bool IsFall() => !_person.Container.Movement.IsGrounded() && _person.Container.Movement.IsFall();
-        
+
         private bool IsJump() => _inputHandler.GetVerticalAxis() > 0 &&
                                  _person.Container.Stamina.CanUse &&
                                  !_person.Container.Movement.IsFall() &&
@@ -119,16 +123,34 @@ namespace Character.CharacterControllers.Inputs
 
         private void Attack()
         {
-            if (_canCombo) _warrior.ComboAttack();
-            else _warrior.Attack();
+            SubscribeEndedAttack();
+            _warrior.Attack();
+        }
 
-            // Observable.FromCoroutine(ResetCombo).Subscribe(_ =>
-            // {
-            //     
-            // });
+        private void ComboAttack()
+        {
+            SubscribeEndedAttack();
+            _warrior.ComboAttack();
+        }
 
-            // StopCoroutine(ResetCombo());
-            // StartCoroutine(ResetCombo());
+        private void TrackCombo()
+        {
+            if (IsAttack() && _canCombo) _countComboClicks++;
+        }
+
+        private void SubscribeEndedAttack()
+        {
+            _canCombo = true;
+            _warrior.OnEndedAttack += ResetCombo;
+        }
+
+        private void ResetCombo()
+        {
+            Debug.Log("Invoked");
+            _warrior.OnEndedAttack -= ResetCombo;
+            _canCombo = false;
+            
+            Task.Delay(_warrior.Container.Config.ComboInterval).ContinueWith(_ => { _countComboClicks = 0; });
         }
 
         private void Defense() => _warrior.Defense();
@@ -139,14 +161,13 @@ namespace Character.CharacterControllers.Inputs
         private void Run() => _person.Run();
         private void Walk() => _person.Walk();
         private void Idle() => _person.Idle();
-
+        private bool CanEnterState() => _person.Container.StateMachine.CurrentState.IsCompleted;
         private void SetTempDirection(Vector2 input)
         {
             _person.Container.Movement.Direction = input;
 
             if (Mathf.Abs(input.x) > 0)
                 _person.Container.Movement.TempDirection = new Vector2(input.x, 0);
-            // _person.Container.Movement.TempDirection = new Vector2(_inputHandler.GetHorizontalAxis(), 0);
         }
     }
 }

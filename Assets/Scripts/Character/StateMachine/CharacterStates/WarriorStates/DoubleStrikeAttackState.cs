@@ -4,6 +4,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
 {
     public class DoubleStrikeAttackState : ComboAttackState
     {
+        private bool _canSecondStrike = true;
         private int _frames;
 
         public DoubleStrikeAttackState(Warrior warrior) : base(warrior)
@@ -19,10 +20,12 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
 
         private void SecondStrike()
         {
-            _frames++;
+            if (_canSecondStrike) _frames++;
             if (_frames < Warrior.Container.Config.SecondStrikeDelay) return;
-            
+
             _frames = 0;
+            _canSecondStrike = false;
+            
             ApplyDamageWithoutStamina();
         }
 

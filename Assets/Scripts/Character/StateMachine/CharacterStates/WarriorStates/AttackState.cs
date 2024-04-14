@@ -20,12 +20,16 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         public override void Execute()
         {
             Warrior.Container.Movement.SetSideByVelocity();
-            
-            // if (AnimationCompleted()) Warrior.Idle();
 
             base.Execute();
             SafetyCompleting();
             CooldownControl();
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            OnEndedAttack();
         }
 
         protected float GetDamage()

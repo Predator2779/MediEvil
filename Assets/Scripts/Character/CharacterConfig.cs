@@ -25,7 +25,7 @@ namespace Character
         [Header("Attack")] 
         public float Damage;
         public float ComboAttackDamageModificator;
-        [Tooltip("Seconds")] public float ComboInterval;
+        [Tooltip("MilliSeconds")] public int ComboInterval;
         [Tooltip("Frames")] public int SecondStrikeDelay;
         
         [Header("Health")]
