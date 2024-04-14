@@ -33,6 +33,7 @@ namespace Character.Movement
             this.OnCollisionStay2DAsObservable().Subscribe(SetContacts);
         }
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (Capsule == null) return;
@@ -60,6 +61,7 @@ namespace Character.Movement
             Gizmos.color = Color.blue;
             Gizmos.DrawRay(_contactPoint, ContactNormal * _drawLine);
         }
+#endif
 
         private void SetComponents()
         {

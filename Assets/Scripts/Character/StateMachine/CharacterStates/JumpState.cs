@@ -1,5 +1,7 @@
-﻿using Character.ComponentContainer;
+﻿using Character.Classes;
+using Character.ComponentContainer;
 using Global;
+using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
@@ -19,9 +21,11 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Execute()
         {
+            IsCompleted = PersonContainer.Movement.GetVelocity().y <= 0;
+            
             PersonContainer.Movement.SetSideByVelocity();
             PersonContainer.Movement.FallMove();
-            SafetyCompleting();
+            // SafetyCompleting();
         }
 
         public override void FixedExecute() => PersonContainer.Movement.FallMove();

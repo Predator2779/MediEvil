@@ -9,8 +9,6 @@ namespace Character.CharacterControllers.Inputs
     public sealed class InputController : Controller
     {
         private Warrior _warrior;
-        private Thrower _thrower;
-        private Mage _mage;
         private InputHandler _inputHandler;
         private bool _canCombo;
 
