@@ -1,7 +1,5 @@
-﻿using Character.Classes;
-using Character.ComponentContainer;
+﻿using Character.ComponentContainer;
 using Global;
-using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
@@ -25,7 +23,6 @@ namespace Character.StateMachine.CharacterStates
             
             PersonContainer.Movement.SetSideByVelocity();
             PersonContainer.Movement.FallMove();
-            // SafetyCompleting();
         }
 
         public override void FixedExecute() => PersonContainer.Movement.FallMove();

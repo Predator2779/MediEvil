@@ -1,6 +1,4 @@
 ﻿using Character.StateMachine.CharacterStates;
-using ModestTree;
-using UnityEngine;
 
 namespace Character.StateMachine
 {
