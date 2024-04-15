@@ -24,14 +24,14 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
             base.Execute();
             SafetyCompleting();
             CooldownControl();
+            EndAttackCallback();
         }
 
-        public override void Exit()
+        private void EndAttackCallback()
         {
-            base.Exit();
-            OnEndedAttack();
+            if (GetPercentCurrentMomentAnim() >= 100) Warrior.OnEndedAttack?.Invoke();
         }
-
+        
         protected float GetDamage()
         {
             var baseDamage = Warrior.Container.Config.Damage;

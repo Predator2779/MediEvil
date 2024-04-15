@@ -59,10 +59,14 @@ namespace Character.CharacterControllers.Inputs
                 return;
             }
 
-            if (_countComboClicks > 0 && CanEnterState())
+            if (_countComboClicks > 0)
             {
-                _countComboClicks = 0;
-                ComboAttack();
+                if (CanEnterState())
+                {
+                    _countComboClicks = 0;
+                    ComboAttack();
+                }
+
                 return;
             }
 
@@ -138,19 +142,15 @@ namespace Character.CharacterControllers.Inputs
             if (IsAttack() && _canCombo) _countComboClicks++;
         }
 
-        private void SubscribeEndedAttack()
-        {
-            _canCombo = true;
-            _warrior.OnEndedAttack += ResetCombo;
-        }
+        private void SubscribeEndedAttack() => _warrior.OnEndedAttack += ResetCombo;
 
         private void ResetCombo()
         {
-            Debug.Log("Invoked");
             _warrior.OnEndedAttack -= ResetCombo;
-            _canCombo = false;
-            
-            Task.Delay(_warrior.Container.Config.ComboInterval).ContinueWith(_ => { _countComboClicks = 0; });
+            _canCombo = true;
+
+            Task.Delay(_warrior.Container.Config.ComboInterval)
+                .ContinueWith(_ => { _canCombo = false; });
         }
 
         private void Defense() => _warrior.Defense();
@@ -162,6 +162,7 @@ namespace Character.CharacterControllers.Inputs
         private void Walk() => _person.Walk();
         private void Idle() => _person.Idle();
         private bool CanEnterState() => _person.Container.StateMachine.CurrentState.IsCompleted;
+
         private void SetTempDirection(Vector2 input)
         {
             _person.Container.Movement.Direction = input;

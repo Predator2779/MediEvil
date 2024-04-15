@@ -7,7 +7,8 @@ namespace Global
         // Damage
         public const float KnockdownDamage = 12;   // урон сшибающийс ног (переделать)
         public const float VelocityDamageCoef = 0.5f;
-        public const int ComboFrameCount = 10;  // сколько кадров дается на комбо
+        // public const int ComboFrameCount = 10;  // сколько кадров дается на комбо
+        public const float WindowForCombo = 20;  // сколько процентов анимации для запуска окна комбо
 
         // Move Speed
         public const float CoefPersonSpeed = 1;

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Character.ComponentContainer;
 using Global;
+using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {
@@ -37,6 +38,16 @@ namespace Character.StateMachine.CharacterStates
         {
             var animInfo = PersonContainer.Animator.GetCurrentAnimatorStateInfo(0);
             return animInfo.normalizedTime >= animInfo.length + GlobalConstants.AnimDelay;
+        }
+
+        /// <summary>
+        /// The method returns the completed animation path as a percentage.
+        /// </summary>
+        /// <returns>current animation moment</returns>
+        protected float GetPercentCurrentMomentAnim()
+        {
+            var animInfo = PersonContainer.Animator.GetCurrentAnimatorStateInfo(0);
+            return (animInfo.normalizedTime / animInfo.length + GlobalConstants.AnimDelay) * 100;
         }
 
         protected virtual void ChangingIndicators()

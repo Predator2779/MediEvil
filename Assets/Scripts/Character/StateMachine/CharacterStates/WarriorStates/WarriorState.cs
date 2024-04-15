@@ -10,7 +10,5 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         {
             Warrior = warrior;
         }
-
-        protected void OnEndedAttack() => Warrior.OnEndedAttack?.Invoke();
     }
 }
