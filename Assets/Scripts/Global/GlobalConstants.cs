@@ -37,9 +37,5 @@ namespace Global
 
         // Saves
         public static Vector2 StartPointPosition = new Vector2(-49.75f, -0.58f);
-
-        // AI
-        public const int ComboChanceAI = 10;   // 1 из 10 шанс совершения комбо
-        public const int RollChanceAI = 35;
     }
 }

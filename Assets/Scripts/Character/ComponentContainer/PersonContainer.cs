@@ -1,4 +1,5 @@
 ﻿using Character.CharacterControllers;
+using Character.Configs;
 using Character.Movement;
 using Character.StateMachine;
 using Character.ValueStorages;

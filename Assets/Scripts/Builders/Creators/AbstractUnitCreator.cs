@@ -1,5 +1,6 @@
 ﻿using Character;
 using Character.ComponentContainer;
+using Character.Configs;
 using Character.Movement;
 using Damageables.Weapon;
 using UnityEngine;

@@ -1,4 +1,5 @@
 ﻿using Character.ComponentContainer;
+using Character.StateMachine.CharacterStates;
 using Global;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -82,32 +83,20 @@ namespace Character.CharacterControllers.AI
             return _target;
         }
         
-        // protected bool CanDash() => Physics2D.OverlapCircle(GetCapsuleCenterPos(), _dashRadius, _layerMask);
         protected bool CanStay() => GetTargetDistance() <= _stayDistance;
         protected bool CanWalkFollow() => GetTargetDistance() <= _walkDistance;
         protected bool CanRunFollow() => GetTargetDistance() <= _runDistance;
 
-        // protected void Follow()
-        // {
-        //     if (GetTargetDistance() > _dashRadius || Vector2.Angle(_person.Movement.ContactNormal, Vector2.up) >= 85)
-        //     {
-        //         Roll();
-        //     }
-        //
-        //     if (GetTargetDistance() > _runDistance)
-        //     {
-        //         RunFollow();
-        //         return;
-        //     }
-        //
-        //
-        // }
-
         protected void Roll() => _person.Roll();
+        protected void Jump() => _person.Jump();
 
         protected void RunFollow()
         {
-            if (Random.Range(0, GlobalConstants.RollChanceAI) == 0) Roll();
+            if (Random.Range(0, _person.Container.Config.RollChanceAI) == 0)
+            {
+                if (_person.Container.Config.CanRoll) Roll();
+                else Jump();
+            }
             else _person.Run();
         }
         

@@ -1,4 +1,5 @@
 ﻿using Character.ComponentContainer;
+using Character.Configs;
 using Global;
 using UniRx;
 using UniRx.Triggers;

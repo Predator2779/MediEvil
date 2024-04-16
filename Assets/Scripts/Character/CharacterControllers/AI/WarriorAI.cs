@@ -76,7 +76,7 @@ namespace Character.CharacterControllers.AI
         
         private void Attack()
         {
-            if (Random.Range(0, GlobalConstants.ComboChanceAI) == 0) _warrior?.Attack(); 
+            if (Random.Range(0, _person.Container.Config.ComboChanceAI) == 0) _warrior?.Attack(); 
             else _warrior?.ComboAttack();
         }
 

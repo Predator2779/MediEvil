@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Character
+namespace Character.Configs
 {
-    [CreateAssetMenu(menuName = "CharacterData", fileName = "New CharacterData", order = 0)]
+    [CreateAssetMenu(menuName = "Configs", fileName = "New CharacterConfig", order = 0)]
     public class CharacterConfig : ScriptableObject
     {
         [Header("About")] [Space]
@@ -49,5 +49,10 @@ namespace Character
         [Header("Death")] 
         [Tooltip("Milliseconds")] public int TimeToRespawn;
         public List<Transform> SavePoints;
+        
+        [Header("For AI")]
+        public bool CanRoll;
+        public int ComboChanceAI = 10;   // 1 из 10 шанс совершения комбо
+        public int RollChanceAI = 35;
     }
 }
