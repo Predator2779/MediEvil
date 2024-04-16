@@ -31,7 +31,6 @@ namespace Character.ValueStorages
 
         private void SetValue(float value)
         {
-            // Debug.Log("Setted");
             CurrentValue = value;
             ChangeBar();
         }

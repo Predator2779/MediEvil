@@ -39,7 +39,6 @@ namespace Character.StateMachine.CharacterStates
             if (_isDeath) return;
             _isDeath = true;
 
-            _person.Describe();
             PersonContainer.Movement.SetBodyType(RigidbodyType2D.Static);
             
             if (!PersonContainer.IsPlayer)
@@ -48,6 +47,7 @@ namespace Character.StateMachine.CharacterStates
                 return;
             }
 
+            _person.Describe();
             Task.Delay(PersonContainer.Config.TimeToRespawn).ContinueWith(_ => _isRespawned = true);
         }
 

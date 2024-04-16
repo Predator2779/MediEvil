@@ -7,9 +7,9 @@ namespace Character.ValueStorages
 {
     public class Health : ValueStorage
     {
-        public delegate void healthEvent();
-        public healthEvent Falldown;
-        public healthEvent Die;
+        public delegate void HealthEvent();
+        public HealthEvent Falldown;
+        public HealthEvent Die;
         
         public Health(PersonContainer personContainer, float currentValue, float maxValue) : base(currentValue, maxValue) 
         {
@@ -32,8 +32,6 @@ namespace Character.ValueStorages
             if (!CanDamage) return;
             
             base.Decrease(value);
-            
-            // Debug.Log($"DamageL {value}; Current: {CurrentValue}");
             
             if (value >= GlobalConstants.KnockdownDamage) Falldown?.Invoke();
             if (CurrentValue <= MinValue) Die?.Invoke();

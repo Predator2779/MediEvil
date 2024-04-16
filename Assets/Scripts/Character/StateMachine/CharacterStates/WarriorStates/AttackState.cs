@@ -20,7 +20,6 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         public override void Execute()
         {
             base.Execute();
-            // SideByVelocity();
             SafetyCompleting();
             CooldownControl();
             EndAttackCallback();
