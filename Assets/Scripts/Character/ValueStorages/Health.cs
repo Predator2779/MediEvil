@@ -33,7 +33,7 @@ namespace Character.ValueStorages
             
             base.Decrease(value);
             
-            if (value >= GlobalConstants.KnockdownDamage) Falldown?.Invoke();
+            if (value >= MaxValue / GlobalConstants.KnockdownDamage) Falldown?.Invoke();
             if (CurrentValue <= MinValue) Die?.Invoke();
         }
     }

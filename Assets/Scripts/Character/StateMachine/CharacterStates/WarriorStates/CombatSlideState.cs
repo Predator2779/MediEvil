@@ -2,6 +2,8 @@
 using Character.ComponentContainer;
 using Character.ValueStorages;
 using Global;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates.WarriorStates
@@ -23,36 +25,38 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
             CheckEnemies();
         }
 
-        private void CheckEnemies()
+        public override void Exit()
         {
-            if (!_hasEnemies) return;
-
+            base.Exit();
             _hasEnemies = false;
-            ApplyDamage(GetEnemies());
         }
 
-        private Collider2D[] GetEnemies()
+        private void CheckEnemies()
         {
-            var pos = (Vector2) PersonContainer.transform.position + new Vector2(0.25f, 0.1f); ////
-            var colliders = Physics2D.OverlapCircleAll(pos, 0.1f, 0); ////
+            if (_hasEnemies) return;
 
-            return colliders;
+            var pos = (Vector2) PersonContainer.transform.position + new Vector2(0.25f, 0.1f); //// magic nums
+            var colliders = Physics2D.OverlapCircleAll(pos, 0.25f); //// magic num
+
+            if (colliders != null)
+            {
+                _hasEnemies = true;
+                ApplyDamage(colliders);
+            }
         }
 
         private void ApplyDamage(Collider2D[] colliders)
         {
-            var outputDamage = GetDamage();
-
             foreach (var collider in colliders)
             {
-                if (collider.TryGetComponent(out PersonContainer person)) continue;
-                DoDamage(person.Health, outputDamage);
+                if (collider.TryGetComponent(out PersonContainer person) && !person.IsPlayer)
+                    DoDamage(person.Health, GetDamage());
             }
         }
 
         private float GetDamage()
         {
-            var baseDamage = _warrior.Container.Config.Damage;
+            var baseDamage = _warrior.Container.Config.Damage * _warrior.Container.Config.CombatSlideDamage;
             return Mathf.Clamp(baseDamage * GetVelocityModificator(), baseDamage,
                 baseDamage * GetVelocityModificator());
         }
