@@ -14,14 +14,15 @@ namespace Character.StateMachine.CharacterStates
         {
             base.Enter();
             PersonContainer.Movement.Jump();
-            PersonContainer.Stamina.Decrease(PersonContainer.Config.StaminaUsage * GlobalConstants.JumpStaminaUsageCoef);
+            PersonContainer.Stamina.Decrease(PersonContainer.Config.StaminaUsage *
+                                             GlobalConstants.JumpStaminaUsageCoef);
         }
 
         public override void Execute()
         {
             IsCompleted = PersonContainer.Movement.GetVelocity().y <= 0;
-            
-            PersonContainer.Movement.SetSideByVelocity();
+
+            SideByVelocity();
             PersonContainer.Movement.FallMove();
         }
 

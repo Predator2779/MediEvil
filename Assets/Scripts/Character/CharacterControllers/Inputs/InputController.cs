@@ -10,6 +10,7 @@ namespace Character.CharacterControllers.Inputs
     public sealed class InputController : Controller
     {
         private Warrior _warrior;
+        private Thrower _thrower;
         private InputHandler _inputHandler;
 
         private bool _canCombo;
@@ -18,6 +19,7 @@ namespace Character.CharacterControllers.Inputs
         public InputController(PersonContainer container, Weapon weapon = null) : base(container)
         {
             _warrior = new Warrior(container, weapon);
+            _thrower = new Thrower(container);
         }
 
         public override void Initialize()
@@ -156,7 +158,7 @@ namespace Character.CharacterControllers.Inputs
         private void Defense() => _warrior.Defense();
         private void Fall() => _person.Fall();
         private void Jump() => _person.Jump();
-        private void Slide() => _person.Slide();
+        private void Slide() => _warrior.CombatSlide();
         private void Roll() => _person.Roll();
         private void Run() => _person.Run();
         private void Walk() => _person.Walk();

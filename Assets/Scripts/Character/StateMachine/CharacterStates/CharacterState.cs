@@ -18,12 +18,17 @@ namespace Character.StateMachine.CharacterStates
             PersonContainer = personContainer;
         }
 
-        public virtual bool CanEnter() => true; 
-        public virtual void Enter() => 
+        public virtual bool CanEnter() => true;
+
+        public virtual void Enter() =>
             PersonContainer.Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);
 
-        public virtual void Execute() {}
+        public virtual void Execute()
+        {
+        }
+
         public virtual void FixedExecute() => ChangingIndicators();
+        protected void SideByVelocity() => PersonContainer.Movement.SetSideByVelocity();
         protected void SafetyCompleting() => IsCompleted = AnimationCompleted();
         public virtual void Exit() => PersonContainer.Animator.StopPlayback();
 
@@ -33,7 +38,7 @@ namespace Character.StateMachine.CharacterStates
             IsCooldown = true;
             Task.Delay(PersonContainer.Config.StaminaRestoreDelay).ContinueWith(_ => IsCooldown = false);
         }
-        
+
         protected bool AnimationCompleted()
         {
             var animInfo = PersonContainer.Animator.GetCurrentAnimatorStateInfo(0);
@@ -52,7 +57,8 @@ namespace Character.StateMachine.CharacterStates
 
         protected virtual void ChangingIndicators()
         {
-            if (PersonContainer.Stamina.CanRestore()) PersonContainer.Stamina.Increase(PersonContainer.Config.StaminaRecovery);
+            if (PersonContainer.Stamina.CanRestore())
+                PersonContainer.Stamina.Increase(PersonContainer.Config.StaminaRecovery);
         }
     }
 }

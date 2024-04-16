@@ -27,6 +27,7 @@ namespace Character.Classes
 
         public void Attack() => Container.StateMachine.ChangeState(_warriorStateSet.AttackState);
         public void ComboAttack() => Container.StateMachine.ChangeState(_warriorStateSet.ComboAttackState);
+        public void CombatSlide() => Container.StateMachine.ChangeState(_warriorStateSet.CombatSlideState);
         public void Defense() => Container.StateMachine.ChangeState(_warriorStateSet.DefenseState);
     }
 }

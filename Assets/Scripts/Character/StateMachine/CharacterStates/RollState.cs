@@ -15,13 +15,14 @@ namespace Character.StateMachine.CharacterStates
             base.Enter();
             PersonContainer.Movement.Roll();
             PersonContainer.Health.CanDamage = false;
-            PersonContainer.Stamina.Decrease(PersonContainer.Config.StaminaUsage * GlobalConstants.RollStaminaUsageCoef);
+            PersonContainer.Stamina.Decrease(PersonContainer.Config.StaminaUsage *
+                                             GlobalConstants.RollStaminaUsageCoef);
         }
 
         public override void Execute()
         {
             SafetyCompleting();
-            PersonContainer.Movement.SetSideByVelocity();
+            SideByVelocity();
         }
 
         public override void Exit()
@@ -30,6 +31,8 @@ namespace Character.StateMachine.CharacterStates
             PersonContainer.Health.CanDamage = true;
         }
 
-        public override void FixedExecute() {}
+        public override void FixedExecute()
+        {
+        }
     }
 }

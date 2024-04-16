@@ -50,7 +50,7 @@ namespace Builders.Creators
 
         protected Weapon GetWeapon()
         {
-            var weapon = _unitPrefabBase.GetComponentInChildren<Weapon>();
+            var weapon = _unit.GetComponentInChildren<Weapon>();
             return weapon != null ? weapon : null;
         }
     }

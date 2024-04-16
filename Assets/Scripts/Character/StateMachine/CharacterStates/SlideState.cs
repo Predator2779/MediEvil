@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Character.Classes;
 using Character.ComponentContainer;
 using Global;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Character.StateMachine.CharacterStates
         {
             _normal = PersonContainer.Movement.ContactNormal;
             _prevQuaternion = _transform.rotation;
-            
+
             PersonContainer.Movement.Slide();
             IsCompleted = false;
             base.Enter();
@@ -29,17 +30,13 @@ namespace Character.StateMachine.CharacterStates
 
         public override void Execute()
         {
-            PersonContainer.Movement.SetSideByVelocity();
-            
-            if (!PersonContainer.Movement.CanSlide()) Exit();
+            SideByVelocity();
+
+            if (!PersonContainer.Movement.CanSlide() ||
+                PersonContainer.Movement.Direction.y > 0) ResetState();
 
             base.Execute();
             RotateByNormal();
-
-            if (PersonContainer.Movement.Direction.y <= 0) return;
-            
-            Exit();
-            // PersonContainer.Jump();
         }
 
         private void RotateByNormal()
@@ -49,12 +46,12 @@ namespace Character.StateMachine.CharacterStates
             _transform.rotation = Quaternion.Euler(rot.x, rot.y, -angle);
         }
 
-        public override void Exit()
+        private void ResetState()
         {
             _transform.rotation = Quaternion.Euler(_transform.rotation.x, _transform.rotation.y, _prevQuaternion.z);
             IsCompleted = true;
             IsCooldown = true;
-            
+
             Task.Delay(GlobalConstants.SlideCooldown).ContinueWith(_ => IsCooldown = false);
         }
     }

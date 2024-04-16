@@ -23,15 +23,16 @@ namespace Character.ValueStorages
         public float CurrentValue { get; private set; }
         protected float MaxValue { get; }
 
-        public virtual void Increase(float value)
-        {
-            CurrentValue = Mathf.Clamp(CurrentValue + value, CurrentValue, MaxValue);
-            ChangeBar();
-        }
+        public virtual void Increase(float value) =>
+            SetValue(Mathf.Clamp(CurrentValue + value, CurrentValue, MaxValue));
 
-        public virtual void Decrease(float value)
+        public virtual void Decrease(float value) =>
+            SetValue(Mathf.Clamp(CurrentValue - value, MinValue, CurrentValue));
+
+        private void SetValue(float value)
         {
-            CurrentValue = Mathf.Clamp(CurrentValue - value, MinValue, CurrentValue);
+            // Debug.Log("Setted");
+            CurrentValue = value;
             ChangeBar();
         }
 

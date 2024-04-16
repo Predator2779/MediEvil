@@ -19,9 +19,8 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
 
         public override void Execute()
         {
-            Warrior.Container.Movement.SetSideByVelocity();
-
             base.Execute();
+            // SideByVelocity();
             SafetyCompleting();
             CooldownControl();
             EndAttackCallback();

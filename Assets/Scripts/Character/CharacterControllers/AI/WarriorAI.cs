@@ -49,9 +49,10 @@ namespace Character.CharacterControllers.AI
                 return;
             }
 
-            if (CanAttack())
+            if (TargetIsNear())
             {
-                Attack();
+                if (CanAttack()) Attack();
+                else Idle();
                 return;
             }
 
@@ -79,6 +80,7 @@ namespace Character.CharacterControllers.AI
             else _warrior?.ComboAttack();
         }
 
-        private bool CanAttack() => GetTargetDistance() <= _stayDistance;
+        private bool TargetIsNear() => GetTargetDistance() <= _stayDistance;
+        private bool CanAttack() => _warrior.Weapon != null;
     }
 }

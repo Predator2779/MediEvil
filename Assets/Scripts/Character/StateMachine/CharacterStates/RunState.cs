@@ -9,8 +9,8 @@ namespace Character.StateMachine.CharacterStates
         {
             Animation = "run";
         }
-        
-        public override void Execute() => PersonContainer.Movement.SetSideByVelocity();
+
+        public override void Execute() => SideByVelocity();
         
         public override void FixedExecute()
         {
