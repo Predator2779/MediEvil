@@ -10,7 +10,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
 {
     public class CombatSlideState : SlideState
     {
-        private Warrior _warrior;
+        private readonly Warrior _warrior;
 
         private bool _hasEnemies;
 
