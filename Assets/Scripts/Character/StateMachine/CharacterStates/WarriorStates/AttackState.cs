@@ -47,7 +47,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         protected virtual void ApplyDamage()
         {
             var outputDamage = GetDamage();
-            _weapon.DoDamage(outputDamage, GlobalConstants.GetEnemyMask(Warrior.Container));
+            _weapon.DoDamage(outputDamage, GetEnemyMask());
             Warrior.Container.Stamina.Decrease(Warrior.Container.Config.StaminaAttackUsageCoef * outputDamage);
         }
 
@@ -57,5 +57,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
 
         public override bool CanEnter() =>
             Warrior.Container.WeaponHandler.CurrentWeapon != null && Warrior.Container.Stamina.CanUse;
+
+        protected LayerMask GetEnemyMask() => LayerMask.GetMask(Warrior.Container.IsPlayer ? "Enemy" : "Player");
     }
 }

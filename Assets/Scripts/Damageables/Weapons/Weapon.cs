@@ -24,15 +24,22 @@ namespace Damageables.Weapons
 
         public void DoDamage(float personDamage, LayerMask layerMask)
         {
-            var collider = Physics2D.OverlapCircle(transform.position, AttackRadius, layerMask);
+            var colliders = Physics2D.OverlapCircleAll(transform.position, AttackRadius, layerMask);
 
-            if (!collider || !collider.TryGetComponent(out PersonContainer person)) return;
+            if (colliders == null) return;
 
-            var baseDamage = WeaponDamage * personDamage;
-            // дополнительный урон от половины базового урона
-            var additional = baseDamage * GetDistanceModificator(person.transform) / 2;
+            foreach (var collider in colliders)
+            {
+                if (!collider.TryGetComponent(out PersonContainer person)) continue;
+                
+                var baseDamage = WeaponDamage * personDamage;
+                // дополнительный урон от половины базового урона
+                var additional = baseDamage * GetDistanceModificator(person.transform) / 2;
 
-            DoDamage(person.Health, baseDamage + additional);
+                print(baseDamage + additional);
+                
+                DoDamage(person.Health, baseDamage + additional);
+            }
         }
 
         private float GetDistanceModificator(Transform target)
@@ -53,6 +60,25 @@ namespace Damageables.Weapons
             Gizmos.DrawWireSphere(transform.position, AttackRadius);
         }
 
+        // private float GetDistanceModificator(Transform target)
+        // {
+        //     var startPoint = new Vector2(transform.position.x - AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);
+        //     var totalDistance = AttackRadius * 2;
+        //     var distance = Mathf.Clamp(Vector2.Distance(target.position, startPoint),
+        //         0, totalDistance);
+        //
+        //     var modificator = 1 - distance / totalDistance;
+        //
+        //     return modificator;
+        // }
+        //
+        // private void OnDrawGizmos()
+        // {
+        //     var startPoint = new Vector2(transform.position.x + AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);
+        //     Gizmos.color = Color.red;
+        //     Gizmos.DrawWireSphere(startPoint, AttackRadius * 2);
+        // }
+        
         public override void PickUp()=> Take(false);
         public override void Put() => Take(true);
 

@@ -33,7 +33,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         private void ApplyDamageWithoutStamina()
         {
             var outputDamage = GetDamage();
-            _weapon.DoDamage(outputDamage, GlobalConstants.GetEnemyMask(Warrior.Container));
+            _weapon.DoDamage(outputDamage, GetEnemyMask());
         }
         
     }

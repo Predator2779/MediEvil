@@ -13,7 +13,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         protected override void ApplyDamage()
         {
             var outputDamage = GetDamage() * Warrior.Container.Config.ComboAttackDamageModificator;
-           _weapon.DoDamage(outputDamage, GlobalConstants.GetEnemyMask(Warrior.Container));
+           _weapon.DoDamage(outputDamage, GetEnemyMask());
             Warrior.Container.Stamina.Decrease(Warrior.Container.Config.StaminaAttackUsageCoef * outputDamage / GlobalConstants.StaminaComboDivider);
         }
     }

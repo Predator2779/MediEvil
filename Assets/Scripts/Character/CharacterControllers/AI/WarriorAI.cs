@@ -10,7 +10,7 @@ namespace Character.CharacterControllers.AI
         private readonly Warrior _warrior;
         private bool _staminaRestore;
 
-        public WarriorAI(PersonContainer container, ScopeCoverage scopeCoverage, Weapon weapon = null) : base(container, scopeCoverage)
+        public WarriorAI(PersonContainer container, ScopeCoverage scopeCoverage) : base(container, scopeCoverage)
         {
             _warrior = new Warrior(container);
         }
@@ -80,6 +80,6 @@ namespace Character.CharacterControllers.AI
         }
 
         private bool TargetIsNear() => GetTargetDistance() <= _stayDistance;
-        private bool CanAttack() => _warrior.Weapon != null;
+        private bool CanAttack() => _warrior.Container.WeaponHandler.CurrentWeapon != null;
     }
 }

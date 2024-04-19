@@ -26,6 +26,8 @@ namespace Character.Interaction
         
         public void HandleItem()
         {
+            if (_selectedItems == null) return;
+            
             var item = GetItem();
             if (item != null && item.TryGetComponent(out Weapon weapon)) HandleWeapon(weapon);
         }
@@ -36,6 +38,6 @@ namespace Character.Interaction
             OnWeaponPickedUp(weapon);
         }
         
-        private Item GetItem() => _selectedItems?[0];
+        private Item GetItem() => _selectedItems[0];
     }
 }

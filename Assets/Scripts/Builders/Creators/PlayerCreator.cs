@@ -18,7 +18,7 @@ namespace Builders.Creators
             CreateCamera();
         }
         
-        protected override void SetController() => _container.Controller = new InputController(_container, GetWeapon());
+        protected override void SetController() => _container.Controller = new InputController(_container);
         
         private void CreateCamera()
         {

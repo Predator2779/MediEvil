@@ -7,15 +7,12 @@ namespace Character.Classes
 {
     public class Warrior : Person
     {
-        public Weapon Weapon { get; set; }
-        
         public GlobalConstants.Callback OnEndedAttack;
 
         private WarriorStateSet _warriorStateSet;
 
         public Warrior(PersonContainer container) : base(container)
         {
-            Weapon = container.WeaponHandler.CurrentWeapon;
         }
 
         public override void Initialize()

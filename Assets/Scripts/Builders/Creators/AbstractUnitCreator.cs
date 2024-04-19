@@ -10,6 +10,7 @@ namespace Builders.Creators
     public abstract class AbstractUnitCreator : MonoBehaviour
     {
         [SerializeField] protected GameObject _unitPrefabBase;
+        [SerializeField] protected GameObject _weaponPrefab;
         [SerializeField] protected Transform _path;
         [SerializeField] protected CharacterConfig _config;
 
@@ -22,18 +23,20 @@ namespace Builders.Creators
         {
             InstantiateUnitComponents();
             SetController();
+            SetWeapon();
             Initialize();
-            
-            Destroy(gameObject);
+
+            gameObject.SetActive(false);
         }
+
         protected abstract void InstantiateUnitComponents();
         protected abstract void SetController();
         private void Initialize() => _container.Initialize();
-        
+
         protected void CreateUnit() => _unit = Instantiate(
             _unitPrefabBase,
-            transform.position, 
-            Quaternion.identity, 
+            transform.position,
+            Quaternion.identity,
             _path);
 
         protected void CreateContainer()
@@ -44,8 +47,6 @@ namespace Builders.Creators
 
         protected virtual void SetFields(PersonContainer personContainer)
         {
-            // var unit = _unitPrefabBase;
-            
             personContainer.Config ??= _config;
             personContainer.Movement ??= _unit.AddComponent<CharacterMovement>();
             personContainer.Animator ??= _unit.GetComponent<Animator>();
@@ -53,10 +54,18 @@ namespace Builders.Creators
             personContainer.WeaponHandler ??= _unit.GetComponentInChildren<WeaponHandler>();
         }
 
-        protected Weapon GetWeapon()
+        private void SetWeapon()
         {
-            var weapon = _unit.GetComponentInChildren<Weapon>();
-            return weapon != null ? weapon : null;
+            if (_weaponPrefab == null) return;
+
+            var weaponHandler = _container.WeaponHandler;
+
+            var weapon = Instantiate(
+                _weaponPrefab,
+                weaponHandler.transform.position,
+                Quaternion.identity);
+
+            weaponHandler.EquipWeapon(weapon.GetComponent<Weapon>());
         }
     }
 }

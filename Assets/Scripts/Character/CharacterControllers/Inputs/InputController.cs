@@ -16,7 +16,7 @@ namespace Character.CharacterControllers.Inputs
         private bool _canCombo;
         private int _countComboClicks;
 
-        public InputController(PersonContainer container, Weapon weapon = null) : base(container)
+        public InputController(PersonContainer container) : base(container)
         {
             _warrior = new Warrior(container);
             _thrower = new Thrower(container);

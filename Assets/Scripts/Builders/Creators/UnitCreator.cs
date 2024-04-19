@@ -29,7 +29,7 @@ namespace Builders.Creators
                     _container.Controller = new PersecutorAI(_container, _scopeCoverage);
                     break;
                 case TypeController.WarriorAI:
-                    _container.Controller = new WarriorAI(_container, _scopeCoverage, GetWeapon());
+                    _container.Controller = new WarriorAI(_container, _scopeCoverage);
                     break;
                 case TypeController.BattleMageAI:
                     _container.Controller = new BattleMageAI(_container);

@@ -44,8 +44,5 @@ namespace Global
         /// Callbacks
         public delegate void Callback();
         public delegate void WeaponCallback(Weapon weapon);
-
-        /// Funcs
-        public static LayerMask GetEnemyMask(PersonContainer container) => container.IsPlayer ? 9 : 3;
     }
 }
