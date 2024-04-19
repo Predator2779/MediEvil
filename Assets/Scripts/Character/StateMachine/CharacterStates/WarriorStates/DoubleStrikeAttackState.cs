@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Global;
 
 namespace Character.StateMachine.CharacterStates.WarriorStates
 {
@@ -32,7 +33,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         private void ApplyDamageWithoutStamina()
         {
             var outputDamage = GetDamage();
-            Warrior.Weapon.DoDamage(outputDamage);
+            _weapon.DoDamage(outputDamage, GlobalConstants.GetEnemyMask(Warrior.Container));
         }
         
     }

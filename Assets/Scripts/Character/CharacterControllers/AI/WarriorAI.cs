@@ -1,7 +1,6 @@
 ﻿using Character.Classes;
 using Character.ComponentContainer;
-using Damageables.Weapon;
-using Global;
+using Damageables.Weapons;
 using UnityEngine;
 
 namespace Character.CharacterControllers.AI
@@ -13,7 +12,7 @@ namespace Character.CharacterControllers.AI
 
         public WarriorAI(PersonContainer container, ScopeCoverage scopeCoverage, Weapon weapon = null) : base(container, scopeCoverage)
         {
-            _warrior = new Warrior(container, weapon);
+            _warrior = new Warrior(container);
         }
 
         public override void Initialize()

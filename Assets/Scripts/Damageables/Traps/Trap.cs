@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace Damageables.Traps
 {
-    public class Trap : MonoBehaviour, IDamageable
+    public class Trap : MonoBehaviour
     {
         [SerializeField] private float _damageMin, _damageMax;
         private PersonContainer _personContainer;

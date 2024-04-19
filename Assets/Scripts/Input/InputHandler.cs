@@ -10,5 +10,7 @@ namespace Input
         public float GetVerticalAxis() => UnityEngine.Input.GetAxis("Vertical");
         public bool GetShiftBtn() => UnityEngine.Input.GetKey(KeyCode.LeftShift);
         public bool GetSpaceBtn() => UnityEngine.Input.GetKey(KeyCode.Space);
+        public bool GetInteract() => UnityEngine.Input.GetKeyUp(KeyCode.F);
+        public bool GetThrowBtn() => UnityEngine.Input.GetKeyUp(KeyCode.E);
     }
 }

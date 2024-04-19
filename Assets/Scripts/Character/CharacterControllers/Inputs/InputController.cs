@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Character.Classes;
 using Character.ComponentContainer;
-using Damageables.Weapon;
+using Damageables.Weapons;
 using Input;
 using UnityEngine;
 
@@ -18,7 +18,7 @@ namespace Character.CharacterControllers.Inputs
 
         public InputController(PersonContainer container, Weapon weapon = null) : base(container)
         {
-            _warrior = new Warrior(container, weapon);
+            _warrior = new Warrior(container);
             _thrower = new Thrower(container);
         }
 
@@ -54,7 +54,10 @@ namespace Character.CharacterControllers.Inputs
                 Roll();
                 return;
             }
-
+            if (IsInteract()) Interact();
+            
+            if (IsThrowWeapon()) ThrowWeapon();
+            
             if (IsDefense())
             {
                 Defense();
@@ -104,7 +107,9 @@ namespace Character.CharacterControllers.Inputs
         private Vector2 GetDirection() => new Vector2(
             _inputHandler.GetHorizontalAxis(),
             _inputHandler.GetVerticalAxis());
-
+        
+        private bool IsInteract() => _inputHandler.GetInteract();
+        private bool IsThrowWeapon() => _inputHandler.GetThrowBtn();
         private bool IsWalk() => _inputHandler.GetHorizontalAxis() != 0 && _person.Container.Movement.IsGrounded();
         private bool IsRun() => _inputHandler.GetShiftBtn() && _person.Container.Stamina.CanUse;
         private bool IsFall() => !_person.Container.Movement.IsGrounded() && _person.Container.Movement.IsFall();
@@ -127,6 +132,11 @@ namespace Character.CharacterControllers.Inputs
         private bool IsAttack() => _inputHandler.GetLMB();
         private bool IsDefense() => _inputHandler.GetRMB();
 
+        private void TrackCombo()
+        {
+            if (IsAttack() && _canCombo) _countComboClicks++;
+        }
+        
         private void Attack()
         {
             SubscribeEndedAttack();
@@ -137,11 +147,6 @@ namespace Character.CharacterControllers.Inputs
         {
             SubscribeEndedAttack();
             _warrior.ComboAttack();
-        }
-
-        private void TrackCombo()
-        {
-            if (IsAttack() && _canCombo) _countComboClicks++;
         }
 
         private void SubscribeEndedAttack() => _warrior.OnEndedAttack += ResetCombo;
@@ -155,6 +160,8 @@ namespace Character.CharacterControllers.Inputs
                 .ContinueWith(_ => { _canCombo = false; });
         }
 
+        private void Interact() => _person.Container.ItemHandler.HandleItem();
+        private void ThrowWeapon() => _person.Container.WeaponHandler.ThrowWeapon();
         private void Defense() => _warrior.Defense();
         private void Fall() => _person.Fall();
         private void Jump() => _person.Jump();

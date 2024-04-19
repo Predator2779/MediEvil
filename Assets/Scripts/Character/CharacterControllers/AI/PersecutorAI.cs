@@ -1,6 +1,4 @@
 ﻿using Character.ComponentContainer;
-using Character.StateMachine.CharacterStates;
-using Global;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Character.ComponentContainer;
 using Global;
-using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates
 {

@@ -1,4 +1,6 @@
 ﻿using Character.Classes;
+using Character.ValueStorages;
+using Damageables.Weapons;
 using Global;
 using UnityEngine;
 
@@ -6,6 +8,8 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
 {
     public class AttackState : WarriorState
     {
+        protected Weapon _weapon;
+
         public AttackState(Warrior warrior) : base(warrior)
         {
             Animation = "attack";
@@ -14,6 +18,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         public override void Enter()
         {
             base.Enter();
+            SetWeapon();
             ApplyDamage();
         }
 
@@ -25,11 +30,13 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
             EndAttackCallback();
         }
 
+        private void SetWeapon() => _weapon = Warrior.Container.WeaponHandler.CurrentWeapon;
+
         private void EndAttackCallback()
         {
             if (GetPercentCurrentMomentAnim() >= 100) Warrior.OnEndedAttack?.Invoke();
         }
-        
+
         protected float GetDamage()
         {
             var baseDamage = Warrior.Container.Config.Damage;
@@ -40,7 +47,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
         protected virtual void ApplyDamage()
         {
             var outputDamage = GetDamage();
-            Warrior.Weapon.DoDamage(outputDamage);
+            _weapon.DoDamage(outputDamage, GlobalConstants.GetEnemyMask(Warrior.Container));
             Warrior.Container.Stamina.Decrease(Warrior.Container.Config.StaminaAttackUsageCoef * outputDamage);
         }
 
@@ -48,6 +55,7 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
                                                             Warrior.Container.Movement.GetVelocity().y) *
                                                   GlobalConstants.VelocityDamageCoef;
 
-        public override bool CanEnter() => Warrior.Weapon != null && Warrior.Container.Stamina.CanUse;
+        public override bool CanEnter() =>
+            Warrior.Container.WeaponHandler.CurrentWeapon != null && Warrior.Container.Stamina.CanUse;
     }
 }

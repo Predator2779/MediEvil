@@ -2,8 +2,6 @@
 using Character.ComponentContainer;
 using Character.ValueStorages;
 using Global;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates.WarriorStates

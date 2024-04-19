@@ -1,8 +1,8 @@
-﻿using Character;
-using Character.ComponentContainer;
+﻿using Character.ComponentContainer;
 using Character.Configs;
+using Character.Interaction;
 using Character.Movement;
-using Damageables.Weapon;
+using Damageables.Weapons;
 using UnityEngine;
 
 namespace Builders.Creators
@@ -44,9 +44,13 @@ namespace Builders.Creators
 
         protected virtual void SetFields(PersonContainer personContainer)
         {
+            // var unit = _unitPrefabBase;
+            
             personContainer.Config ??= _config;
             personContainer.Movement ??= _unit.AddComponent<CharacterMovement>();
             personContainer.Animator ??= _unit.GetComponent<Animator>();
+            personContainer.ItemHandler ??= _unit.GetComponentInChildren<ItemHandler>();
+            personContainer.WeaponHandler ??= _unit.GetComponentInChildren<WeaponHandler>();
         }
 
         protected Weapon GetWeapon()

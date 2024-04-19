@@ -1,9 +1,11 @@
 ﻿using Character.CharacterControllers;
 using Character.Configs;
+using Character.Interaction;
 using Character.Movement;
 using Character.StateMachine;
 using Character.ValueStorages;
 using Character.ValueStorages.Bars;
+using Damageables.Weapons;
 using UnityEngine;
 
 namespace Character.ComponentContainer
@@ -21,6 +23,8 @@ namespace Character.ComponentContainer
         public Controller Controller { get; set; }
         public CharacterMovement Movement { get; set; }
         public PersonStateMachine StateMachine { get; set; }
+        public ItemHandler ItemHandler { get; set; }
+        public WeaponHandler WeaponHandler { get; set; }
 
         public Health Health { get; protected set; }
         public Stamina Stamina { get; protected set; }
@@ -28,6 +32,7 @@ namespace Character.ComponentContainer
         
         public void Initialize()
         {
+            ItemHandler.OnWeaponPickedUp += WeaponHandler.EquipWeapon;
             SetComponents();
             Controller.Initialize();
         }
@@ -41,5 +46,7 @@ namespace Character.ComponentContainer
             Stamina = new Stamina(this, Config.CurrentStamina, Config.MaxStamina, StaminaBar);
             Mana = new Mana(this, Config.CurrentMana, Config.MaxMana, ManaBar);
         }
+
+        private void OnDestroy() => ItemHandler.OnWeaponPickedUp -= WeaponHandler.EquipWeapon;
     }
 }

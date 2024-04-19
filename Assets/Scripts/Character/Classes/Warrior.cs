@@ -1,22 +1,21 @@
-﻿using System.Globalization;
-using Character.ComponentContainer;
+﻿using Character.ComponentContainer;
 using Character.StateMachine.StateSets;
-using Damageables.Weapon;
+using Damageables.Weapons;
+using Global;
 
 namespace Character.Classes
 {
     public class Warrior : Person
     {
         public Weapon Weapon { get; set; }
-
-        public delegate void Callback();
-        public Callback OnEndedAttack;
+        
+        public GlobalConstants.Callback OnEndedAttack;
 
         private WarriorStateSet _warriorStateSet;
 
-        public Warrior(PersonContainer container, Weapon weapon) : base(container)
+        public Warrior(PersonContainer container) : base(container)
         {
-            Weapon = weapon;
+            Weapon = container.WeaponHandler.CurrentWeapon;
         }
 
         public override void Initialize()
