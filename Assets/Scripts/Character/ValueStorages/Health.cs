@@ -1,6 +1,7 @@
 ﻿using Character.ComponentContainer;
 using Character.ValueStorages.Bars;
 using Global;
+using UnityEngine;
 
 namespace Character.ValueStorages
 {

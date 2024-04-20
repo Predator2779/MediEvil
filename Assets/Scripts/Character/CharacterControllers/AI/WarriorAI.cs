@@ -1,6 +1,5 @@
 ﻿using Character.Classes;
 using Character.ComponentContainer;
-using Damageables.Weapons;
 using UnityEngine;
 
 namespace Character.CharacterControllers.AI

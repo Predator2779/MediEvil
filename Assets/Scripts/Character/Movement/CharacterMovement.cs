@@ -129,13 +129,13 @@ namespace Character.Movement
 
         public bool IsFall() => _rbody.velocity.y < -GlobalConstants.FallSpeed;
         public bool CanSlide() => Mathf.Abs(GetVelocity().x) >= _config.SlideLimitVelocity;
-        public void SetSideByVelocity() => RotateObj(GetVelocity().x < 0 ? 180 : 0);
-        private void RotateObj(float angle) => transform.localRotation = Quaternion.Euler(0f, angle, 0f);
+        public void SetSideByVelocity() => RotateObj(GetVelocity().x < 0 ? -1 : 0);
+        private void RotateObj(float angle) => transform.localRotation = new Quaternion(0f, angle, 0, 0);
 
         public void LookTo(Transform target) =>
             transform.localRotation = Quaternion.Euler(0f, GetTargetSide(target), 0f);
 
-        private float GetTargetSide(Transform target) => target.transform.position.x < transform.position.x ? 0 : 180;
+        private float GetTargetSide(Transform target) => target.transform.position.x < transform.position.x ? 0 : -1;
         private Vector2 GetHorizontalDirection(float speed) => new Vector2(Direction.x * speed, _rbody.velocity.y);
 
         private Vector2 GetRollVector() =>

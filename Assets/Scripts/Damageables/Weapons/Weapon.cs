@@ -11,22 +11,42 @@ namespace Damageables.Weapons
         [field: SerializeField] private float WeaponDamage { get; set; }
         [field: SerializeField] private float AttackRadius { get; set; }
 
+        private bool _isTaken, _canStickItIn = true;
         private SpriteRenderer _spriteRenderer;
         private Rigidbody2D _rbody;
+        private Collider2D _collider;
 
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _rbody = GetComponent<Rigidbody2D>();
+            _collider = GetComponent<Collider2D>();
         }
 
-        public override void PickUp()=> Take(false);
-        public override void Put() => Take(true);
-
+        public override void PickUp()=> Take(true);
+        public override void Put() => Take(false);
+        public Rigidbody2D GetRBody() => _rbody;
+        
         private void Take(bool value)
         {
-            _spriteRenderer.enabled = value;
-            _rbody.simulated = value;
+            _isTaken = value;
+            _canStickItIn = !value;
+            _spriteRenderer.enabled = !value;
+            _rbody.simulated = !value;
+            _collider.isTrigger = value;
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            // if (!_isTaken && _canStickItIn) StickItIn(other.transform);
+        }
+
+        private void StickItIn(Transform parent)
+        {
+            if (parent.TryGetComponent(out PersonContainer container)) DoDamage(container.Health, 10 * _rbody.velocity.magnitude);  //////
+            
+            _rbody.simulated = false;
+            transform.parent = parent;
         }
 
         public void DoDamage(float personDamage, LayerMask layerMask)
@@ -47,7 +67,7 @@ namespace Damageables.Weapons
             }
         }
 
-        public void DoDamage(Health health, float concreteDamage) => health.TakeDamage(concreteDamage);
+        private void DoDamage(Health health, float concreteDamage) => health.TakeDamage(concreteDamage);
         private Vector2 GetDetectedPoint() => new Vector2(transform.position.x + AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);
         
         private float GetDistanceModificator(Transform target)

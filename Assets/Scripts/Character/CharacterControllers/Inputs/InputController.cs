@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Character.Classes;
 using Character.ComponentContainer;
-using Damageables.Weapons;
 using Input;
 using UnityEngine;
 
@@ -26,6 +25,7 @@ namespace Character.CharacterControllers.Inputs
         {
             base.Initialize();
             _warrior.Initialize();
+            _thrower.Initialize();
             _inputHandler = new InputHandler();
         }
 
@@ -54,9 +54,10 @@ namespace Character.CharacterControllers.Inputs
                 Roll();
                 return;
             }
+            
             if (IsInteract()) Interact();
             
-            if (IsThrowWeapon()) ThrowWeapon();
+            if (IsThrowWeapon()) ThrowWeaponTwisted();
             
             if (IsDefense())
             {
@@ -161,16 +162,17 @@ namespace Character.CharacterControllers.Inputs
         }
 
         private void Interact() => _person.Container.ItemHandler.HandleItem();
-        private void ThrowWeapon() => _person.Container.WeaponHandler.ThrowWeapon();
-        private void Defense() => _warrior.Defense();
         private void Fall() => _person.Fall();
         private void Jump() => _person.Jump();
-        private void Slide() => _warrior.CombatSlide();
         private void Roll() => _person.Roll();
         private void Run() => _person.Run();
         private void Walk() => _person.Walk();
         private void Idle() => _person.Idle();
         private bool CanEnterState() => _person.Container.StateMachine.CurrentState.IsCompleted;
+        private void ThrowWeapon() => _thrower.ThrowWeapon();
+        private void ThrowWeaponTwisted() => _thrower.ThrowWeaponTwisted();
+        private void Defense() => _warrior.Defense();
+        private void Slide() => _warrior.CombatSlide();
 
         private void SetTempDirection(Vector2 input)
         {

@@ -5,7 +5,7 @@ namespace Damageables.Weapons
     public class WeaponHandler : MonoBehaviour
     {
         [field: SerializeField] public Weapon CurrentWeapon { get; set; }
-        private Weapon ThrowedWeapon { get; set; }
+        private Weapon DropedWeapon { get; set; }
 
         public void EquipWeapon(Weapon weapon)
         {
@@ -17,13 +17,11 @@ namespace Damageables.Weapons
             CurrentWeapon = weapon;
         }
 
-        public void ThrowWeapon() => DropWeapon();
-
-        private void DropWeapon()
+        public void DropWeapon()
         {
             if (CurrentWeapon == null) return;
 
-            ThrowedWeapon = CurrentWeapon;
+            DropedWeapon = CurrentWeapon;
             CurrentWeapon.Put();
             CurrentWeapon.transform.parent = null;
             CurrentWeapon = null;

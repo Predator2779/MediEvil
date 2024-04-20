@@ -26,7 +26,7 @@ namespace Character.Interaction
         
         public void HandleItem()
         {
-            if (_selectedItems == null) return;
+            if (_selectedItems.Count <= 0) return;
             
             var item = GetItem();
             if (item != null && item.TryGetComponent(out Weapon weapon)) HandleWeapon(weapon);

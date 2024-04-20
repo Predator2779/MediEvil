@@ -1,5 +1,4 @@
 ﻿using Character.Classes;
-using Character.ValueStorages;
 using Damageables.Weapons;
 using Global;
 using UnityEngine;

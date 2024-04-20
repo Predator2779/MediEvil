@@ -1,6 +1,5 @@
 ﻿using Character.ComponentContainer;
 using Character.StateMachine.StateSets;
-using Damageables.Weapons;
 using Global;
 
 namespace Character.Classes

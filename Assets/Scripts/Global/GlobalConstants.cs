@@ -1,5 +1,4 @@
-﻿using Character.ComponentContainer;
-using Damageables.Weapons;
+﻿using Damageables.Weapons;
 using UnityEngine;
 
 namespace Global

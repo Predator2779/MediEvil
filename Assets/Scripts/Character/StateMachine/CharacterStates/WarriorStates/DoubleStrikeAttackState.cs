@@ -1,5 +1,4 @@
 ﻿using Character.Classes;
-using Global;
 
 namespace Character.StateMachine.CharacterStates.WarriorStates
 {
