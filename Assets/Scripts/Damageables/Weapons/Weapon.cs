@@ -20,11 +20,18 @@ namespace Damageables.Weapons
             _rbody = GetComponent<Rigidbody2D>();
         }
 
-        public void DoDamage(Health health, float concreteDamage) => health.TakeDamage(concreteDamage);
+        public override void PickUp()=> Take(false);
+        public override void Put() => Take(true);
+
+        private void Take(bool value)
+        {
+            _spriteRenderer.enabled = value;
+            _rbody.simulated = value;
+        }
 
         public void DoDamage(float personDamage, LayerMask layerMask)
         {
-            var colliders = Physics2D.OverlapCircleAll(transform.position, AttackRadius, layerMask);
+            var colliders = Physics2D.OverlapCircleAll(GetDetectedPoint(), AttackRadius, layerMask);
 
             if (colliders == null) return;
 
@@ -35,57 +42,31 @@ namespace Damageables.Weapons
                 var baseDamage = WeaponDamage * personDamage;
                 // дополнительный урон от половины базового урона
                 var additional = baseDamage * GetDistanceModificator(person.transform) / 2;
-
-                print(baseDamage + additional);
                 
                 DoDamage(person.Health, baseDamage + additional);
             }
         }
 
+        public void DoDamage(Health health, float concreteDamage) => health.TakeDamage(concreteDamage);
+        private Vector2 GetDetectedPoint() => new Vector2(transform.position.x + AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);
+        
         private float GetDistanceModificator(Transform target)
         {
-            var startPoint = new Vector2(transform.position.x - AttackRadius, transform.position.y);
             var totalDistance = AttackRadius * 2;
-            var distance = Mathf.Clamp(Vector2.Distance(target.position, startPoint),
-                0, totalDistance);
-
-            var modificator = 1 - distance / totalDistance;
-
+            var modificator = 1 - GetDistance(target) / totalDistance;
             return modificator;
         }
 
+        private float GetDistance(Transform target) => 
+            Mathf.Clamp(Vector2.Distance(transform.position, target.position), 0, AttackRadius);
+        
         private void OnDrawGizmos()
         {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(GetDetectedPoint(), AttackRadius);    
+            
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, AttackRadius);
-        }
-
-        // private float GetDistanceModificator(Transform target)
-        // {
-        //     var startPoint = new Vector2(transform.position.x - AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);
-        //     var totalDistance = AttackRadius * 2;
-        //     var distance = Mathf.Clamp(Vector2.Distance(target.position, startPoint),
-        //         0, totalDistance);
-        //
-        //     var modificator = 1 - distance / totalDistance;
-        //
-        //     return modificator;
-        // }
-        //
-        // private void OnDrawGizmos()
-        // {
-        //     var startPoint = new Vector2(transform.position.x + AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);
-        //     Gizmos.color = Color.red;
-        //     Gizmos.DrawWireSphere(startPoint, AttackRadius * 2);
-        // }
-        
-        public override void PickUp()=> Take(false);
-        public override void Put() => Take(true);
-
-        private void Take(bool value)
-        {
-            _spriteRenderer.enabled = value;
-            _rbody.simulated = value;
+            Gizmos.DrawWireSphere(transform.position, 0.01f);
         }
     }
 }
