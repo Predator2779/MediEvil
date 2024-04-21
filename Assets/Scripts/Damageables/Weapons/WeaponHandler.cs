@@ -5,7 +5,7 @@ namespace Damageables.Weapons
     public class WeaponHandler : MonoBehaviour
     {
         [field: SerializeField] public Weapon CurrentWeapon { get; set; }
-        private Weapon DropedWeapon { get; set; }
+        public Weapon DropedWeapon { get; set; }
 
         public void EquipWeapon(Weapon weapon)
         {

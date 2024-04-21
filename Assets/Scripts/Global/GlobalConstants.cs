@@ -6,12 +6,15 @@ namespace Global
     public static class GlobalConstants
     {
         // Damage
-        public const float KnockdownDamage = 10; // при потере какой части здоровья сшибает с ног
-
+        [Range(0.01f, 1f)] public const float KnockdownDamage = 0.35f; // при потере какой части здоровья сшибает с ног
         public const float VelocityDamageCoef = 0.5f;
         // public const int ComboFrameCount = 10;  // сколько кадров дается на комбо
         // public const float WindowForCombo = 20;  // сколько процентов анимации для запуска окна комбо
 
+        // Throw Weapon
+        public const float ThrowTorque = 5;
+        public const float PullForce = 5;
+        
         // Move Speed
         public const float CoefPersonSpeed = 1;
         public const float HorizontalJumpCoef = 0.5f;

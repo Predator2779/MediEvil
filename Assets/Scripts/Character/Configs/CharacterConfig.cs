@@ -26,7 +26,6 @@ namespace Character.Configs
         public float Damage;
 
         public float ThrowForce;
-        public float ThrowTwistedForce;
         public float CombatSlideDamage;
         public float ComboAttackDamageModificator;
         [Tooltip("MilliSeconds")] public int ComboInterval;

@@ -1,7 +1,6 @@
 ﻿using Character.ComponentContainer;
 using Character.ValueStorages.Bars;
 using Global;
-using UnityEngine;
 
 namespace Character.ValueStorages
 {
@@ -33,7 +32,7 @@ namespace Character.ValueStorages
             
             base.Decrease(value);
             
-            if (value >= MaxValue / GlobalConstants.KnockdownDamage) Falldown?.Invoke();
+            if (value >= MaxValue * GlobalConstants.KnockdownDamage) Falldown?.Invoke();
             if (CurrentValue <= MinValue) Die?.Invoke();
         }
     }

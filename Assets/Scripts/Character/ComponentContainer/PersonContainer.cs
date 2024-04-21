@@ -1,5 +1,4 @@
-﻿using System;
-using Character.CharacterControllers;
+﻿using Character.CharacterControllers;
 using Character.Configs;
 using Character.Interaction;
 using Character.Movement;

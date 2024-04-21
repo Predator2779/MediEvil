@@ -6,11 +6,15 @@ using UnityEngine;
 
 namespace Character.Interaction
 {
+    [RequireComponent(typeof(CircleCollider2D))]
     public class ItemHandler : MonoBehaviour
     {
         public GlobalConstants.WeaponCallback OnWeaponPickedUp;
         
         private List<Item> _selectedItems = new List<Item>();
+        private CircleCollider2D _collider;
+
+        private void Awake() => _collider = GetComponent<CircleCollider2D>();
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -38,6 +42,7 @@ namespace Character.Interaction
             OnWeaponPickedUp(weapon);
         }
         
+        public float GetDetectionRadius() => _collider.radius;
         private Item GetItem() => _selectedItems[0];
     }
 }

@@ -19,5 +19,6 @@ namespace Character.Classes
 
         public void ThrowWeapon() => Container.StateMachine.ChangeState(_throwerStateSet.ThrowState);
         public void ThrowWeaponTwisted() => Container.StateMachine.ChangeState(_throwerStateSet.TwistedThrowState);
+        public void PullWeapon() => Container.StateMachine.ChangeState(_throwerStateSet.PullWeaponState);
     }
 }

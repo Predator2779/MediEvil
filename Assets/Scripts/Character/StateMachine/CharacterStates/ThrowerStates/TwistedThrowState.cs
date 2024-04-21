@@ -1,4 +1,5 @@
 ﻿using Character.Classes;
+using Global;
 using UnityEngine;
 
 namespace Character.StateMachine.CharacterStates.ThrowerStates
@@ -12,12 +13,7 @@ namespace Character.StateMachine.CharacterStates.ThrowerStates
         protected override void Throw()
         {
             base.Throw();
-            _weapon.GetRBody()
-                .AddTorque(
-                    Thrower
-                        .Container
-                        .Config
-                        .ThrowTwistedForce, ForceMode2D.Impulse);
+            _weapon.GetRBody().AddTorque(GlobalConstants.ThrowTorque, ForceMode2D.Force);
         }
     }
 }

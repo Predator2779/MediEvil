@@ -57,7 +57,7 @@ namespace Character.CharacterControllers.Inputs
             
             if (IsInteract()) Interact();
             
-            if (IsThrowWeapon()) ThrowWeaponTwisted();
+            if (IsThrowWeapon()) ThrowControl();
             
             if (IsDefense())
             {
@@ -169,8 +169,15 @@ namespace Character.CharacterControllers.Inputs
         private void Walk() => _person.Walk();
         private void Idle() => _person.Idle();
         private bool CanEnterState() => _person.Container.StateMachine.CurrentState.IsCompleted;
-        private void ThrowWeapon() => _thrower.ThrowWeapon();
+        
+        private void ThrowControl()
+        {
+            if (_container.WeaponHandler.CurrentWeapon != null) ThrowWeaponTwisted();
+            else if (_container.WeaponHandler.DropedWeapon != null) PullWeapon();
+        }
+        
         private void ThrowWeaponTwisted() => _thrower.ThrowWeaponTwisted();
+        private void PullWeapon() => _thrower.PullWeapon();
         private void Defense() => _warrior.Defense();
         private void Slide() => _warrior.CombatSlide();
 
