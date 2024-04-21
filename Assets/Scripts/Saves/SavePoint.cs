@@ -15,14 +15,13 @@ namespace Saves
         {
             if (!other.TryGetComponent(out PersonContainer person) || !person.IsPlayer) return;
             
-            AddPoint(person, transform);
+            AddPoint(person, transform.position);
             _changer.ChangeSprite();
         }
 
-        private void AddPoint(PersonContainer personContainer, Transform point)
+        private void AddPoint(PersonContainer personContainer, Vector2 point)
         {
-            if (personContainer.Config.SavePoints != null && 
-                !personContainer.Config.SavePoints.Contains(point)) 
+            if (!personContainer.Config.SavePoints.Contains(point)) 
                 personContainer.Config.SavePoints.Add(point);
         }
     }

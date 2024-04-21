@@ -13,6 +13,7 @@ namespace Character.ComponentContainer
     public class PersonContainer : MonoBehaviour
     {
         [field: SerializeField] public bool IsPlayer { get; set; }
+        [field: SerializeField] public bool IsDeath { get; set; }
         [field: SerializeField] public CharacterConfig Config { get; set; }
         [field: SerializeField] public Animator Animator { get; set; }
 
@@ -48,33 +49,5 @@ namespace Character.ComponentContainer
         }
 
         private void OnDestroy() => ItemHandler.OnWeaponPickedUp -= WeaponHandler.EquipWeapon;
-
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(GetMousePos(), 0.5f / 10);
-        }
-
-        private Vector2 GetMousePos()
-        {
-            var mousePos = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition); /// divide responsibility
-
-            var position = new Vector2();
-
-            position.x = Mathf.Clamp(mousePos.x, -Camera.main.pixelWidth / 2, Camera.main.pixelWidth / 2);
-            position.y = Mathf.Clamp(mousePos.y, -Camera.main.pixelHeight / 2, Camera.main.pixelHeight / 2);
-
-            var sign = Mathf.Sign(transform.rotation.y);
-            var min = transform.position.x;
-            var max = transform.position.x + 100;
-
-            if (sign >= 0)
-                return new Vector2(Mathf.Clamp(position.x, min, max),
-                    position.y);
-
-            return new Vector2(Mathf.Clamp(position.x, -max, min),
-                position.y);
-        }
     }
 }

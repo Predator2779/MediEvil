@@ -31,9 +31,6 @@ namespace Builders.Creators
                 case TypeController.WarriorAI:
                     _container.Controller = new WarriorAI(_container, _scopeCoverage);
                     break;
-                case TypeController.BattleMageAI:
-                    _container.Controller = new BattleMageAI(_container);
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -62,8 +59,7 @@ namespace Builders.Creators
         private enum TypeController
         {
             PersecutorAI,
-            WarriorAI,
-            BattleMageAI
+            WarriorAI
         }
     }
 }

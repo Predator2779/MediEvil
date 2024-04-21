@@ -6,7 +6,7 @@ namespace Character.StateMachine.CharacterStates.ThrowerStates
 {
     public class ThrowState : TiredState
     {
-        protected Thrower Thrower { get; }
+        private Thrower Thrower { get; }
         protected Weapon _weapon;
 
         public ThrowState(Thrower thrower) : base(thrower.Container)

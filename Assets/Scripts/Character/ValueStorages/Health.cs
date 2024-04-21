@@ -9,11 +9,6 @@ namespace Character.ValueStorages
         public delegate void HealthEvent();
         public HealthEvent Falldown;
         public HealthEvent Die;
-        
-        public Health(PersonContainer personContainer, float currentValue, float maxValue) : base(currentValue, maxValue) 
-        {
-            PersonContainer = personContainer;
-        }
 
         public Health(PersonContainer personContainer, float currentValue, float maxValue, ValueBar bar) : base(currentValue, maxValue, bar)
         {

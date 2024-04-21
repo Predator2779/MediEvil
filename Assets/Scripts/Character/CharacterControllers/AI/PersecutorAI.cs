@@ -25,24 +25,7 @@ namespace Character.CharacterControllers.AI
             _stayDistance = scopeCoverage.StayDistance;
             _layerMask = scopeCoverage.LayerMask;
         }
-        
-        // private void OnDrawGizmos()
-        // {
-        //     if (_capsule == null) return;
-        //
-        //     Gizmos.color = Color.green;
-        //     Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _viewingRadius);
-        //     
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _runDistance);
-        //
-        //     Gizmos.color = Color.blue;
-        //     Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _walkDistance);
-        //
-        //     Gizmos.color = Color.red;
-        //     Gizmos.DrawWireSphere(GetCapsuleCenterPos(), _stayDistance);
-        // }
-        
+
         public override void Initialize()
         {
             base.Initialize();
@@ -69,24 +52,21 @@ namespace Character.CharacterControllers.AI
                 return;
             }  
             
-            if (CanRunFollow())
-            {
-                RunFollow();
-            }
+            if (CanRunFollow()) RunFollow();
         }
 
         protected bool HasTarget()
         {
             _target = Physics2D.OverlapCircle(GetCapsuleCenterPos(), _viewingRadius, _layerMask);
-            return _target;
+            return _target && !_target.GetComponent<PersonContainer>().IsDeath;
         }
         
         protected bool CanStay() => GetTargetDistance() <= _stayDistance;
         protected bool CanWalkFollow() => GetTargetDistance() <= _walkDistance;
         protected bool CanRunFollow() => GetTargetDistance() <= _runDistance;
 
-        protected void Roll() => _person.Roll();
-        protected void Jump() => _person.Jump();
+        private void Roll() => _person.Roll();
+        private void Jump() => _person.Jump();
 
         protected void RunFollow()
         {
@@ -110,9 +90,9 @@ namespace Character.CharacterControllers.AI
         }
 
         protected float GetTargetDistance() => Vector2.Distance(_person.Container.transform.position, _target.transform.position);
-        protected Vector2 GetTargetVector() => _target.transform.position - _person.Container.transform.position;
+        private Vector2 GetTargetVector() => _target.transform.position - _person.Container.transform.position;
 
-        protected Vector2 GetCapsuleCenterPos() =>
+        private Vector2 GetCapsuleCenterPos() =>
             new Vector2(_capsule.transform.position.x,
                 _capsule.transform.position.y + _capsule.size.y / 2);
     }

@@ -6,7 +6,7 @@ namespace Character.Classes
 {
     public class Person
     {
-        public PersonContainer Container { get; set; }
+        public PersonContainer Container { get; }
         private PersonStateSet _personStateSet;
 
         public Person(PersonContainer container)
@@ -16,10 +16,7 @@ namespace Character.Classes
             Container.StateMachine = new PersonStateMachine(_personStateSet.DefaultState);
         }
 
-        public virtual void Initialize()
-        {
-            Subscribe();
-        }
+        public virtual void Initialize() => Subscribe();
 
         private void Subscribe()
         {

@@ -17,7 +17,7 @@ namespace Character.StateMachine.CharacterStates
             PersonContainer = personContainer;
         }
 
-        public virtual bool CanEnter() => true;
+        public virtual bool CanEnter() => !PersonContainer.IsDeath;
 
         public virtual void Enter() =>
             PersonContainer.Animator.CrossFade(Animation, GlobalConstants.SpeedCrossfadeAnim);

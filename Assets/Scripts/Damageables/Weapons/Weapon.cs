@@ -30,8 +30,19 @@ namespace Damageables.Weapons
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out PersonContainer container))
-                DoDamage(container.Health, _thrower.Container.Config.Damage * _rbody.velocity.magnitude);
+                DoDamage(container.Health, GetDamage());
         }
+
+        private float GetDamage() =>
+            _thrower
+                .Container
+                .Config
+                .Damage
+            * _thrower
+                .Container
+                .Config
+                .DamageThrowDamage
+            * _rbody.velocity.magnitude;
 
         public void Pull(Thrower thrower)
         {

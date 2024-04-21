@@ -24,7 +24,7 @@ namespace Character.Configs
         
         [Header("Attack")] 
         public float Damage;
-
+        public float DamageThrowDamage;
         public float ThrowForce;
         public float CombatSlideDamage;
         public float ComboAttackDamageModificator;
@@ -50,7 +50,7 @@ namespace Character.Configs
         
         [Header("Death")] 
         [Tooltip("Milliseconds")] public int TimeToRespawn;
-        public List<Transform> SavePoints;
+        public List<Vector2> SavePoints = new List<Vector2>();
         
         [Header("For AI")]
         public bool CanRoll;
