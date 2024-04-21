@@ -28,9 +28,37 @@ namespace Character.StateMachine.CharacterStates.ThrowerStates
             if (_weapon == null) return;
             
             Thrower.Container.WeaponHandler.DropWeapon();
-            _weapon.GetRBody().AddForce(GetThrowVector() * Thrower.Container.Config.ThrowForce, ForceMode2D.Impulse);
+
+            var rbody = _weapon.GetRBody();
+            
+            rbody.AddForce(GetThrowVector().normalized * Thrower.Container.Config.ThrowForce * rbody.mass, ForceMode2D.Impulse);
         }
 
-        private Vector2 GetThrowVector() => Thrower.Container.transform.right * Mathf.Sign(Thrower.Container.transform.rotation.y);
+        #region another class
+
+        private Vector2 GetThrowVector() => GetMousePos() - (Vector2)Thrower.Container.transform.position;
+
+        private Vector2 GetMousePos() /// require refactoring
+        {
+            var mousePos = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition); /// divide responsibility
+            var position = new Vector2();
+            var transform = Thrower.Container.transform;
+            
+            position.x = Mathf.Clamp(mousePos.x, -Camera.main.pixelWidth / 2, Camera.main.pixelWidth / 2);
+            position.y = Mathf.Clamp(mousePos.y, -Camera.main.pixelHeight / 2, Camera.main.pixelHeight / 2);
+
+            var sign = Mathf.Sign(transform.rotation.y);
+            var min = transform.position.x;
+            var max = transform.position.x + 100;
+
+            if (sign >= 0)
+                return new Vector2(Mathf.Clamp(position.x, min, max),
+                    position.y);
+
+            return new Vector2(Mathf.Clamp(position.x, -max, min),
+                position.y);
+        }
+
+        #endregion
     }
 }

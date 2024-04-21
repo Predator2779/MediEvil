@@ -79,12 +79,12 @@ namespace Damageables.Weapons
 
         private float GetDistance(Transform target) => 
             Mathf.Clamp(Vector2.Distance(transform.position, target.position), 0, AttackRadius);
-        
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(GetDetectedPoint(), AttackRadius);    
-            
+            Gizmos.DrawWireSphere(GetDetectedPoint(), AttackRadius);
+
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, 0.01f);
         }

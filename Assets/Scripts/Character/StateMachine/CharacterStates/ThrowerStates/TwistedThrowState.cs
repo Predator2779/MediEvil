@@ -11,12 +11,13 @@ namespace Character.StateMachine.CharacterStates.ThrowerStates
 
         protected override void Throw()
         {
-            _weapon = Thrower.Container.WeaponHandler.CurrentWeapon;
-            
-            if (_weapon == null) return;
-            
-            Thrower.Container.WeaponHandler.DropWeapon();
-            _weapon.GetRBody().AddTorque(Thrower.Container.Config.ThrowTwistedForce, ForceMode2D.Impulse);
+            base.Throw();
+            _weapon.GetRBody()
+                .AddTorque(
+                    Thrower
+                        .Container
+                        .Config
+                        .ThrowTwistedForce, ForceMode2D.Impulse);
         }
     }
 }
