@@ -30,17 +30,13 @@ namespace Character.StateMachine.CharacterStates.ThrowerStates
             if (_weapon == null) return;
 
             Thrower.Container.WeaponHandler.DropWeapon();
-            var rbody = _weapon.GetRBody();
-            _weapon.GetRBody().AddForce(
-                GetThrowVector().normalized
-                * Thrower.Container.Config.ThrowForce
-                * rbody.mass,
-                ForceMode2D.Impulse);
+            _weapon.Throw(Thrower, GetThrowVector().normalized * GetThrowForce());
         }
 
         #region another class
 
         private Vector2 GetThrowVector() => GetMousePos() - (Vector2) Thrower.Container.transform.position;
+        private float GetThrowForce() => Thrower.Container.Config.ThrowForce * _weapon.GetRBody().mass;
 
         private Vector2 GetMousePos() /// require refactoring
         {

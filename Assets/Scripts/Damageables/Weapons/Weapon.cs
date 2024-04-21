@@ -12,11 +12,11 @@ namespace Damageables.Weapons
         [field: SerializeField] private float WeaponDamage { get; set; }
         [field: SerializeField] private float AttackRadius { get; set; }
 
-        private Thrower _puller;
+        private Thrower _thrower;
         private SpriteRenderer _spriteRenderer;
         private Rigidbody2D _rbody;
         private Collider2D _collider;
-        [SerializeField] private bool _isTaken, _canStickItIn = true, _isPulled;
+        [SerializeField] private bool _isPulled;
 
         private void Awake()
         {
@@ -29,30 +29,31 @@ namespace Damageables.Weapons
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            // if (!_isTaken && _canStickItIn) StickItIn(other.transform);
+            if (other.gameObject.TryGetComponent(out PersonContainer container))
+                DoDamage(container.Health, _thrower.Container.Config.Damage * _rbody.velocity.magnitude);
         }
 
-        public void Pull(Thrower puller)
+        public void Pull(Thrower thrower)
         {
-            _puller = puller;
+            transform.parent = null;
+            _rbody.simulated = true;
+            _thrower = thrower;
             _rbody.AddTorque(GlobalConstants.ThrowTorque, ForceMode2D.Force);
             _isPulled = true;
         }
 
-        public override void PickUp()
-        {
-            Take(true);
-            transform.localRotation = Quaternion.Euler(0, 0, 0);
-            _rbody.velocity = Vector2.zero;
-        }
-
+        public override void PickUp() => Take(true);
         public override void Put() => Take(false);
         public Rigidbody2D GetRBody() => _rbody;
 
+        public void Throw(Thrower thrower, Vector2 force)
+        {
+            _thrower = thrower;
+            _rbody.AddForce(force, ForceMode2D.Impulse);
+        }
+        
         private void Take(bool value)
         {
-            _isTaken = value;
-            _canStickItIn = !value;
             _spriteRenderer.enabled = !value;
             _rbody.simulated = !value;
             _collider.isTrigger = value;
@@ -79,21 +80,14 @@ namespace Damageables.Weapons
 
         private void Equip()
         {
-            _puller.Container.WeaponHandler.EquipWeapon(this);
+            _thrower.Container.WeaponHandler.EquipWeapon(this);
+            transform.rotation = _thrower.Container.transform.rotation;
+            _rbody.velocity = Vector2.zero;
             _isPulled = false;
         }
 
-        private bool IsNear() => Vector2.Distance(transform.position, _puller.Container.transform.position) <
-                                 _puller.Container.ItemHandler.GetDetectionRadius();
-
-        private void StickItIn(Transform parent)
-        {
-            if (parent.TryGetComponent(out PersonContainer container))
-                DoDamage(container.Health, 10 * _rbody.velocity.magnitude); ////// magic num
-
-            _rbody.simulated = false;
-            transform.parent = parent;
-        }
+        private bool IsNear() => Vector2.Distance(transform.position, _thrower.Container.transform.position) <
+                                 _thrower.Container.ItemHandler.GetDetectionRadius();
 
         public void DoDamage(float personDamage, LayerMask layerMask)
         {
@@ -114,7 +108,7 @@ namespace Damageables.Weapons
         }
 
         private void DoDamage(Health health, float concreteDamage) => health.TakeDamage(concreteDamage);
-        private Vector2 GetPullVector() => _puller.Container.transform.position - transform.position;
+        private Vector2 GetPullVector() => _thrower.Container.transform.position - transform.position;
 
         private Vector2 GetDetectedPoint() =>
             new Vector2(transform.position.x + AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);

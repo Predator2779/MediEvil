@@ -11,7 +11,7 @@ namespace Character.Interaction
     {
         public GlobalConstants.WeaponCallback OnWeaponPickedUp;
         
-        private List<Item> _selectedItems = new List<Item>();
+        [SerializeField] private List<Item> _selectedItems = new List<Item>();
         private CircleCollider2D _collider;
 
         private void Awake() => _collider = GetComponent<CircleCollider2D>();
@@ -39,7 +39,7 @@ namespace Character.Interaction
         private void HandleWeapon(Weapon weapon)
         {
             _selectedItems.Remove(weapon);
-            OnWeaponPickedUp(weapon);
+            OnWeaponPickedUp?.Invoke(weapon);
         }
         
         public float GetDetectionRadius() => _collider.radius;
