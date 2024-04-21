@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CurrentWeapon>k__BackingField: {fileID: 0}
+  <WeaponUi>k__BackingField: {fileID: 0}
 --- !u!1 &7181383657651461879
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +75,7 @@ Transform:
   m_GameObject: {fileID: 7181383657651461879}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.01, y: -3.343, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -297,3 +298,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca29f7afed3f4ab09168eea67b180ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedItems: []
