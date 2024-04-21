@@ -9,14 +9,13 @@ namespace Damageables.Weapons
 {
     public class Weapon : Item
     {
-        [field: SerializeField] private float WeaponDamage { get; set; }
-        [field: SerializeField] private float AttackRadius { get; set; }
+        [field: SerializeField] public WeaponData Data { get; set; }
 
         private Thrower _thrower;
         private SpriteRenderer _spriteRenderer;
         private Rigidbody2D _rbody;
         private Collider2D _collider;
-        [SerializeField] private bool _isPulled;
+        private bool _isPulled;
 
         private void Awake()
         {
@@ -102,7 +101,7 @@ namespace Damageables.Weapons
 
         public void DoDamage(float personDamage, LayerMask layerMask)
         {
-            var colliders = Physics2D.OverlapCircleAll(GetDetectedPoint(), AttackRadius, layerMask);
+            var colliders = Physics2D.OverlapCircleAll(GetDetectedPoint(), Data.AttackRadius, layerMask);
 
             if (colliders == null) return;
 
@@ -110,7 +109,7 @@ namespace Damageables.Weapons
             {
                 if (!collider.TryGetComponent(out PersonContainer person)) continue;
 
-                var baseDamage = WeaponDamage * personDamage;
+                var baseDamage = Data.Damage * personDamage;
                 // дополнительный урон от половины базового урона
                 var additional = baseDamage * GetDistanceModificator(person.transform) / 2;
 
@@ -122,24 +121,24 @@ namespace Damageables.Weapons
         private Vector2 GetPullVector() => _thrower.Container.transform.position - transform.position;
 
         private Vector2 GetDetectedPoint() =>
-            new Vector2(transform.position.x + AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);
+            new Vector2(transform.position.x + Data.AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);
 
         private float GetDistanceModificator(Transform target)
         {
-            var totalDistance = AttackRadius * 2;
+            var totalDistance = Data.AttackRadius * 2;
             var modificator = 1 - GetDistance(target) / totalDistance;
             return modificator;
         }
 
         private float GetDistance(Transform target) =>
-            Mathf.Clamp(Vector2.Distance(transform.position, target.position), 0, AttackRadius);
+            Mathf.Clamp(Vector2.Distance(transform.position, target.position), 0, Data.AttackRadius);
 
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(GetDetectedPoint(), AttackRadius);
+            Gizmos.DrawWireSphere(GetDetectedPoint(), Data.AttackRadius);
 
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, 0.01f);

@@ -3,6 +3,7 @@ using Character.ComponentContainer;
 using Other.Follow;
 using UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Builders.Creators
 {
@@ -10,6 +11,7 @@ namespace Builders.Creators
     {
         [SerializeField] protected Following _cameraPrefab;
         [SerializeField] protected ValueBarContainer _barContainer;
+        [SerializeField] protected Image _weaponUi;
 
         protected override void InstantiateUnitComponents()
         {
@@ -38,6 +40,7 @@ namespace Builders.Creators
             personContainer.HealthBar = _barContainer.HealthBar;
             personContainer.StaminaBar = _barContainer.StaminaBar;
             personContainer.ManaBar = _barContainer.ManaBar;
+            personContainer.WeaponHandler.WeaponUi = _weaponUi;
         }
     }
 }

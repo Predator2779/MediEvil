@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7301343652474650074}
   - component: {fileID: 4361622607391253429}
   - component: {fileID: 8385419060857732681}
-  - component: {fileID: 4608338728179008552}
+  - component: {fileID: 7776152198150426813}
   m_Layer: 10
   m_Name: Katana
   m_TagString: Untagged
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f9223b0df0826e34cae2f3e5fe16be1f, type: 3}
-  m_Color: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -168,7 +168,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &4608338728179008552
+--- !u!114 &7776152198150426813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,8 +177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3576017812378288901}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3626e7861fc54ef798814f3c585fa7ae, type: 3}
+  m_Script: {fileID: 11500000, guid: b2914af7cb6546d4ace9f170c0617c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <WeaponDamage>k__BackingField: 5
-  <AttackRadius>k__BackingField: 0.15
+  <Data>k__BackingField: {fileID: 11400000, guid: 7a3b8c9b800a38c41b710545b7750455, type: 2}

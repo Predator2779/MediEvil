@@ -3,11 +3,10 @@ using UnityEngine;
 
 namespace Character.Configs
 {
-    [CreateAssetMenu(menuName = "Configs", fileName = "New CharacterConfig", order = 0)]
+    [CreateAssetMenu(menuName = "Configs/Characters", fileName = "New CharacterConfig", order = 0)]
     public class CharacterConfig : ScriptableObject
     {
         [Header("About")] [Space]
-        
         public string Name;
         
         [Space] [Header("Movement")] 
@@ -55,6 +54,6 @@ namespace Character.Configs
         [Header("For AI")]
         public bool CanRoll;
         public int ComboChanceAI = 10;   // 1 из 10 шанс совершения комбо
-        public int RollChanceAI = 35;
+        public int RollChanceAI = 35;    // 1 из 35 шанс совершения переката
     }
 }
