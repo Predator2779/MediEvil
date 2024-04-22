@@ -10,6 +10,8 @@ namespace Damageables.Weapons
     public class Weapon : Item
     {
         [field: SerializeField] public WeaponData Data { get; set; }
+        [SerializeField] private ParticleSystem _particles;
+        [SerializeField] private TrailRenderer _trail;
 
         private Thrower _thrower;
         private SpriteRenderer _spriteRenderer;
@@ -28,8 +30,55 @@ namespace Damageables.Weapons
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (_isThrowed && other.gameObject.TryGetComponent(out PersonContainer container))
-                DoDamage(container.Health, GetDamage());
+            if (CanStick(other.gameObject)) StickItIn(other.gameObject);
+        }
+
+        public override void PickUp()
+        {
+            Take(true);
+            ParticlesEnabled(false);
+            _isThrowed = false;
+        }
+
+        public override void Put() => Take(false);
+        public Rigidbody2D GetRBody() => _rbody;
+
+        public void Throw(Thrower thrower, Vector2 force)
+        {
+            ParticlesEnabled(true);
+            _thrower = thrower;
+            _isThrowed = true;
+            _rbody.AddForce(force, ForceMode2D.Impulse);
+        }
+
+        public void Pull(Thrower thrower)
+        {
+            transform.parent = null;
+            SetPhysicsSimualted(true);
+            _thrower = thrower;
+            _rbody.AddTorque(GlobalConstants.ThrowTorque, ForceMode2D.Force);
+            _isPulled = true;
+        }
+
+        private void Take(bool value)
+        {
+            _spriteRenderer.enabled = !value;
+            SetPhysicsSimualted(!value);
+            _collider.isTrigger = value;
+        }
+
+        private bool CanStick(GameObject go) =>
+            _isThrowed && !go.gameObject.layer.Equals(LayerMask.GetMask("Stone"));
+
+        private void StickItIn(GameObject go)
+        {
+            if (go.transform.Equals(_thrower.Container.transform)) return;
+            
+            transform.parent = go.transform;
+            SetPhysicsSimualted(false);
+            
+            if (go.gameObject.TryGetComponent(out PersonContainer container) &&
+                !container.Equals(_thrower.Container)) DoDamage(container.Health, GetDamage());
         }
 
         private float GetDamage() =>
@@ -43,37 +92,6 @@ namespace Damageables.Weapons
                 .DamageThrowDamage
             * _rbody.velocity.magnitude;
 
-        public void Pull(Thrower thrower)
-        {
-            transform.parent = null;
-            _rbody.simulated = true;
-            _thrower = thrower;
-            _rbody.AddTorque(GlobalConstants.ThrowTorque, ForceMode2D.Force);
-            _isPulled = true;
-        }
-
-        public override void PickUp()
-        {
-            Take(true);
-            _isThrowed = false;
-        }
-        public override void Put() => Take(false);
-        public Rigidbody2D GetRBody() => _rbody;
-
-        public void Throw(Thrower thrower, Vector2 force)
-        {
-            _isThrowed = true;
-            _thrower = thrower;
-            _rbody.AddForce(force, ForceMode2D.Impulse);
-        }
-        
-        private void Take(bool value)
-        {
-            _spriteRenderer.enabled = !value;
-            _rbody.simulated = !value;
-            _collider.isTrigger = value;
-        }
-
         private void CheckPull()
         {
             if (!_isPulled) return;
@@ -84,6 +102,7 @@ namespace Damageables.Weapons
 
         private void Pulling()
         {
+            SetPhysicsSimualted(true);
             _rbody.velocity = GetPullVector() * GlobalConstants.PullForce;
             CheckDistance();
         }
@@ -126,7 +145,8 @@ namespace Damageables.Weapons
         private Vector2 GetPullVector() => _thrower.Container.transform.position - transform.position;
 
         private Vector2 GetDetectedPoint() =>
-            new Vector2(transform.position.x + Data.AttackRadius * Mathf.Sign(transform.rotation.y), transform.position.y);
+            new Vector2(transform.position.x + Data.AttackRadius * Mathf.Sign(transform.rotation.y),
+                transform.position.y);
 
         private float GetDistanceModificator(Transform target)
         {
@@ -134,6 +154,14 @@ namespace Damageables.Weapons
             var modificator = 1 - GetDistance(target) / totalDistance;
             return modificator;
         }
+
+        private void ParticlesEnabled(bool value)
+        {
+            if (_particles != null) _particles.gameObject.SetActive(value);
+            if (_trail != null) _trail.gameObject.SetActive(value);
+        }
+
+        private void SetPhysicsSimualted(bool value) => _rbody.simulated = value;
 
         private float GetDistance(Transform target) =>
             Mathf.Clamp(Vector2.Distance(transform.position, target.position), 0, Data.AttackRadius);

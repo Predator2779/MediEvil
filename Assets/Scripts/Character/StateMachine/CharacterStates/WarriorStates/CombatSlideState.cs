@@ -36,11 +36,10 @@ namespace Character.StateMachine.CharacterStates.WarriorStates
             var pos = (Vector2) PersonContainer.transform.position + new Vector2(0.25f, 0.1f); //// magic nums
             var colliders = Physics2D.OverlapCircleAll(pos, 0.25f); //// magic num
 
-            if (colliders != null)
-            {
-                _hasEnemies = true;
-                ApplyDamage(colliders);
-            }
+            if (colliders == null) return;
+            
+            _hasEnemies = true;
+            ApplyDamage(colliders);
         }
 
         private void ApplyDamage(Collider2D[] colliders)

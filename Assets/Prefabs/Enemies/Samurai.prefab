@@ -65,7 +65,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.05, y: 0.25}
+  m_Offset: {x: 0.05, y: 0.25}
   serializedVersion: 2
   m_Radius: 0.5
 --- !u!114 &3032926746809957423
@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca29f7afed3f4ab09168eea67b180ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedItems: []
 --- !u!1 &4482946003611811859
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +107,7 @@ Transform:
   m_GameObject: {fileID: 4482946003611811859}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0.35, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -125,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CurrentWeapon>k__BackingField: {fileID: 0}
+  <WeaponUi>k__BackingField: {fileID: 0}
 --- !u!1 &8153284057026468642
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +196,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06, y: 0.25}
+  m_Offset: {x: 0.065, y: 0.25}
   m_Size: {x: 0.125, y: 0.5}
   m_Direction: 0
 --- !u!50 &5974705930860284007
@@ -263,11 +265,11 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -195343971
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 2132455174, guid: 1087be1357ea8694bbee891ad65f4c46, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.21, y: 0.38}

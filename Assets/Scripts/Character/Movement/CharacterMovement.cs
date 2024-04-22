@@ -135,7 +135,7 @@ namespace Character.Movement
         public void LookTo(Transform target) =>
             transform.localRotation = new Quaternion(0, GetTargetSide(target), 0, 0);
 
-        private float GetTargetSide(Transform target) => target.transform.position.x < transform.position.x ? 0 : 1;
+        private float GetTargetSide(Transform target) => target.transform.position.x < transform.position.x ? -1 : 0;
         private Vector2 GetHorizontalDirection(float speed) => new Vector2(Direction.x * speed, _rbody.velocity.y);
 
         private Vector2 GetRollVector() =>
