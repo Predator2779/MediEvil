@@ -112,7 +112,7 @@ namespace Character.CharacterControllers.Inputs
         private bool IsInteract() => _inputHandler.GetInteract();
         private bool IsThrowWeapon() => _inputHandler.GetThrowBtn();
         private bool IsWalk() => _inputHandler.GetHorizontalAxis() != 0 && _person.Container.Movement.IsGrounded();
-        private bool IsRun() => _inputHandler.GetShiftBtn() && _person.Container.Stamina.CanUse;
+        private bool IsRun() => IsWalk() && _inputHandler.GetShiftBtn() && _person.Container.Stamina.CanUse;
         private bool IsFall() => !_person.Container.Movement.IsGrounded() && _person.Container.Movement.IsFall();
 
         private bool IsJump() => _inputHandler.GetVerticalAxis() > 0 &&
