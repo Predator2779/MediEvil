@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1469496431315654297}
   - component: {fileID: 5453948368091294894}
   - component: {fileID: 5668841701160710380}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Item Handler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,3 +298,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CurrentWeapon>k__BackingField: {fileID: 0}
+  <WeaponUi>k__BackingField: {fileID: 0}

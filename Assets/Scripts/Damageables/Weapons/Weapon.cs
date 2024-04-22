@@ -15,7 +15,7 @@ namespace Damageables.Weapons
         private SpriteRenderer _spriteRenderer;
         private Rigidbody2D _rbody;
         private Collider2D _collider;
-        private bool _isPulled;
+        private bool _isThrowed, _isPulled;
 
         private void Awake()
         {
@@ -28,7 +28,7 @@ namespace Damageables.Weapons
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.TryGetComponent(out PersonContainer container))
+            if (_isThrowed && other.gameObject.TryGetComponent(out PersonContainer container))
                 DoDamage(container.Health, GetDamage());
         }
 
@@ -52,12 +52,17 @@ namespace Damageables.Weapons
             _isPulled = true;
         }
 
-        public override void PickUp() => Take(true);
+        public override void PickUp()
+        {
+            Take(true);
+            _isThrowed = false;
+        }
         public override void Put() => Take(false);
         public Rigidbody2D GetRBody() => _rbody;
 
         public void Throw(Thrower thrower, Vector2 force)
         {
+            _isThrowed = true;
             _thrower = thrower;
             _rbody.AddForce(force, ForceMode2D.Impulse);
         }
